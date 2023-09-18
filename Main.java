@@ -89,6 +89,10 @@ public class Main {
                     }else if (respon == 'n') {
                         // Kembali ke menu
                     }
+                } else if (menu == 3) {
+                    // Transfer
+                } else if (menu == 4) {
+                    // Pembayaran (VA)
                 } else if (menu == 5) {
                     // SEDEKAH
                     System.out.println("-----------------------------------------------");
@@ -195,6 +199,8 @@ public class Main {
                     }else {
                         System.out.println("pin lama yang anda masukkan salah");
                     }
+                } else if (menu == 10) {
+                    // HELP
                 }
             }
             else {
