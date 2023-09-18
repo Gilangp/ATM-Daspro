@@ -27,7 +27,7 @@ public class Main {
             System.out.println("masukkan password: ");
             int password = Integer.parseInt (input.nextLine());
             
-            if( (username.equals("admin")) && (password==123) ){
+            if( (username.equals("admin")) && (password==123456) ){
                 login = true;
                 // SETELAH LOGIN
                 System.out.println("-----------------------------------------------");
