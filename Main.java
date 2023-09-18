@@ -6,6 +6,8 @@ public class Main {
 
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
+        int saldo = 5000;
+        int pin = 123456;
 
         
         // SEBELUM LOGIN
@@ -85,12 +87,6 @@ public class Main {
                     System.out.println("|   3. Dompet DHUAFA                          |");
                     System.out.println("-----------------------------------------------");
                 }
-
-
-
-
-
-
             }
             else {
                 System.out.println("\n  username atau password anda salah,silahkan coba lagi");
@@ -99,5 +95,127 @@ public class Main {
         }
         
         
+        // UBAH PIN
+        System.out.println("-----------------------------------------------");
+        System.out.println("|                 UBAH PIN                    |");
+        System.out.println("-----------------------------------------------");
+        System.out.print("masukan pin lama anda : ");
+        int pinLama = input.nextInt();
+        if (pinLama == pin) {
+            System.out.print("masukan pin baru anda : ");
+            int pinBaru = input.nextInt();
+            System.out.println("masukkan konfirmasi pin baru anda");
+            int pinBaruKonfirmasi = input.nextInt();
+            if (pinBaru == pinBaruKonfirmasi) {
+                pin = pinBaru;
+                    System.out.println("-----------------------------------------------");
+                    System.out.println("|           ~  UBAH PIN BERHASIL  ~           |");
+                    System.out.println("-----------------------------------------------");
+            }else {
+                    System.out.println("-----------------------------------------------");
+                    System.out.println("|                !! WARNINGG !!               |");
+                    System.out.println("|                                             |");
+                    System.out.println("|     PIN BARU DENGAN KONFIRMASI PIN BARU     |");
+                    System.out.println("|               ~  TIDAK SAMA  ~              |");
+                    System.out.println("|                                             |");
+                    System.out.println("-----------------------------------------------");
+            }
+
+        }else {
+            System.out.println("pin lama yang anda masukkan salah");
+        }
+
+        // SEDEKAH
+        System.out.println("-----------------------------------------------");
+        System.out.println("|              SELAMAT BERSEDEKAH             |");
+        System.out.println("|            Silahkan Pilih Sedekah           |");
+        System.out.println("|                                             |");
+        System.out.println("|   1. BAZNAS                 4. DigiZakat    |");
+        System.out.println("|   2. KPRB                   5. LAMZIZ       |");
+        System.out.println("|   3. Dompet DHUAFA                          |");
+        System.out.println("-----------------------------------------------");
+
+
+        System.out.println("Masukkan sedekah yang ingin diberikan ");
+        int inputSedekah = input.nextInt();
+        // konfirmasi
+        System.out.println("-----------------------------------------------");
+        System.out.println("|     Sedekah yang akan diberikan sebesar     |");
+        System.out.println("|                                             |");
+        System.out.println("                  Rp.  "+ inputSedekah + "  \t\t  ");
+        System.out.println("|                                             |");
+        System.out.println("-----------------------------------------------");
+        System.out.println("| Keterangan :                                |");
+        System.out.println("| - Jika benar ketik 'y'                      |");
+        System.out.println("| - Jika salah klik 'n'                       |");
+        System.out.println("-----------------------------------------------");
+
+
+        char responSedekah = input.next().charAt(0);
+        if (responSedekah == 'y') {
+
+        // konfirmasi pin
+            System.out.println("Masukkan konfirmasi pin anda");
+            int inputPin = input.nextInt();
+            saldo -= inputSedekah;
+            if (inputPin == pin) {
+                System.out.println("-----------------------------------------------");
+                System.out.println("|               SETOR BERHASIL                |");
+                System.out.println("|                 INFO SALDO                  |");
+                System.out.println("|                                             |");
+                System.out.println("     Saldo anda saat ini adalah Rp. "+ saldo +"  ");
+                System.out.println("|                                             |");
+                System.out.println("-----------------------------------------------");
+            } else {
+                System.out.println("Pin anda salah");
+            }
+        }else if (responSedekah == 'n') {
+            // kembali ke meu
+        }
+        
+
+        // SETOR TUNAI
+        int inputSetor;
+        
+        // input
+        System.out.println("Masukkan jumlah uang yang ingin di setor");
+        inputSetor = input.nextInt();
+
+        // konfirmasi
+        System.out.println("-----------------------------------------------");
+        System.out.println("|     Saldo yang ingin anda setor sebesar     |");
+        System.out.println("|                                             |");
+        System.out.println("                  Rp.  "+ inputSetor + "  \t\t  ");
+        System.out.println("|                                             |");
+        System.out.println("-----------------------------------------------");
+        System.out.println("| Keterangan :                                |");
+        System.out.println("| - Jika benar ketik 'y'                      |");
+        System.out.println("| - Jika salah klik 'n'                       |");
+        System.out.println("-----------------------------------------------");
+        
+        char respon = input.next().charAt(0);
+
+        if (respon == 'y') {
+            
+            saldo += inputSetor; //saldo = saldo + masukan
+    
+            // konfirmasi pin
+            System.out.println("Masukkan konfirmasi pin anda");
+            int inputPin = input.nextInt();
+    
+            if (inputPin == pin) {
+                System.out.println("-----------------------------------------------");
+                System.out.println("|               SETOR BERHASIL                |");
+                System.out.println("|                 INFO SALDO                  |");
+                System.out.println("|                                             |");
+                System.out.println("     Saldo anda saat ini adalah Rp. "+ saldo +"  ");
+                System.out.println("|                                             |");
+                System.out.println("-----------------------------------------------");
+            } else {
+                System.out.println("Pin anda salah");
+            }
+        }else if (respon == 'n') {
+            // Kembali ke menu
+        }
     }
 }
