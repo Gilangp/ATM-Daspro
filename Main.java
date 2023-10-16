@@ -480,8 +480,7 @@ public class Main {
                                 System.out.println("| 8. Gunakan Menu ke-7 jika ingin melihat riwayat transaksi anda                                             |");
                                 System.out.println("| 9. Gunakan Menu ke-8 jika anda ingin melihat jumlah saldo yang tersedia                                    |");
                                 System.out.println("| 10. Gunakan Menu ke-9 jika ingin mengubah pin anda                                                         |");
-                                System.out.println("| 7. Saat penarikan, saldo minimal anda adalah Rp.50000                                                      |");
-                                System.out.println("| 8. Jika terdapat masalah pada mesin ATM hubungi 021-5437xxx                                                |");
+                                System.out.println("| 11. Jika terdapat masalah pada mesin ATM hub 083-552-2xxx                                                  |");
                                 System.out.println("|                                     ATM MASIH DALAM PERBAIKAN                                              |");
                                 System.out.println("--------------------------------------------------------------------------------------------------------------");
                                 System.out.println("|                           1. Kembali                                2. Keluar                              |");
