@@ -10,7 +10,7 @@ public class Main {
         // Sample account details for demonstration
         String sampleUsername = "user123";
         int samplePin = 1234;
-        int sampleSaldo = 1000000;
+        int sampleSaldo = 100000;
         
             // SEBELUM LOGIN
             System.out.println("-----------------------------------------------");
