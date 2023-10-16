@@ -50,6 +50,68 @@ public class Main {
                     switch (menu) {
                         case 1:
                             // Tarik Tunai
+                            do {
+                                int tarikTunai;
+
+                                // input
+                                System.out.println("Masukkan jumlah uang yang ingin di ambil");
+                                tarikTunai = input.nextInt();
+
+                                // konfirmasi
+                                System.out.println("-----------------------------------------------");
+                                System.out.println("|    Saldo yang ingin anda tarik sebesar   |");
+                                System.out.println("|                                             |");
+                                System.out.println("                  Rp.  "+ tarikTunai + "  \t\t\t  ");
+                                System.out.println("|                                             |");
+                                System.out.println("-----------------------------------------------");
+                                System.out.println("| Keterangan :                                |");
+                                System.out.println("| - Jika benar ketik 'y'                      |");
+                                System.out.println("| - Jika salah klik 'n'                       |");
+                                System.out.println("-----------------------------------------------");
+
+                                char respon = input.next().charAt(0);
+                                switch (respon) {
+                                    case 'y':
+                                        saldo -= tarikTunai; //saldo = saldo - masukan
+
+                                        // konfirmasi pin
+                                        System.out.println("Masukkan konfirmasi pin anda");
+                                        int inputPin = input.nextInt();
+
+                                        if (inputPin == pin) {
+                                            System.out.println("-----------------------------------------------");
+                                            System.out.println("|       PENARIKAN ANDA TELAH BERHASIL         |");
+                                            System.out.println("|                 INFO SALDO                  |");
+                                            System.out.println("|                                             |");
+                                            System.out.println("     Saldo anda saat ini adalah Rp. "+ saldo +"  ");
+                                            System.out.println("|                                             |");
+                                            System.out.println("|       1. Kembali             2. Keluar      |");
+                                            System.out.println("-----------------------------------------------");
+                                            selesai3 = input.nextInt();
+                                            switch (selesai3) {
+                                            case 3:
+                                            System.exit(0);
+                                            break;
+                                            }
+
+                                        } else {
+                                            System.out.println("-----------------------------------------------");
+                                            System.out.println("|                !! WARNINGG !!               |");
+                                            System.out.println("|                                             |");
+                                            System.out.println("|          PIN YANG ANDA MASUKKAN SALAH       |");
+                                            System.out.println("|                                             |");
+                                            System.out.println("|             MOHON TELILI KEMBALI            |");
+                                            System.out.println("-----------------------------------------------");
+                                        }
+                                    case 'n':
+                                        break;
+                                }
+                                if (respon == 'y') {
+
+                                } else if (respon == 'n') {
+                                    // kembali ke menu
+                                }
+                            } while (selesai3 != 1 && selesai3 != 2);
                             break;
                         case 2:
                             // SETOR TUNAI
