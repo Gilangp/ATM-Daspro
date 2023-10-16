@@ -209,7 +209,7 @@ public class Main {
                                 char respon = input.next().charAt(0);
                                 switch (respon) {
                                     case 'y':
-                                        saldo -= Transfer; //saldo = saldo + masukan
+                                        saldo -= Transfer; //saldo = saldo - masukan
 
                                         // konfirmasi pin
                                         System.out.println("Masukkan konfirmasi pin anda");
