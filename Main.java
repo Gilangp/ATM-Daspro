@@ -261,17 +261,31 @@ public class Main {
                                 System.out.println("|   3. Dompet DHUAFA                          |");
                                 System.out.println("-----------------------------------------------");
 
+                                String[] donationOptions = {
+                                    "BAZNAS", "KPRB", "Dompet DHUAFA", "DigiZakat", "LAMZIZ"
+                                };
+
                                 System.out.println("Pilih sedekah");
                                 int pilihanSedekah = input.nextInt();
+
+                                if (pilihanSedekah < 1 || pilihanSedekah > donationOptions.length) {
+                                    System.out.println("-----------------------------------------------");
+                                    System.out.println("|                !! WARNING !!                |");
+                                    System.out.println("|                                             |");
+                                    System.out.println("|        Pilihan sedekah tidak tersedia       |");
+                                    System.out.println("-----------------------------------------------");
+                                    continue;
+                                }
+
                                 System.out.println("Masukkan sedekah yang ingin diberikan ");
                                 int inputSedekah = input.nextInt();
                                 // konfirmasi
                                 System.out.println("-----------------------------------------------");
-                                System.out.println("|     Sedekah yang akan diberikan sebesar     |");
-                                System.out.println("|         kepada Dompet DHUAFA sebesar        |");
-                                System.out.println("|                                             |");
-                                System.out.println("                  Rp.  "+ inputSedekah + "  \t\t  ");
-                                System.out.println("|                                             |");
+                                System.out.println("|   Konfirmasi Sedekah yang ingin diberikan   |");
+                                System.out.println("-----------------------------------------------");
+                                System.out.println("kepada  : Dompet" + donationOptions[pilihanSedekah - 1] + "");
+                                System.out.println("Sebesar : Rp. "+ inputSedekah + "  \t\t  ");
+
                                 System.out.println("-----------------------------------------------");
                                 System.out.println("| Keterangan :                                |");
                                 System.out.println("| - Jika benar ketik 'y'                      |");
