@@ -6,7 +6,7 @@ public class Main {
 
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
-        int saldo = 5000,selesai1,selesai2 = 0,selesai3,selesai4,selesai5 = 0 ,selesai6,selesai7, selesai8, selesai9 = 0;
+        int saldo = 5000,selesai1,selesai2 = 0,selesai3 = 0,selesai4,selesai5 = 0 ,selesai6,selesai7, selesai8, selesai9 = 0, selesai10;
         int pin = 123456;
         for (int i = 1; i <= 3; i++) {
             switch (i) {
@@ -118,6 +118,75 @@ public class Main {
                             break;
                         case 3:
                             // Transfer
+                            do {
+                                String namaTujuan;
+                                int Transfer, noRekening;
+
+                                // input
+                                System.out.println("Masukkan nama yang akan anda tranfer");
+                                namaTujuan = input.next();
+                                System.out.println("Masukkan No Rekening tujuan anda");
+                                noRekening = input.nextInt();
+                                System.out.println("Masukkan jumlah uang yang ingin di tranfer");
+                                Transfer = input.nextInt();
+
+                                // konfirmasi
+                                System.out.println("-----------------------------------------------");
+                                System.out.println("|              KONFIRMASI TRANFER             |");
+                                System.out.println("|                                             |");
+                                System.out.println("|           Kepada : "+ namaTujuan + "\t\t      |");
+                                System.out.println("|           No Rek : "+ noRekening + " \t\t      |");
+                                System.out.println("|           Jumlah : Rp.  "+ Transfer + "\t\t |");
+                                System.out.println("|                                             |");
+                                System.out.println("-----------------------------------------------");
+                                System.out.println("| Keterangan :                                |");
+                                System.out.println("| - Jika benar ketik 'y'                      |");
+                                System.out.println("| - Jika salah klik 'n'                       |");
+                                System.out.println("-----------------------------------------------");
+
+                                char respon = input.next().charAt(0);
+                                switch (respon) {
+                                    case 'y':
+                                        saldo -= Transfer; //saldo = saldo + masukan
+
+                                        // konfirmasi pin
+                                        System.out.println("Masukkan konfirmasi pin anda");
+                                        int inputPin = input.nextInt();
+
+                                        if (inputPin == pin) {
+                                            System.out.println("-----------------------------------------------");
+                                            System.out.println("|         TRANFER ANDA TELAH BERHASIL         |");
+                                            System.out.println("|                 INFO SALDO                  |");
+                                            System.out.println("|                                             |");
+                                            System.out.println("     Saldo anda saat ini adalah Rp. "+ saldo +"  ");
+                                            System.out.println("|                                             |");
+                                            System.out.println("|       1. Kembali             2. Keluar      |");
+                                            System.out.println("-----------------------------------------------");
+                                            selesai3 = input.nextInt();
+                                            switch (selesai3) {
+                                            case 3:
+                                            System.exit(0);
+                                            break;
+                                            }
+
+                                        } else {
+                                            System.out.println("-----------------------------------------------");
+                                            System.out.println("|                !! WARNINGG !!               |");
+                                            System.out.println("|                                             |");
+                                            System.out.println("|          PIN YANG ANDA MASUKKAN SALAH       |");
+                                            System.out.println("|                                             |");
+                                            System.out.println("|             MOHON TELILI KEMBALI            |");
+                                            System.out.println("-----------------------------------------------");
+                                        }
+                                    case 'n':
+                                        break;
+                                }
+                                if (respon == 'y') {
+
+                                } else if (respon == 'n') {
+                                    // kembali ke menu
+                                }
+                            } while (selesai3 != 1 && selesai3 != 2);
                             break;
                         case 4:
                             // Pembayaran
@@ -336,9 +405,36 @@ public class Main {
                                 break;
                         case 10:
                             // Help
-                            break;
-                        default:
-                            System.out.println("Menu tidak tersedia");
+                            do {
+                                System.out.println("==============================================================================================================");
+                                System.out.println("|                                                  Help                                                      |");
+                                System.out.println("==============================================================================================================");
+                                System.out.println("| 1. Gunakan Menu ke-1 jika anda ingin melakukan penarikan saldo                                             |");
+                                System.out.println("| 2. Gunakan Menu ke-2 jika anda ingin mengisi saldo                                                         |");
+                                System.out.println("| 3. Gunakan Menu ke-3 jika anda ingin melakukakan transfer sesama/berbeda nasabah                           |");
+                                System.out.println("| 4. Gunakan Menu ke-4 jika anda ingin melakukan pembayaran melalui Virtual Account (VA)                     |");
+                                System.out.println("| 6. Gunakan Menu ke-5 jika anda ingin melakukan sedekah pada platform yang tersedia                         |");
+                                System.out.println("| 7. Gunakan Menu ke-6 jika anda ingin melihat nilai tukar mata uang                                         |");
+                                System.out.println("| 8. Gunakan Menu ke-7 jika ingin melihat riwayat transaksi anda                                             |");
+                                System.out.println("| 9. Gunakan Menu ke-8 jika anda ingin melihat jumlah saldo yang tersedia                                    |");
+                                System.out.println("| 10. Gunakan Menu ke-9 jika ingin mengubah pin anda                                                         |");
+                                System.out.println("| 7. Saat penarikan, saldo minimal anda adalah Rp.50000                                                      |");
+                                System.out.println("| 8. Jika terdapat masalah pada mesin ATM hubungi 021-5437xxx                                                |");
+                                System.out.println("|                                     ATM MASIH DALAM PERBAIKAN                                              |");
+                                System.out.println("--------------------------------------------------------------------------------------------------------------");
+                                System.out.println("|                           1. Kembali                                2. Keluar                              |");
+                                System.out.println("--------------------------------------------------------------------------------------------------------------");
+                                selesai10 = input.nextInt();
+                                    switch (selesai10) {
+                                        case 1:
+                                            // Kembali ke halaman menu
+                                            break;
+                                        case 2:
+                                            // Kembali ke layar login
+                                            i=1;
+                                            login = false;
+                                            break;}
+                                } while (selesai10 != 1 && selesai10 != 2);
                             break;
                     }
                 }
