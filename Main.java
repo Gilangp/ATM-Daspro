@@ -45,7 +45,7 @@ public class Main {
 
                 if (menu == 1) {
                     // tarik tunai
-                } else if (menu == 2){
+                } else if (menu == 2) {
                     // SETOR TUNAI
                     int inputSetor;
                     
