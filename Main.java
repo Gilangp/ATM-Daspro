@@ -173,7 +173,7 @@ public class Main {
                                                 System.out.println("|                                             |");
                                                 System.out.println("|          PIN YANG ANDA MASUKKAN SALAH       |");
                                                 System.out.println("|                                             |");
-                                                System.out.println("|             MOHON TELILI KEMBALI            |");
+                                                System.out.println("|             MOHON TELITI KEMBALI            |");
                                                 System.out.println("-----------------------------------------------");
                                             }
                                         case 'n':
@@ -186,16 +186,16 @@ public class Main {
                                 int Transfer, noRekening;
 
                                 // input
-                                System.out.println("Masukkan nama yang akan anda tranfer");
+                                System.out.println("Masukkan nama yang akan anda transfer");
                                 namaTujuan = input.next();
                                 System.out.println("Masukkan No Rekening tujuan anda");
                                 noRekening = input.nextInt();
-                                System.out.println("Masukkan jumlah uang yang ingin di tranfer");
+                                System.out.println("Masukkan jumlah uang yang ingin di transfer");
                                 Transfer = input.nextInt();
 
                                 // konfirmasi
                                 System.out.println("-----------------------------------------------");
-                                System.out.println("|              KONFIRMASI TRANFER             |");
+                                System.out.println("|              KONFIRMASI TRANSFER             |");
                                 System.out.println("|                                             |");
                                 System.out.println("Kepada : "+ namaTujuan);
                                 System.out.println("No Rek : "+ noRekening);
@@ -217,26 +217,34 @@ public class Main {
                                         
                                         if (inputPin == samplePin) {
                                             // Code saldo tidak cukup
-                                            sampleSaldo -= Transfer; //saldo = saldo + masukan
-                                            System.out.println("-----------------------------------------------");
-                                            System.out.println("|         TRANFER ANDA TELAH BERHASIL         |");
-                                            System.out.println("|                 INFO SALDO                  |");
-                                            System.out.println("|                                             |");
-                                            System.out.println("     Saldo anda saat ini adalah Rp. "+ sampleSaldo +"  ");
-                                            System.out.println("|                                             |");
-                                            System.out.println("|       1. Kembali             2. Keluar      |");
-                                            System.out.println("-----------------------------------------------");
-                                            int pilihanSelesai3;
-                                                do {
-                                                    System.out.print("Masukkan Pilihan (1 or 2): ");
-                                                    pilihanSelesai3 = input.nextInt();
-                                                    input.nextLine(); // Consume the newline character
-                                                } while (pilihanSelesai3 != 1 && pilihanSelesai3 != 2);
+                                            if (Transfer < sampleSaldo) {
+                                                if (Transfer >= 50000) {
+                                                    sampleSaldo -= Transfer; //saldo = saldo + masukan
+                                                    System.out.println("-----------------------------------------------");
+                                                    System.out.println("|         TRANSFER ANDA TELAH BERHASIL         |");
+                                                    System.out.println("|                 INFO SALDO                  |");
+                                                    System.out.println("|                                             |");
+                                                    System.out.println("     Saldo anda saat ini adalah Rp. "+ sampleSaldo +"  ");
+                                                    System.out.println("|                                             |");
+                                                    System.out.println("|       1. Kembali             2. Keluar      |");
+                                                    System.out.println("-----------------------------------------------");
+                                                    int pilihanSelesai3;
+                                                        do {
+                                                            System.out.print("Masukkan Pilihan (1 or 2): ");
+                                                            pilihanSelesai3 = input.nextInt();
+                                                            input.nextLine(); // Consume the newline character
+                                                        } while (pilihanSelesai3 != 1 && pilihanSelesai3 != 2);
                                             
-                                                if (pilihanSelesai3 == 2) {
-                                                    System.out.println("Terima kasih telah menggunakan ATM. Selamat tinggal!");
-                                                    System.exit(0);
+                                                        if (pilihanSelesai3 == 2) {
+                                                            System.out.println("Terima kasih telah menggunakan ATM. Selamat tinggal!");
+                                                            System.exit(0);
+                                                        }
+                                                } else {
+                                                     System.out.println("Transaksi gagal, minimal transaksi 50000");
                                                 }
+                                            } else {
+                                                System.out.println("Transaksi gagal, Saldo anda tidak cukup");
+                                            }
 
                                         } else {
                                             System.out.println("-----------------------------------------------");
@@ -244,7 +252,7 @@ public class Main {
                                             System.out.println("|                                             |");
                                             System.out.println("|          PIN YANG ANDA MASUKKAN SALAH       |");
                                             System.out.println("|                                             |");
-                                            System.out.println("|             MOHON TELILI KEMBALI            |");
+                                            System.out.println("|             MOHON TELITI KEMBALI            |");
                                             System.out.println("-----------------------------------------------");
                                         }
                                     case 'n':
