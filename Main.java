@@ -218,7 +218,7 @@ public class Main {
                                         if (inputPin == samplePin) {
                                             // Code saldo tidak cukup
                                             if (Transfer < sampleSaldo) {
-                                                if (Transfer >= 50000) {
+                                                // if (Transfer >= 50000) {
                                                     sampleSaldo -= Transfer; //saldo = saldo + masukan
                                                     System.out.println("-----------------------------------------------");
                                                     System.out.println("|         TRANSFER ANDA TELAH BERHASIL         |");
@@ -239,9 +239,9 @@ public class Main {
                                                             System.out.println("Terima kasih telah menggunakan ATM. Selamat tinggal!");
                                                             System.exit(0);
                                                         }
-                                                } else {
-                                                     System.out.println("Transaksi gagal, minimal transaksi 50000");
-                                                }
+                                                // } else {
+                                                //      System.out.println("Transaksi gagal, minimal transaksi 50000");
+                                                // }
                                             } else {
                                                 System.out.println("Transaksi gagal, Saldo anda tidak cukup");
                                             }
@@ -319,27 +319,32 @@ public class Main {
                                         int inputPin = input.nextInt();
                                         if (inputPin == samplePin) {
                                             // Code saldo tidak cukup
-                                            sampleSaldo -= inputSedekah;
-                                            System.out.println("-----------------------------------------------");
-                                            System.out.println("|        BERSEDEKAH KEPADA Dompet DHUAFA      |");
-                                            System.out.println("|                   BERHASIL                  |");
-                                            System.out.println("|                                             |");
-                                            System.out.println("                Sebesar Rp "+ inputSedekah);
-                                            System.out.println("            Sisa saldo anda Rp "+ sampleSaldo);
-                                            System.out.println("|                                             |");
-                                            System.out.println("|       1. Kembali             2. Keluar      |");
-                                            System.out.println("-----------------------------------------------");
-                                            int pilihanSelesai5;
-                                            do {
-                                                System.out.print("Masukkan Pilihan (1 atau 2): ");
-                                                pilihanSelesai5 = input.nextInt();
-                                                input.nextLine(); // Consume the newline character
-                                            } while (pilihanSelesai5 != 1 && pilihanSelesai5 != 2);
-                                        
-                                            if (pilihanSelesai5 == 2) {
-                                                System.out.println("Terima kasih telah menggunakan ATM. Selamat tinggal!");
-                                                System.exit(0);
+                                            if (inputSedekah < sampleSaldo) {
+                                                sampleSaldo -= inputSedekah;
+                                                System.out.println("-----------------------------------------------");
+                                                System.out.println("|        BERSEDEKAH KEPADA Dompet DHUAFA      |");
+                                                System.out.println("|                   BERHASIL                  |");
+                                                System.out.println("|                                             |");
+                                                System.out.println("                Sebesar Rp "+ inputSedekah);
+                                                System.out.println("            Sisa saldo anda Rp "+ sampleSaldo);
+                                                System.out.println("|                                             |");
+                                                System.out.println("|       1. Kembali             2. Keluar      |");
+                                                System.out.println("-----------------------------------------------");
+                                                int pilihanSelesai5;
+                                                do {
+                                                    System.out.print("Masukkan Pilihan (1 atau 2): ");
+                                                    pilihanSelesai5 = input.nextInt();
+                                                    input.nextLine(); // Consume the newline character
+                                                } while (pilihanSelesai5 != 1 && pilihanSelesai5 != 2);
+                                            
+                                                if (pilihanSelesai5 == 2) {
+                                                    System.out.println("Terima kasih telah menggunakan ATM. Selamat tinggal!");
+                                                    System.exit(0);
+                                                }
+                                            } else {
+                                                System.out.println("Transaksi gagal, Saldo anda tidak cukup");
                                             }
+
                                         } else {
                                             System.out.println("-----------------------------------------------");
                                             System.out.println("|             !! SEDEKAH GAGAL !!             |");
@@ -354,17 +359,29 @@ public class Main {
                                     break;
                             case 6:
                                 // Info Kurs
-                                System.out.println("-----------------------------------------------");
-                                System.out.println("|                  INFO KURS                  |");
-                                System.out.println("|                                             |");
-                                System.out.println("|                     USD                     |");
-                                System.out.println("|  Beli : Rp 15,345.00   Jual : Rp 15,375.00  |");
-                                System.out.println("|                                             |");
-                                System.out.println("|                     SGD                     |");
-                                System.out.println("|  Beli : Rp 11,281.89   Jual : Rp 11,295.56  |");
-                                System.out.println("|                                             |");
-                                System.out.println("|       1. Kembali             2. Keluar      |");
-                                System.out.println("-----------------------------------------------");
+                                double kursBeliUSD = 15000;
+                                double kursJualUSD = 15000;
+                                System.out.println("--------------------------------- ");
+                                System.out.println("|            INFO KURS           |");
+                                System.out.println("--------------------------------- ");
+                                System.out.println("   => USD");
+                                System.out.println("   Beli : "+ kursBeliUSD);
+                                System.out.println("   Jual : "+ kursJualUSD);
+                                
+                                System.out.println("\nApakah ingin konversi KURS (y/n)?");
+                                char konversiKurs = input.next().charAt(0);
+                                if (konversiKurs == 'y') {
+                                    System.out.println("Masukkan jumlah(Rupiah) yang ingin dikonversi ke USD");
+                                    System.out.print("Masukkan jumlah Rupiah: Rp ");
+                                    int inputKurs = input.nextInt();
+                                    System.out.println("1. Beli : "+ inputKurs / kursBeliUSD);
+                                    System.out.println("2. Jual : "+ inputKurs / kursJualUSD);
+                                }
+                                
+
+                                System.out.println("\n---------------------------------");
+                                System.out.println("|   1. Kembali    2. Keluar      |");
+                                System.out.println("--------------------------------- ");
                             
                                 int pilihanSelesai6;
                                 do {
