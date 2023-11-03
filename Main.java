@@ -182,31 +182,87 @@ public class Main {
                                 break;
                             case 3:
                                 // Transfer
-                                String namaTujuan;
-                                int Transfer, noRekening;
-
+                                String[][] dataAccount = {
+                                    {"Fajar", "123456", "BCA"},
+                                    {"Yefta", "789012", "BRI"},
+                                    {"Gopal", "345678", "BNI"}
+                                };
+                                
+                                String[][] dataBank = {
+                                    {"123", "BCA"},
+                                    {"456", "BRI"},
+                                    {"234", "BNI"}
+                                };
+                                
+                                
+                                System.out.print("Masukkan nomor kode bank tujuan anda: ");
+                                String kodeBankTujuan = input.nextLine();
+                                String namaBank="";
+                                int indexKodeBank = -1;
+                                boolean isExist = false;
+                        
+                                // Mencari nomor rekening tujuan di dalam array
+                                for (int i = 0; i < dataBank.length; i++) {
+                                    if (dataBank[i][0].equals(kodeBankTujuan)) {
+                                        indexKodeBank = i;
+                                        namaBank = dataBank[i][1];
+                        
+                                        isExist = true;
+                                        break;
+                                    }
+                                }
+                        
+                                if (indexKodeBank == -1) {
+                                    System.out.println("Nomor kode bank tidak valid. Transfer gagal.");
+                                    input.close();
+                                    return;
+                                }
+                        
+                                
                                 // input
-                                System.out.println("Masukkan nama yang akan anda transfer");
-                                namaTujuan = input.next();
-                                System.out.println("Masukkan No Rekening tujuan anda");
-                                noRekening = input.nextInt();
-                                System.out.println("Masukkan jumlah uang yang ingin di transfer");
-                                Transfer = input.nextInt();
-
+                                System.out.print("Masukkan nomor rekening tujuan: ");
+                                String nomorRekeningTujuan = input.nextLine();
+                                int indexRekeningTujuan = -1;
+                        
+                                // Mencari nomor rekening tujuan di dalam array
+                                for (int i = 0; i < dataAccount.length; i++) {
+                                    if (dataAccount[i][1].equals(nomorRekeningTujuan) && dataAccount[i][2].equals(namaBank)) {
+                                        indexRekeningTujuan = i;
+                                        break;
+                                    }
+                                }
+                        
+                                if (indexRekeningTujuan == -1) {
+                                    System.out.println("Nomor rekening tujuan tidak ditemukan. Transfer gagal.");
+                                    input.close();
+                                    return;
+                                }
+                        
+                                String namaPemilikAccount = dataAccount[indexRekeningTujuan][0];
+                                System.out.print("Masukkan jumlah uang yang akan ditransfer: ");
+                                double jumlahTransfer = input.nextDouble();
+                        
+                                if (jumlahTransfer <= 0) {
+                                    System.out.println("Jumlah transfer tidak valid. Transfer gagal.");
+                                    input.close();
+                                    return;
+                                }
+                        
                                 // konfirmasi
                                 System.out.println("-----------------------------------------------");
                                 System.out.println("|              KONFIRMASI TRANSFER             |");
-                                System.out.println("|                                             |");
-                                System.out.println("Kepada : "+ namaTujuan);
-                                System.out.println("No Rek : "+ noRekening);
-                                System.out.println("Jumlah : Rp.  "+ Transfer);
+                                System.out.println("|                                              |");
+                                System.out.println("               Kepada : "+ namaPemilikAccount);
+                                System.out.println("               Kepada : "+ namaBank);
+                                System.out.println("               No Rek : "+ nomorRekeningTujuan);
+                                System.out.println("               Jumlah : Rp.  "+ jumlahTransfer);
                                 System.out.println("|                                             |");
                                 System.out.println("-----------------------------------------------");
                                 System.out.println("| Keterangan :                                |");
                                 System.out.println("| - Jika benar ketik 'y'                      |");
                                 System.out.println("| - Jika salah klik 'n'                       |");
                                 System.out.println("-----------------------------------------------");
-
+                        
                                 char respon3 = input.next().charAt(0);
                                 switch (respon3) {
                                     case 'y':
@@ -217,9 +273,9 @@ public class Main {
                                         
                                         if (inputPin == samplePin) {
                                             // Code saldo tidak cukup
-                                            if (Transfer < sampleSaldo) {
+                                            if (sampleSaldo >= jumlahTransfer) {
                                                 // if (Transfer >= 50000) {
-                                                    sampleSaldo -= Transfer; //saldo = saldo + masukan
+                                                    sampleSaldo -= jumlahTransfer; //saldo = saldo + masukan
                                                     System.out.println("-----------------------------------------------");
                                                     System.out.println("|         TRANSFER ANDA TELAH BERHASIL         |");
                                                     System.out.println("|                 INFO SALDO                  |");
@@ -245,7 +301,7 @@ public class Main {
                                             } else {
                                                 System.out.println("Transaksi gagal, Saldo anda tidak cukup");
                                             }
-
+                        
                                         } else {
                                             System.out.println("-----------------------------------------------");
                                             System.out.println("|             !! TRANSAKSI GAGAL !!           |");
@@ -259,7 +315,7 @@ public class Main {
                                         break;
                                 }
                                 if (respon3 == 'y') {
-
+                        
                                 } else if (respon3 == 'n') {
                                     // kembali ke menu
                                 }
