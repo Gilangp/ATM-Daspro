@@ -14,18 +14,6 @@ public class Main {
         int samplePin = 1234;
         int sampleSaldo = 100000;
 
-        String[][] dataAccount = {
-                { "Fajar", "123456", "BCA" },
-                { "Yefta", "789012", "BRI" },
-                { "Gopal", "345678", "BNI" }
-        };
-
-        String[][] dataBank = {
-                { "123", "BCA" },
-                { "456", "BRI" },
-                { "234", "BNI" }
-        };
-
         int numRows = 100; // Number of snapshots
         int numColumns = 5; // Number of columns in each snapshot
         String[][] history = new String[numRows][numColumns];
@@ -140,7 +128,6 @@ public class Main {
                                         System.out.println("|             MOHON TELILI KEMBALI            |");
                                         System.out.println("-----------------------------------------------");
                                     }
-<<<<<<< HEAD
                                 break;
                             
                         case 2:
