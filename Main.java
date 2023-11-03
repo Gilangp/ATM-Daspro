@@ -1,8 +1,7 @@
-    import java.util.*;
 /**
  * Main
  */
-import java.util.Scanner;
+import java.util.*;
 public class Main {
 
     public static void main(String[] args) {
@@ -12,6 +11,12 @@ public class Main {
         String sampleUsername = "user123";
         int samplePin = 1234;
         int sampleSaldo = 100000;
+        int numRows = 100; // Number of snapshots
+        int numColumns = 2; // Number of columns in each snapshot
+        String[][] history = new String[numRows][numColumns];
+        int currentSnapshot = 1;
+        // Add snapshots to the history
+        history[0] = new String[]{"Saldo awal", "100000"};
         
             // SEBELUM LOGIN
             System.out.println("-----------------------------------------------");
@@ -80,6 +85,9 @@ public class Main {
                                                 if (tarikTunai < sampleSaldo) {
                                                     if (tarikTunai >= 50000) {
                                                         sampleSaldo -= tarikTunai; //sampleSaldo = sampleSaldo - masukan
+                                                        history[currentSnapshot] = new String[]{"Tarik Tunai", "-" + tarikTunai};
+                                                        currentSnapshot++;
+
                                                         System.out.println("-----------------------------------------------");
                                                         System.out.println("|       PENARIKAN ANDA TELAH BERHASIL         |");
                                                         System.out.println("|                 INFO SALDO                  |");
@@ -146,6 +154,8 @@ public class Main {
                                         
                                         if (inputPin == samplePin) {
                                                 sampleSaldo += inputSetor;
+                                                history[currentSnapshot] = new String[]{"Setor Tunai", "+" + inputSetor};
+                                                currentSnapshot++;
                                                 System.out.println("-----------------------------------------------");
                                                 System.out.println("|               SETOR BERHASIL                |");
                                                 System.out.println("|                 INFO SALDO                  |");
@@ -183,7 +193,7 @@ public class Main {
                             case 3:
                                 // Transfer
                                 String namaTujuan;
-                                int Transfer, noRekening;
+                                int transfer, noRekening;
 
                                 // input
                                 System.out.println("Masukkan nama yang akan anda transfer");
@@ -191,7 +201,7 @@ public class Main {
                                 System.out.println("Masukkan No Rekening tujuan anda");
                                 noRekening = input.nextInt();
                                 System.out.println("Masukkan jumlah uang yang ingin di transfer");
-                                Transfer = input.nextInt();
+                                transfer = input.nextInt();
 
                                 // konfirmasi
                                 System.out.println("-----------------------------------------------");
@@ -199,7 +209,7 @@ public class Main {
                                 System.out.println("|                                             |");
                                 System.out.println("Kepada : "+ namaTujuan);
                                 System.out.println("No Rek : "+ noRekening);
-                                System.out.println("Jumlah : Rp.  "+ Transfer);
+                                System.out.println("Jumlah : Rp.  "+ transfer);
                                 System.out.println("|                                             |");
                                 System.out.println("-----------------------------------------------");
                                 System.out.println("| Keterangan :                                |");
@@ -217,9 +227,11 @@ public class Main {
                                         
                                         if (inputPin == samplePin) {
                                             // Code saldo tidak cukup
-                                            if (Transfer < sampleSaldo) {
+                                            if (transfer < sampleSaldo) {
                                                 // if (Transfer >= 50000) {
-                                                    sampleSaldo -= Transfer; //saldo = saldo + masukan
+                                                    sampleSaldo -= transfer; //saldo = saldo + masukan
+                                                    history[currentSnapshot] = new String[]{"Transfer ke "+ namaTujuan +" ("+ noRekening +")", "-" + transfer};
+                                                    currentSnapshot++;
                                                     System.out.println("-----------------------------------------------");
                                                     System.out.println("|         TRANSFER ANDA TELAH BERHASIL         |");
                                                     System.out.println("|                 INFO SALDO                  |");
@@ -321,6 +333,8 @@ public class Main {
                                             // Code saldo tidak cukup
                                             if (inputSedekah < sampleSaldo) {
                                                 sampleSaldo -= inputSedekah;
+                                                history[currentSnapshot] = new String[]{"Bersedekah", "-" + inputSedekah};
+                                                currentSnapshot++;
                                                 System.out.println("-----------------------------------------------");
                                                 System.out.println("|        BERSEDEKAH KEPADA Dompet DHUAFA      |");
                                                 System.out.println("|                   BERHASIL                  |");
@@ -396,8 +410,15 @@ public class Main {
                                 }
                                 break;
                             case 7:
-                                // Riwayat Transaksi
-                                System.out.println("Mohon maaf, Sementara waktu fitur tidak dapat diakses");
+                                // Get the number of snapshots stored
+                                int numSnapshots = currentSnapshot;
+
+                                System.out.println("Transaction History: " + numSnapshots);
+                                // Print all snapshots
+                                System.out.println("History:");
+                                for (int i = 0; i < currentSnapshot; i++) {
+                                    System.out.println(history[i][0] + " : " + history[i][1]);
+                                }
                                 break;
                             case 8:
                                 // CEK SALDO
