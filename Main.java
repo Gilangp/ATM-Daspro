@@ -2,7 +2,7 @@
 /**
  * Main
  */
-import java.util.*;
+import java.util.Scanner;
 
 public class Main {
 
@@ -13,6 +13,8 @@ public class Main {
         String sampleUsername = "user123";
         int samplePin = 1234;
         int sampleSaldo = 100000;
+
+        
 
         int numRows = 100; // Number of snapshots
         int numColumns = 5; // Number of columns in each snapshot
@@ -108,15 +110,25 @@ public class Main {
                                                 } while (pilihanSelesai1 != 1 && pilihanSelesai1 != 2);
 
                                                 if (pilihanSelesai1 == 2) {
-                                                    System.out.println(
-                                                            "Terima kasih telah menggunakan ATM. Selamat tinggal!");
+                                                    System.out.println("-----------------------------------------------");
+                                                    System.out.println("|       Terima kasih telah menggunakan ATM.   |");
+                                                    System.out.println("|               Selamat tinggal!              |");
+                                                    System.out.println("-----------------------------------------------");
                                                     System.exit(0);
                                                 }
                                             } else {
-                                                System.out.println("Transaksi gagal, minimal transaksi 50000");
+                                            System.out.println("-----------------------------------------------");
+                                            System.out.println("|             !! TRANSAKSI GAGAL !!           |");
+                                            System.out.println("|                                             |");
+                                            System.out.println("|          Minimal transaksi Rp 50.000        |");
+                                            System.out.println("-----------------------------------------------");
                                             }
                                         } else {
-                                            System.out.println("Transaksi gagal, Saldo anda tidak cukup");
+                                            System.out.println("-----------------------------------------------");
+                                            System.out.println("|             !! TRANSAKSI GAGAL !!           |");
+                                            System.out.println("|                                             |");
+                                            System.out.println("|             Saldo anda tidak cukup          |");
+                                            System.out.println("-----------------------------------------------");
                                         }
 
                                     } else {
@@ -128,8 +140,9 @@ public class Main {
                                         System.out.println("|             MOHON TELILI KEMBALI            |");
                                         System.out.println("-----------------------------------------------");
                                     }
-                                break;
-                            
+                                case 'n':
+                            }
+                            break;
                         case 2:
                             // SETOR TUNAI
                             // input
@@ -177,7 +190,10 @@ public class Main {
                                         } while (pilihanSelesai2 != 1 && pilihanSelesai2 != 2);
 
                                         if (pilihanSelesai2 == 2) {
-                                            System.out.println("Terima kasih telah menggunakan ATM. Selamat tinggal!");
+                                            System.out.println("-----------------------------------------------");
+                                            System.out.println("|       Terima kasih telah menggunakan ATM.   |");
+                                            System.out.println("|               Selamat tinggal!              |");
+                                            System.out.println("-----------------------------------------------");
                                             System.exit(0);
                                         }
 
@@ -195,8 +211,146 @@ public class Main {
                             }
                             break;
                         case 3:
-                            //Transfer
-                            System.out.println("Sek gari copy");
+                            // Transfer
+                            String[][] dataAccount = {
+                                    { "Fajar", "123456", "BCA" },
+                                    { "Yefta", "789012", "BRI" },
+                                    { "Gopal", "345678", "BNI" }
+                            };
+
+                            String[][] dataBank = {
+                                    { "123", "BCA" },
+                                    { "456", "BRI" },
+                                    { "234", "BNI" }
+                            };
+
+                            System.out.print("Masukkan nomor kode bank tujuan anda: ");
+                            String kodeBankTujuan = input.next();
+                            String namaBank = "";
+                            int indexKodeBank = -1;
+
+                            // Mencari nomor kode bank tujuan di dalam array
+
+                            for (int i = 0; i < dataBank.length; i++) {
+                                if (dataBank[i][0].equals(kodeBankTujuan)) {
+                                    indexKodeBank = i;
+                                    namaBank = dataBank[i][1];
+                                    break;
+                                }
+                            }
+
+                            if (indexKodeBank == -1) {
+                                System.out.println("Nomor kode bank tidak valid. Transfer gagal.");
+                                break; // Hentikan eksekusi transfer karena kode bank tidak valid
+                                
+                            } 
+                            // Input nomor rekening tujuan
+                                System.out.print("Masukkan nomor rekening tujuan: ");
+                                String nomorRekeningTujuan = input.next();
+                                int indexRekeningTujuan = -1;
+
+                                // Mencari nomor rekening tujuan di dalam array
+                                for (int i = 0; i < dataAccount.length; i++) {
+                                    if (dataAccount[i][1].equals(nomorRekeningTujuan)
+                                            && dataAccount[i][2].equals(namaBank)) {
+                                        indexRekeningTujuan = i;
+                                        break;
+                                    }
+                                }
+
+                                if (indexRekeningTujuan == -1) {
+                                    System.out.println("Nomor rekening tujuan tidak ditemukan. Transfer gagal.");
+                                    break; // Hentikan eksekusi transfer karena nomor rekening tidak valid
+                                }
+
+                                String namaPemilikAccount = dataAccount[indexRekeningTujuan][0];
+                                System.out.print("Masukkan jumlah uang yang akan ditransfer: ");
+                                double jumlahTransfer = input.nextDouble();
+
+                                if (jumlahTransfer <= 0) {
+                                    System.out.println("Jumlah transfer tidak valid. Transfer gagal.");
+                                    input.close();
+                                    return;
+                                }
+
+                                // konfirmasi
+                                System.out.println("-----------------------------------------------");
+                                System.out.println("|              KONFIRMASI TRANSFER             |");
+                                System.out.println("-----------------------------------------------");
+                                System.out.println("    Kepada : " + namaPemilikAccount);
+                                System.out.println("    Bank : " + namaBank);
+                                System.out.println("    No Rek : " + nomorRekeningTujuan);
+                                System.out.println("    Jumlah : Rp.  " + jumlahTransfer);
+                                System.out.println("-----------------------------------------------");
+                                System.out.println("| Keterangan :                                |");
+                                System.out.println("| - Jika benar ketik 'y'                      |");
+                                System.out.println("| - Jika salah klik 'n'                       |");
+                                System.out.println("-----------------------------------------------");
+
+                                char respon3 = input.next().charAt(0);
+                                switch (respon3) {
+                                    case 'y':
+
+                                        // konfirmasi pin
+                                        System.out.println("Masukkan konfirmasi pin anda");
+                                        int inputPin = input.nextInt();
+
+                                        if (inputPin == samplePin) {
+                                            // Code saldo tidak cukup
+                                            if (sampleSaldo >= jumlahTransfer) {
+                                                // if (Transfer >= 50000) {
+                                                sampleSaldo -= jumlahTransfer; // saldo = saldo + masukan
+                                                history[currentSnapshot] = new String[] {
+                                                        String.format("Transfer ke %s ($s) : - %s", namaPemilikAccount,
+                                                                nomorRekeningTujuan, String.valueOf(jumlahTransfer))
+                                                };
+                                                currentSnapshot++;
+                                                System.out.println("-----------------------------------------------");
+                                                System.out.println("|         TRANSFER ANDA TELAH BERHASIL         |");
+                                                System.out.println("|                 INFO SALDO                  |");
+                                                System.out.println("|                                             |");
+                                                System.out.println(
+                                                        "     Saldo anda saat ini adalah Rp. " + sampleSaldo + "  ");
+                                                System.out.println("|                                             |");
+                                                System.out.println("|       1. Kembali             2. Keluar      |");
+                                                System.out.println("-----------------------------------------------");
+                                                int pilihanSelesai3;
+                                                do {
+                                                    System.out.print("Masukkan Pilihan (1 or 2): ");
+                                                    pilihanSelesai3 = input.nextInt();
+                                                    input.nextLine(); // Consume the newline character
+                                                } while (pilihanSelesai3 != 1 && pilihanSelesai3 != 2);
+
+                                                if (pilihanSelesai3 == 2) {
+                                                    System.out.println(
+                                                            "Terima kasih telah menggunakan ATM. Selamat tinggal!");
+                                                    System.exit(0);
+                                                }
+                                                // } else {
+                                                // System.out.println("Transaksi gagal, minimal transaksi 50000");
+                                                // }
+                                            } else {
+                                                System.out.println("Transaksi gagal, Saldo anda tidak cukup");
+                                            }
+
+                                        } else {
+                                            System.out.println("-----------------------------------------------");
+                                            System.out.println("|             !! TRANSAKSI GAGAL !!           |");
+                                            System.out.println("|                                             |");
+                                            System.out.println("|          PIN YANG ANDA MASUKKAN SALAH       |");
+                                            System.out.println("|                                             |");
+                                            System.out.println("|             MOHON TELITI KEMBALI            |");
+                                            System.out.println("-----------------------------------------------");
+                                        }
+                                    case 'n':
+                                        break;
+                                }
+                                if (respon3 == 'y') {
+
+                                } else if (respon3 == 'n') {
+                                    // kembali ke menu
+                                }
+
                             break;
                         case 4:
                             // Pembayaran VA
@@ -353,7 +507,10 @@ public class Main {
                                         } while (pilihanSelesai5 != 1 && pilihanSelesai5 != 2);
 
                                         if (pilihanSelesai5 == 2) {
-                                            System.out.println("Terima kasih telah menggunakan ATM. Selamat tinggal!");
+                                            System.out.println("-----------------------------------------------");
+                                            System.out.println("|       Terima kasih telah menggunakan ATM.   |");
+                                            System.out.println("|               Selamat tinggal!              |");
+                                            System.out.println("-----------------------------------------------");
                                             System.exit(0);
                                         }
                                     } else {
@@ -373,17 +530,28 @@ public class Main {
                             break;
                         case 6:
                             // Info Kurs
-                            System.out.println("-----------------------------------------------");
-                            System.out.println("|                  INFO KURS                  |");
-                            System.out.println("|                                             |");
-                            System.out.println("|                     USD                     |");
-                            System.out.println("|  Beli : Rp 15,345.00   Jual : Rp 15,375.00  |");
-                            System.out.println("|                                             |");
-                            System.out.println("|                     SGD                     |");
-                            System.out.println("|  Beli : Rp 11,281.89   Jual : Rp 11,295.56  |");
-                            System.out.println("|                                             |");
-                            System.out.println("|       1. Kembali             2. Keluar      |");
-                            System.out.println("-----------------------------------------------");
+                            double kursBeliUSD = 15000;
+                            double kursJualUSD = 15000;
+                            System.out.println("--------------------------------- ");
+                            System.out.println("|            INFO KURS           |");
+                            System.out.println("--------------------------------- ");
+                            System.out.println("   => USD");
+                            System.out.println("   Beli : " + kursBeliUSD);
+                            System.out.println("   Jual : " + kursJualUSD);
+
+                            System.out.println("\nApakah ingin konversi KURS (y/n)?");
+                            char konversiKurs = input.next().charAt(0);
+                            if (konversiKurs == 'y') {
+                                System.out.println("Masukkan jumlah(Rupiah) yang ingin dikonversi ke USD");
+                                System.out.print("Masukkan jumlah Rupiah: Rp ");
+                                int inputKurs = input.nextInt();
+                                System.out.println("1. Beli : " + inputKurs / kursBeliUSD);
+                                System.out.println("2. Jual : " + inputKurs / kursJualUSD);
+                            }
+
+                            System.out.println("\n---------------------------------");
+                            System.out.println("|   1. Kembali    2. Keluar      |");
+                            System.out.println("--------------------------------- ");
 
                             int pilihanSelesai6;
                             do {
@@ -511,8 +679,6 @@ public class Main {
                                     "| - Jika terdapat masalah pada mesin ATM hubungi admin (085105120605)                   |");
                             System.out.println(
                                     "|                                                                                       |");
-                            System.out.println(
-                                    "|NB : ATM masih dalam perbaikan, Terdapat beberapa fitur yang belum dapat diakses       |");
                             System.out.println(
                                     "-----------------------------------------------------------------------------------------");
                             System.out.println(
