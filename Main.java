@@ -14,8 +14,6 @@ public class Main {
         int samplePin = 1234;
         int sampleSaldo = 100000;
 
-        
-
         int numRows = 100; // Number of snapshots
         int numColumns = 5; // Number of columns in each snapshot
         String[][] history = new String[numRows][numColumns];
