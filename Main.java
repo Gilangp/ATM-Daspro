@@ -65,9 +65,8 @@ public class Main {
         int samplePin = 1234;
         int sampleSaldo = 100000;
 
-        int numRows = 100; // Number of snapshots
-        int numColumns = 5; // Number of columns in each snapshot
-        String[][] history = new String[numRows][numColumns];
+        
+        String[][] history = new String[1000][1000];
         int currentSnapshot = 1;
         // Add snapshots to the history
         history[0] = new String[] { "Saldo awal", "100000" };
@@ -475,11 +474,10 @@ public class Main {
 
                                             if (sampleSaldo >= jumlahPembayaran) {
                                                 sampleSaldo -= jumlahPembayaran;
-                                                history[0] = new String[] { "Saldo awal", "100000" };
 
                                                 history[currentSnapshot] = new String[] {
                                                         "Pembayaran ke " + namaPemilikVA,
-                                                        String.valueOf(jumlahPembayaran) };
+                                                        String.valueOf("-"+jumlahPembayaran) };
                                                 currentSnapshot++;
                                                 dataVA[indexVA][2] = String.valueOf(jumlahPembayaran);
                                                 System.out.println("---------------------------------------------------------------");
@@ -572,7 +570,7 @@ public class Main {
                                 int inputPin = input.nextInt();
                                 if (inputPin == samplePin) {
                                     // Code saldo tidak cukup
-                                    if (inputSedekah < sampleSaldo) {
+                                    if (inputSedekah <= sampleSaldo) {
                                         sampleSaldo -= inputSedekah;
                                         history[currentSnapshot] = new String[] { "Bersedekah", "-" + inputSedekah };
                                         currentSnapshot++;
