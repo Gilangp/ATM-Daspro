@@ -404,9 +404,6 @@ public class Main {
                                                 System.out.println("-----------------------------------------------");
                                                 System.exit(0);
                                             }
-                                            // } else {
-                                            // System.out.println("Transaksi gagal, minimal transaksi 50000");
-                                            // }
                                         } else {
                                             System.out.println("-----------------------------------------------");
                                             System.out.println("|             !! TRANSAKSI GAGAL !!           |");
@@ -482,13 +479,29 @@ public class Main {
                                                         String.valueOf(jumlahPembayaran) };
                                                 currentSnapshot++;
                                                 dataVA[indexVA][2] = String.valueOf(jumlahPembayaran);
-                                                System.out.println("---------------------------------------------------------------");
-                                                System.out.println("|                       TRANSAKSI BERHASIL                    |");
-                                                System.out.println("---------------------------------------------------------------");
+                                                System.out.println("-----------------------------------------------");
+                                                System.out.println("|             TRANSAKSI BERHASIL               |");
+                                                System.out.println("-----------------------------------------------");
                                                 System.out.println("  Nama VA       : " + namaPemilikVA);
                                                 System.out.println("  Pembayaran VA : Rp " + jumlahPembayaran);
                                                 System.out.println("  Sisa saldo    : Rp " + sampleSaldo);
-                                                System.out.println("---------------------------------------------------------------");
+                                                System.out.println("-----------------------------------------------");
+                                                System.out.println("|       1. Kembali             2. Keluar      |");
+                                                System.out.println("-----------------------------------------------");
+                                                int pilihanSelesai4;
+                                                do {
+                                                    System.out.print("Masukkan Pilihan (1 or 2): ");
+                                                    pilihanSelesai4 = input.nextInt();
+                                                    input.nextLine(); // Consume the newline character
+                                                } while (pilihanSelesai4 != 1 && pilihanSelesai4 != 2);
+
+                                                if (pilihanSelesai4 == 2) {
+                                                    System.out.println("-----------------------------------------------");
+                                                    System.out.println("|       Terima kasih telah menggunakan ATM.   |");
+                                                    System.out.println("|               Selamat tinggal!              |");
+                                                    System.out.println("-----------------------------------------------");
+                                                    System.exit(0);
+                                                }
                                             } else {
                                                 System.out.println("-----------------------------------------------");
                                                 System.out.println("|             !! TRANSAKSI GAGAL !!           |");
