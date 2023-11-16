@@ -458,7 +458,7 @@ public class Main {
                                 System.out.println("|         VIRTUAL ACCOUNT         |");
                                 System.out.println("-----------------------------------");
                                 System.out.println("  Nama Pemilik VA: " + namaPemilikVA);
-                                System.out.println("  Pembayaran VA sebesar: Rp " + saldoVA);
+                                System.out.println("  Pembayaran VA sebesar: Rp " + jumlahPembayaran);
                                 System.out.println("-----------------------------------");
                                 System.out.println("| Keterangan :                    |");
                                 System.out.println("| - Jika benar ketik 'y'          |");
