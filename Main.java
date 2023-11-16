@@ -552,8 +552,7 @@ public class Main {
                                 System.out.println("|           JUMLAH SEDEKAH TIDAK VALID        |");
                                 System.out.println("|              MOHON TELITI KEMBALI           |");
                                 System.out.println("-----------------------------------------------");
-                                input.close();
-                                return;
+                                continue;
                             }
                             // konfirmasi
                             System.out.println("-----------------------------------------------");
