@@ -68,12 +68,9 @@ public class Main {
         int numRows = 100; // Number of snapshots
         int numColumns = 5; // Number of columns in each snapshot
         String[][] history = new String[numRows][numColumns];
-        int currentSnapshot = 4;
+        int currentSnapshot = 1;
         // Add snapshots to the history
         history[0] = new String[] { "Saldo awal", "100000" };
-        history[1] = new String[] { "Saldo awal", "100000" };
-        history[2] = new String[] { "Saldo awal", "100000" };
-        history[3] = new String[] { "Saldo awal", "100000" };
 
         // SEBELUM LOGIN
         System.out.println("-----------------------------------------------");
