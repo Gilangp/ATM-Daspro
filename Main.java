@@ -777,42 +777,24 @@ public class Main {
                             break;
                         case 10:
                             // Help
-                            System.out.println(
-                                    "=========================================================================================");
-                            System.out.println(
-                                    "|                                        HELP                                           |");
-                            System.out.println(
-                                    "=========================================================================================");
-                            System.out.println(
-                                    "| - Gunakan Menu ke-1 jika anda ingin melakukan penarikan saldo                         |");
-                            System.out.println(
-                                    "| - Gunakan Menu ke-2 jika anda ingin mengisi saldo                                     |");
-                            System.out.println(
-                                    "| - Gunakan Menu ke-3 jika anda ingin melakukakan transfer sesama/berbeda nasabah       |");
-                            System.out.println(
-                                    "| - Gunakan Menu ke-4 jika anda ingin melakukan pembayaran melalui Virtual Account (VA) |");
-                            System.out.println(
-                                    "| - Gunakan Menu ke-5 jika anda ingin melakukan sedekah pada platform yang tersedia     |");
-                            System.out.println(
-                                    "| - Gunakan Menu ke-6 jika anda ingin melihat nilai tukar mata uang                     |");
-                            System.out.println(
-                                    "| - Gunakan Menu ke-7 jika ingin melihat riwayat transaksi anda                         |");
-                            System.out.println(
-                                    "| - Gunakan Menu ke-8 jika anda ingin melihat jumlah saldo yang tersedia                |");
-                            System.out.println(
-                                    "| - Gunakan Menu ke-9 jika ingin mengubah pin anda                                      |");
-                            System.out.println(
-                                    "| - Untuk tarik dan setor tunai, minimal transaksi sebesar Rp.50000                     |");
-                            System.out.println(
-                                    "| - Jika terdapat masalah pada mesin ATM hubungi admin (085105120605)                   |");
-                            System.out.println(
-                                    "|                                                                                       |");
-                            System.out.println(
-                                    "-----------------------------------------------------------------------------------------");
-                            System.out.println(
-                                    "|                  1. Kembali                               2. Keluar                   |");
-                            System.out.println(
-                                    "-----------------------------------------------------------------------------------------");
+                            System.out.println("=========================================================================================");
+                            System.out.println("|                                        HELP                                           |");
+                            System.out.println("=========================================================================================");
+                            System.out.println("| - Gunakan Menu ke-1 jika anda ingin melakukan penarikan saldo                         |");
+                            System.out.println("| - Gunakan Menu ke-2 jika anda ingin mengisi saldo                                     |");
+                            System.out.println("| - Gunakan Menu ke-3 jika anda ingin melakukakan transfer sesama/berbeda nasabah       |");
+                            System.out.println("| - Gunakan Menu ke-4 jika anda ingin melakukan pembayaran melalui Virtual Account (VA) |");
+                            System.out.println("| - Gunakan Menu ke-5 jika anda ingin melakukan sedekah pada platform yang tersedia     |");
+                            System.out.println("| - Gunakan Menu ke-6 jika anda ingin melihat nilai tukar mata uang                     |");
+                            System.out.println("| - Gunakan Menu ke-7 jika ingin melihat riwayat transaksi anda                         |");
+                            System.out.println("| - Gunakan Menu ke-8 jika anda ingin melihat jumlah saldo yang tersedia                |");
+                            System.out.println("| - Gunakan Menu ke-9 jika ingin mengubah pin anda                                      |");
+                            System.out.println("| - Untuk tarik dan setor tunai, minimal transaksi sebesar Rp.50000                     |");
+                            System.out.println("| - Jika terdapat masalah pada mesin ATM hubungi admin (085105120605)                   |");
+                            System.out.println("|                                                                                       |");
+                            System.out.println("-----------------------------------------------------------------------------------------");
+                            System.out.println("|                  1. Kembali                               2. Keluar                   |");
+                            System.out.println("-----------------------------------------------------------------------------------------");
                             int pilihanSelesai10;
                             do {
                                 System.out.print("Masukkan Pilihan (1 atau 2): ");
