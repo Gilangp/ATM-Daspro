@@ -371,10 +371,13 @@ public class Main {
                                         if (sampleSaldo >= jumlahTransfer) {
                                             // if (Transfer >= 50000) {
                                             sampleSaldo -= jumlahTransfer; // saldo = saldo + masukan
+                                            // history[currentSnapshot] = new String[] {
+                                            //         String.format("Transfer ke %s ($s) : - %s", namaPemilikAccount,
+                                            //                 nomorRekeningTujuan, String.valueOf(jumlahTransfer))
+                                            // };
                                             history[currentSnapshot] = new String[] {
-                                                    String.format("Transfer ke %s ($s) : - %s", namaPemilikAccount,
-                                                            nomorRekeningTujuan, String.valueOf(jumlahTransfer))
-                                            };
+                                                "Pembayaran ke " + namaPemilikAccount,
+                                                String.valueOf("-"+jumlahTransfer) };
                                             currentSnapshot++;
                                             System.out.println("-----------------------------------------------");
                                             System.out.println("|             TRANSFER  BERHASIL              |");
