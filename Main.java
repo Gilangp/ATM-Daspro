@@ -65,11 +65,15 @@ public class Main {
         int samplePin = 1234;
         int sampleSaldo = 100000;
 
-        
-        String[][] history = new String[1000][1000];
-        int currentSnapshot = 1;
+        int numRows = 100; // Number of snapshots
+        int numColumns = 5; // Number of columns in each snapshot
+        String[][] history = new String[numRows][numColumns];
+        int currentSnapshot = 4;
         // Add snapshots to the history
         history[0] = new String[] { "Saldo awal", "100000" };
+        history[1] = new String[] { "Saldo awal", "100000" };
+        history[2] = new String[] { "Saldo awal", "100000" };
+        history[3] = new String[] { "Saldo awal", "100000" };
 
         // SEBELUM LOGIN
         System.out.println("-----------------------------------------------");
@@ -403,6 +407,9 @@ public class Main {
                                                 System.out.println("-----------------------------------------------");
                                                 System.exit(0);
                                             }
+                                            // } else {
+                                            // System.out.println("Transaksi gagal, minimal transaksi 50000");
+                                            // }
                                         } else {
                                             System.out.println("-----------------------------------------------");
                                             System.out.println("|             !! TRANSAKSI GAGAL !!           |");
@@ -471,35 +478,20 @@ public class Main {
 
                                             if (sampleSaldo >= jumlahPembayaran) {
                                                 sampleSaldo -= jumlahPembayaran;
+                                                history[0] = new String[] { "Saldo awal", "100000" };
 
                                                 history[currentSnapshot] = new String[] {
                                                         "Pembayaran ke " + namaPemilikVA,
-                                                        String.valueOf("-"+jumlahPembayaran) };
+                                                        String.valueOf(jumlahPembayaran) };
                                                 currentSnapshot++;
                                                 dataVA[indexVA][2] = String.valueOf(jumlahPembayaran);
-                                                System.out.println("-----------------------------------------------");
-                                                System.out.println("|             TRANSAKSI BERHASIL               |");
-                                                System.out.println("-----------------------------------------------");
+                                                System.out.println("---------------------------------------------------------------");
+                                                System.out.println("|                       TRANSAKSI BERHASIL                    |");
+                                                System.out.println("---------------------------------------------------------------");
                                                 System.out.println("  Nama VA       : " + namaPemilikVA);
                                                 System.out.println("  Pembayaran VA : Rp " + jumlahPembayaran);
                                                 System.out.println("  Sisa saldo    : Rp " + sampleSaldo);
-                                                System.out.println("-----------------------------------------------");
-                                                System.out.println("|       1. Kembali             2. Keluar      |");
-                                                System.out.println("-----------------------------------------------");
-                                                int pilihanSelesai4;
-                                                do {
-                                                    System.out.print("Masukkan Pilihan (1 or 2): ");
-                                                    pilihanSelesai4 = input.nextInt();
-                                                    input.nextLine(); // Consume the newline character
-                                                } while (pilihanSelesai4 != 1 && pilihanSelesai4 != 2);
-
-                                                if (pilihanSelesai4 == 2) {
-                                                    System.out.println("-----------------------------------------------");
-                                                    System.out.println("|       Terima kasih telah menggunakan ATM.   |");
-                                                    System.out.println("|               Selamat tinggal!              |");
-                                                    System.out.println("-----------------------------------------------");
-                                                    System.exit(0);
-                                                }
+                                                System.out.println("---------------------------------------------------------------");
                                             } else {
                                                 System.out.println("-----------------------------------------------");
                                                 System.out.println("|             !! TRANSAKSI GAGAL !!           |");
@@ -560,7 +552,8 @@ public class Main {
                                 System.out.println("|           JUMLAH SEDEKAH TIDAK VALID        |");
                                 System.out.println("|              MOHON TELITI KEMBALI           |");
                                 System.out.println("-----------------------------------------------");
-                                continue;
+                                input.close();
+                                return;
                             }
                             // konfirmasi
                             System.out.println("-----------------------------------------------");
@@ -583,7 +576,7 @@ public class Main {
                                 int inputPin = input.nextInt();
                                 if (inputPin == samplePin) {
                                     // Code saldo tidak cukup
-                                    if (inputSedekah <= sampleSaldo) {
+                                    if (inputSedekah < sampleSaldo) {
                                         sampleSaldo -= inputSedekah;
                                         history[currentSnapshot] = new String[] { "Bersedekah", "-" + inputSedekah };
                                         currentSnapshot++;
@@ -777,24 +770,42 @@ public class Main {
                             break;
                         case 10:
                             // Help
-                            System.out.println("=========================================================================================");
-                            System.out.println("|                                        HELP                                           |");
-                            System.out.println("=========================================================================================");
-                            System.out.println("| - Gunakan Menu ke-1 jika anda ingin melakukan penarikan saldo                         |");
-                            System.out.println("| - Gunakan Menu ke-2 jika anda ingin mengisi saldo                                     |");
-                            System.out.println("| - Gunakan Menu ke-3 jika anda ingin melakukakan transfer sesama/berbeda nasabah       |");
-                            System.out.println("| - Gunakan Menu ke-4 jika anda ingin melakukan pembayaran melalui Virtual Account (VA) |");
-                            System.out.println("| - Gunakan Menu ke-5 jika anda ingin melakukan sedekah pada platform yang tersedia     |");
-                            System.out.println("| - Gunakan Menu ke-6 jika anda ingin melihat nilai tukar mata uang                     |");
-                            System.out.println("| - Gunakan Menu ke-7 jika ingin melihat riwayat transaksi anda                         |");
-                            System.out.println("| - Gunakan Menu ke-8 jika anda ingin melihat jumlah saldo yang tersedia                |");
-                            System.out.println("| - Gunakan Menu ke-9 jika ingin mengubah pin anda                                      |");
-                            System.out.println("| - Untuk tarik dan setor tunai, minimal transaksi sebesar Rp.50000                     |");
-                            System.out.println("| - Jika terdapat masalah pada mesin ATM hubungi admin (085105120605)                   |");
-                            System.out.println("|                                                                                       |");
-                            System.out.println("-----------------------------------------------------------------------------------------");
-                            System.out.println("|                  1. Kembali                               2. Keluar                   |");
-                            System.out.println("-----------------------------------------------------------------------------------------");
+                            System.out.println(
+                                    "=========================================================================================");
+                            System.out.println(
+                                    "|                                        HELP                                           |");
+                            System.out.println(
+                                    "=========================================================================================");
+                            System.out.println(
+                                    "| - Gunakan Menu ke-1 jika anda ingin melakukan penarikan saldo                         |");
+                            System.out.println(
+                                    "| - Gunakan Menu ke-2 jika anda ingin mengisi saldo                                     |");
+                            System.out.println(
+                                    "| - Gunakan Menu ke-3 jika anda ingin melakukakan transfer sesama/berbeda nasabah       |");
+                            System.out.println(
+                                    "| - Gunakan Menu ke-4 jika anda ingin melakukan pembayaran melalui Virtual Account (VA) |");
+                            System.out.println(
+                                    "| - Gunakan Menu ke-5 jika anda ingin melakukan sedekah pada platform yang tersedia     |");
+                            System.out.println(
+                                    "| - Gunakan Menu ke-6 jika anda ingin melihat nilai tukar mata uang                     |");
+                            System.out.println(
+                                    "| - Gunakan Menu ke-7 jika ingin melihat riwayat transaksi anda                         |");
+                            System.out.println(
+                                    "| - Gunakan Menu ke-8 jika anda ingin melihat jumlah saldo yang tersedia                |");
+                            System.out.println(
+                                    "| - Gunakan Menu ke-9 jika ingin mengubah pin anda                                      |");
+                            System.out.println(
+                                    "| - Untuk tarik dan setor tunai, minimal transaksi sebesar Rp.50000                     |");
+                            System.out.println(
+                                    "| - Jika terdapat masalah pada mesin ATM hubungi admin (085105120605)                   |");
+                            System.out.println(
+                                    "|                                                                                       |");
+                            System.out.println(
+                                    "-----------------------------------------------------------------------------------------");
+                            System.out.println(
+                                    "|                  1. Kembali                               2. Keluar                   |");
+                            System.out.println(
+                                    "-----------------------------------------------------------------------------------------");
                             int pilihanSelesai10;
                             do {
                                 System.out.print("Masukkan Pilihan (1 atau 2): ");
