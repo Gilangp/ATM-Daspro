@@ -65,16 +65,10 @@ public class Main {
         int samplePin = 1234;
         int sampleSaldo = 100000;
 
-        int numRows = 100; // Number of snapshots
-        int numColumns = 5; // Number of columns in each snapshot
-        String[][] history = new String[numRows][numColumns];
-        int currentSnapshot = 4;
+        String[][] history = new String[1000][2];
+        int currentSnapshot = 1;
         // Add snapshots to the history
         history[0] = new String[] { "Saldo awal", "100000" };
-        history[1] = new String[] { "Saldo awal", "100000" };
-        history[2] = new String[] { "Saldo awal", "100000" };
-        history[3] = new String[] { "Saldo awal", "100000" };
-
         // SEBELUM LOGIN
         System.out.println("-----------------------------------------------");
         System.out.println("|             SELAMAT DATANG di ATM           |");
@@ -375,10 +369,6 @@ public class Main {
                                         if (sampleSaldo >= jumlahTransfer) {
                                             // if (Transfer >= 50000) {
                                             sampleSaldo -= jumlahTransfer; // saldo = saldo + masukan
-                                            // history[currentSnapshot] = new String[] {
-                                            //         String.format("Transfer ke %s ($s) : - %s", namaPemilikAccount,
-                                            //                 nomorRekeningTujuan, String.valueOf(jumlahTransfer))
-                                            // };
                                             history[currentSnapshot] = new String[] {
                                                 "Pembayaran ke " + namaPemilikAccount,
                                                 String.valueOf("-"+jumlahTransfer) };
@@ -485,7 +475,7 @@ public class Main {
 
                                                 history[currentSnapshot] = new String[] {
                                                         "Pembayaran ke " + namaPemilikVA,
-                                                        String.valueOf(jumlahPembayaran) };
+                                                        String.valueOf("-"+jumlahPembayaran) };
                                                 currentSnapshot++;
                                                 dataVA[indexVA][2] = String.valueOf(jumlahPembayaran);
                                                 System.out.println("---------------------------------------------------------------");
