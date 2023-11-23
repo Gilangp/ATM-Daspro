@@ -165,6 +165,7 @@ public class Main {
     // Function tampilUserMenu
     static void tampilUserMenu(int indexAkun) {
         while (true) {
+            int sampleSaldo = Integer.parseInt(dataAccount[indexAkun][4]);
             // SETELAH LOGIN
             System.out.println("-----------------------------------------------");
             System.out.println("|          Silahkan Pilih transaksi           |");
@@ -196,15 +197,16 @@ public class Main {
                     char responsTarik = konfirmasi(input);
                     switch (responsTarik) {
                         case 'y':
-
-                            // konfirmasi pin
-                            System.out.println("Masukkan konfirmasi pin anda");
-                            int inputPin = input.nextInt();
-
-                            if (inputPin == samplePin) {
+                        System.out.println("Masukkan konfirmasi pin anda");
+                        int inputPin = input.nextInt();
+                    
+                        if (isPinValid(inputPin, indexAkun)) {
                                 if (tarikTunai < sampleSaldo) {
                                     if (tarikTunai >= 50000) {
+                                        
                                         sampleSaldo -= tarikTunai; // sampleSaldo = sampleSaldo - masukan
+                                        dataAccount[indexAkun][4] = String.valueOf(sampleSaldo);
+
                                         history[currentSnapshot] = new String[] { "Tarik Tunai",
                                                 "-" + tarikTunai };
                                         currentSnapshot++;
@@ -261,10 +263,12 @@ public class Main {
                             // konfirmasi pin
                             System.out.println("Masukkan konfirmasi pin anda");
                             int inputPin = input.nextInt();
-
-                            if (inputPin == samplePin) {
+                        
+                            if (isPinValid(inputPin, indexAkun)) {
                                 if (inputSetor >= 50000) {
                                     sampleSaldo += inputSetor;
+                                    dataAccount[indexAkun][4] = String.valueOf(sampleSaldo);
+
                                     history[currentSnapshot] = new String[] { "Setor Tunai", "+" + inputSetor };
                                     currentSnapshot++;
                                     System.out.println("-----------------------------------------------");
@@ -388,12 +392,14 @@ public class Main {
                             // konfirmasi pin
                             System.out.println("Masukkan konfirmasi pin anda");
                             int inputPin = input.nextInt();
-
-                            if (inputPin == samplePin) {
+                        
+                            if (isPinValid(inputPin, indexAkun)) {
                                 // Code saldo tidak cukup
                                 if (sampleSaldo >= jumlahTransfer) {
                                     // if (Transfer >= 50000) {
                                     sampleSaldo -= jumlahTransfer; // saldo = saldo + masukan
+                                    dataAccount[indexAkun][4] = String.valueOf(sampleSaldo);
+
                                     history[currentSnapshot] = new String[] {
                                             "Pembayaran ke " + namaPemilikAccount,
                                             String.valueOf("-" + jumlahTransfer) };
@@ -466,12 +472,14 @@ public class Main {
                                 // konfirmasi pin
                                 System.out.println("Masukkan konfirmasi pin anda");
                                 int inputPin = input.nextInt();
-
-                                if (inputPin == samplePin) {
+                            
+                                if (isPinValid(inputPin, indexAkun)) {
                                     // Ambil nominal pembayaran dari data VA
 
                                     if (sampleSaldo >= jumlahPembayaran) {
                                         sampleSaldo -= jumlahPembayaran;
+                                        dataAccount[indexAkun][4] = String.valueOf(sampleSaldo);
+
                                         history[0] = new String[] { "Saldo awal", "100000" };
 
                                         history[currentSnapshot] = new String[] {
@@ -568,10 +576,13 @@ public class Main {
                         // konfirmasi pin
                         System.out.println("Masukkan konfirmasi pin anda");
                         int inputPin = input.nextInt();
-                        if (inputPin == samplePin) {
+                    
+                        if (isPinValid(inputPin, indexAkun)) {
                             // Code saldo tidak cukup
                             if (inputSedekah < sampleSaldo) {
                                 sampleSaldo -= inputSedekah;
+                                dataAccount[indexAkun][4] = String.valueOf(sampleSaldo);
+
                                 history[currentSnapshot] = new String[] { "Bersedekah", "-" + inputSedekah };
                                 currentSnapshot++;
                                 System.out.println("-----------------------------------------------");
@@ -616,7 +627,7 @@ public class Main {
                     System.out.println("-----------------------------------------------");
                     System.out.println("|                  INFORMASI                  |");
                     System.out.println("   Nama        : " + dataAccount[indexAkun][0]);
-                    System.out.println("   Saldo akhir : Rp " + dataAccount[indexAkun][4]);
+                    System.out.println("   Saldo akhir : Rp " + sampleSaldo);
                     System.out.println("-----------------------------------------------");
                     kembaliAtauKeluar(input);
                     break;
@@ -754,6 +765,12 @@ public class Main {
         }
     }
 
+    private static boolean isPinValid(int enteredPin, int accountIndex) {
+        // Assuming PIN is stored at index 2 in dataAccount
+        int actualPin = Integer.parseInt(dataAccount[accountIndex][3]);
+        return enteredPin == actualPin;
+    }
+    
     // Function KonversiKURS
     private static void KonversiKurs(double kursBeliUSD, double kursJualUSD) {
         System.out.println("Masukkan jumlah(Rupiah) yang ingin dikonversi ke USD");
