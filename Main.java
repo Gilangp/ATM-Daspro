@@ -53,22 +53,33 @@
 // System.out.println("|          Pin yang anda masukkan salah       |");
 // System.out.println("-----------------------------------------------");
 
+
+
 import java.util.Scanner;
 
 public class Main {
+    
+    private static Scanner input = new Scanner(System.in); // Define and initialize the scanner object
+     // Sample account details for demonstration
+        private static String sampleUsername = "user123";
+        private static int samplePin = 1234;
+        private static int sampleSaldo = 100000;
 
+        private static double kursBeliUSD = 15000;
+        private static double kursJualUSD = 15000;
+
+        private static String[][] history = new String[1000][2];
+        private static int currentSnapshot = 1;
     public static void main(String[] args) {
-        Scanner input = new Scanner(System.in); // Define and initialize the scanner
 
         // Sample account details for demonstration
         String sampleUsername = "user123";
         int samplePin = 1234;
         int sampleSaldo = 100000;
 
-        String[][] history = new String[1000][2];
-        int currentSnapshot = 1;
-        // Add snapshots to the history
+        // Menambah Riwayat pertama
         history[0] = new String[] { "Saldo awal", "100000" };
+
         // SEBELUM LOGIN
         System.out.println("-----------------------------------------------");
         System.out.println("|             SELAMAT DATANG di ATM           |");
@@ -119,13 +130,8 @@ public class Main {
                             System.out.println("                  Rp.  " + tarikTunai + "  \t\t\t  ");
                             System.out.println("|                                             |");
                             System.out.println("-----------------------------------------------");
-                            System.out.println("| Keterangan :                                |");
-                            System.out.println("| - Jika benar ketik 'y'                      |");
-                            System.out.println("| - Jika salah klik 'n'                       |");
-                            System.out.println("-----------------------------------------------");
-
-                            char respon1 = input.next().charAt(0);
-                            switch (respon1) {
+                            char responsTarik = konfirmasi(input); 
+                            switch (responsTarik) {
                                 case 'y':
 
                                     // konfirmasi pin
@@ -145,27 +151,8 @@ public class Main {
                                                 System.out.println("|                 INFO SALDO                  |");
                                                 System.out.println(
                                                         "     Saldo anda saat ini adalah Rp. " + sampleSaldo + "  ");
-                                                System.out.println("|                                             |");
-                                                System.out.println("|       1. Kembali             2. Keluar      |");
                                                 System.out.println("-----------------------------------------------");
-                                                int pilihanSelesai1;
-                                                do {
-                                                    System.out.print("Masukkan Pilihan (1 or 2): ");
-                                                    pilihanSelesai1 = input.nextInt();
-                                                    input.nextLine(); // Consume the newline character
-                                                } while (pilihanSelesai1 != 1 && pilihanSelesai1 != 2);
-
-                                                if (pilihanSelesai1 == 2) {
-                                                    System.out
-                                                            .println("-----------------------------------------------");
-                                                    System.out
-                                                            .println("|       Terima kasih telah menggunakan ATM.   |");
-                                                    System.out
-                                                            .println("|               Selamat tinggal!              |");
-                                                    System.out
-                                                            .println("-----------------------------------------------");
-                                                    System.exit(0);
-                                                }
+                                            kembaliAtauKeluar(input);
                                             } else {
                                                 System.out.println("-----------------------------------------------");
                                                 System.out.println("|             !! TRANSAKSI GAGAL !!           |");
@@ -204,13 +191,8 @@ public class Main {
                             System.out.println("                  Rp.  " + inputSetor + "  \t\t  ");
                             System.out.println("|                                             |");
                             System.out.println("-----------------------------------------------");
-                            System.out.println("| Keterangan :                                |");
-                            System.out.println("| - Jika benar ketik 'y'                      |");
-                            System.out.println("| - Jika salah klik 'n'                       |");
-                            System.out.println("-----------------------------------------------");
-
-                            char konfirmasiSetor = input.next().charAt(0);
-                            switch (konfirmasiSetor) {
+                            char responsSetor = konfirmasi(input);
+                            switch (responsSetor) {
                                 case 'y':
 
                                     // konfirmasi pin
@@ -228,24 +210,8 @@ public class Main {
                                             System.out.println("|                 INFO SALDO                  |");
                                             System.out.println(
                                                     "     Saldo anda saat ini adalah Rp. " + sampleSaldo + "  ");
-                                            System.out.println("|                                             |");
-                                            System.out.println("|       1. Kembali             2. Keluar      |");
                                             System.out.println("-----------------------------------------------");
-
-                                            int pilihanSelesai2;
-                                            do {
-                                                System.out.print("Masukkan Pilihan (1 or 2): ");
-                                                pilihanSelesai2 = input.nextInt();
-                                                input.nextLine(); // Consume the newline character
-                                            } while (pilihanSelesai2 != 1 && pilihanSelesai2 != 2);
-
-                                            if (pilihanSelesai2 == 2) {
-                                                System.out.println("-----------------------------------------------");
-                                                System.out.println("|       Terima kasih telah menggunakan ATM.   |");
-                                                System.out.println("|               Selamat tinggal!              |");
-                                                System.out.println("-----------------------------------------------");
-                                                System.exit(0);
-                                            }
+                                            kembaliAtauKeluar(input);
                                         } else {
                                             System.out.println("-----------------------------------------------");
                                             System.out.println("|             !! TRANSAKSI GAGAL !!           |");
@@ -351,13 +317,9 @@ public class Main {
                             System.out.println("    No Rek  : " + nomorRekeningTujuan);
                             System.out.println("    Jumlah  : Rp.  " + jumlahTransfer);
                             System.out.println("-----------------------------------------------");
-                            System.out.println("| Keterangan :                                |");
-                            System.out.println("| - Jika benar ketik 'y'                      |");
-                            System.out.println("| - Jika salah klik 'n'                       |");
-                            System.out.println("-----------------------------------------------");
 
-                            char respon3 = input.next().charAt(0);
-                            switch (respon3) {
+                            char responsTransfer = konfirmasi(input);
+                            switch (responsTransfer) {
                                 case 'y':
 
                                     // konfirmasi pin
@@ -382,27 +344,8 @@ public class Main {
                                             System.out.println("    No Rek      : " + nomorRekeningTujuan);
                                             System.out.println("    Jumlah      : Rp.  " + jumlahTransfer);
                                             System.out.println("    Sisa Saldo  : Rp. " + sampleSaldo + "  ");
-                                            System.out.println("|                                             |");
                                             System.out.println("-----------------------------------------------");
-                                            System.out.println("|       1. Kembali             2. Keluar      |");
-                                            System.out.println("-----------------------------------------------");
-                                            int pilihanSelesai3;
-                                            do {
-                                                System.out.print("Masukkan Pilihan (1 or 2): ");
-                                                pilihanSelesai3 = input.nextInt();
-                                                input.nextLine(); // Consume the newline character
-                                            } while (pilihanSelesai3 != 1 && pilihanSelesai3 != 2);
-
-                                            if (pilihanSelesai3 == 2) {
-                                                System.out.println("-----------------------------------------------");
-                                                System.out.println("|       Terima kasih telah menggunakan ATM.   |");
-                                                System.out.println("|               Selamat tinggal!              |");
-                                                System.out.println("-----------------------------------------------");
-                                                System.exit(0);
-                                            }
-                                            // } else {
-                                            // System.out.println("Transaksi gagal, minimal transaksi 50000");
-                                            // }
+                                            kembaliAtauKeluar(input);
                                         } else {
                                             System.out.println("-----------------------------------------------");
                                             System.out.println("|             !! TRANSAKSI GAGAL !!           |");
@@ -453,13 +396,8 @@ public class Main {
                                 System.out.println("  Nama Pemilik VA: " + namaPemilikVA);
                                 System.out.println("  Pembayaran VA sebesar: Rp " + jumlahPembayaran);
                                 System.out.println("-----------------------------------");
-                                System.out.println("| Keterangan :                    |");
-                                System.out.println("| - Jika benar ketik 'y'          |");
-                                System.out.println("| - Jika salah klik 'n'           |");
-                                System.out.println("-----------------------------------");
-
-                                char respon = input.next().charAt(0);
-                                switch (respon) {
+                                char responsVa = konfirmasi(input);
+                                switch (responsVa) {
                                     case 'y':
 
                                         // konfirmasi pin
@@ -485,6 +423,7 @@ public class Main {
                                                 System.out.println("  Pembayaran VA : Rp " + jumlahPembayaran);
                                                 System.out.println("  Sisa saldo    : Rp " + sampleSaldo);
                                                 System.out.println("---------------------------------------------------------------");
+                                                kembaliAtauKeluar(input);
                                             } else {
                                                 System.out.println("-----------------------------------------------");
                                                 System.out.println("|             !! TRANSAKSI GAGAL !!           |");
@@ -554,15 +493,10 @@ public class Main {
                             System.out.println("-----------------------------------------------");
                             System.out.println("    kepada  : Dompet" + donationOptions[pilihanSedekah - 1] + "");
                             System.out.println("    Sebesar : Rp. " + inputSedekah + "  \t\t  ");
-
-                            System.out.println("-----------------------------------------------");
-                            System.out.println("| Keterangan :                                |");
-                            System.out.println("| - Jika benar ketik 'y'                      |");
-                            System.out.println("| - Jika salah klik 'n'                       |");
                             System.out.println("-----------------------------------------------");
 
-                            char responSedekah = input.next().charAt(0);
-                            if (responSedekah == 'y') {
+                            char responsSedekah = konfirmasi(input);
+                            if (responsSedekah == 'y') {
 
                                 // konfirmasi pin
                                 System.out.println("Masukkan konfirmasi pin anda");
@@ -580,22 +514,7 @@ public class Main {
                                         System.out.println("    Sebesar Rp " + inputSedekah);
                                         System.out.println("    Sisa saldo anda Rp " + sampleSaldo);
                                         System.out.println("-----------------------------------------------");
-                                        System.out.println("|       1. Kembali             2. Keluar      |");
-                                        System.out.println("-----------------------------------------------");
-                                        int pilihanSelesai5;
-                                        do {
-                                            System.out.print("Masukkan Pilihan (1 atau 2): ");
-                                            pilihanSelesai5 = input.nextInt();
-                                            input.nextLine(); // Consume the newline character
-                                        } while (pilihanSelesai5 != 1 && pilihanSelesai5 != 2);
-
-                                        if (pilihanSelesai5 == 2) {
-                                            System.out.println("-----------------------------------------------");
-                                            System.out.println("|       Terima kasih telah menggunakan ATM.   |");
-                                            System.out.println("|               Selamat tinggal!              |");
-                                            System.out.println("-----------------------------------------------");
-                                            System.exit(0);
-                                        }
+                                        kembaliAtauKeluar(input);
                                     } else {
                                         System.out.println("-----------------------------------------------");
                                         System.out.println("|             !! TRANSAKSI GAGAL !!           |");
@@ -610,209 +529,41 @@ public class Main {
                                     System.out.println("|          Pin yang anda masukkan salah       |");
                                     System.out.println("-----------------------------------------------");
                                 }
-                            } else if (responSedekah == 'n') {
-                                // kembali ke menu sedekah
+                            } else {
                                 continue;
                             }
                             break;
                         case 6:
                             // Info Kurs
-                            double kursBeliUSD = 15000;
-                            double kursJualUSD = 15000;
-                            System.out.println("--------------------------------- ");
-                            System.out.println("|            INFO KURS           |");
-                            System.out.println("--------------------------------- ");
-                            System.out.println("   => USD");
-                            System.out.println("   Beli : " + kursBeliUSD);
-                            System.out.println("   Jual : " + kursJualUSD);
-
-                            System.out.println("\nApakah ingin konversi KURS (y/n)?");
-                            char konversiKurs = input.next().charAt(0);
-                            if (konversiKurs == 'y') {
-                                System.out.println("Masukkan jumlah(Rupiah) yang ingin dikonversi ke USD");
-                                System.out.print("Masukkan jumlah Rupiah: Rp ");
-                                int inputKurs = input.nextInt();
-                                System.out.println("1. Beli : " + inputKurs / kursBeliUSD);
-                                System.out.println("2. Jual : " + inputKurs / kursJualUSD);
-                            }
-
-                            System.out.println("\n---------------------------------");
-                            System.out.println("|   1. Kembali    2. Keluar      |");
-                            System.out.println("--------------------------------- ");
-
-                            int pilihanSelesai6;
-                            do {
-                                System.out.print("Masukkan Pilihan (1 atau 2): ");
-                                pilihanSelesai6 = input.nextInt();
-                                input.nextLine(); // Consume the newline character
-                            } while (pilihanSelesai6 != 1 && pilihanSelesai6 != 2);
-
-                            if (pilihanSelesai6 == 2) {
-                                System.out.println("-----------------------------------------------");
-                                System.out.println("|       Terima kasih telah menggunakan ATM.   |");
-                                System.out.println("|               Selamat tinggal!              |");
-                                System.out.println("-----------------------------------------------");
-                                System.exit(0);
-                            }
+                            tampilKurs();
+                            kembaliAtauKeluar(input);
                             break;
                         case 7:
-                            // Get the number of snapshots stored
-                            int numSnapshots = currentSnapshot;
+                            // ambil array Riwayat
 
-                            System.out.println("Transaction History: " + numSnapshots);
-                            // Print all snapshots
-                            System.out.println("History:");
-                            for (int i = 0; i < currentSnapshot; i++) {
-                                System.out.println(history[i][0] + " : " + history[i][1]);
-                            }
-                            System.out.println("\n---------------------------------");
-                            System.out.println("|   1. Kembali    2. Keluar      |");
-                            System.out.println("--------------------------------- ");
-
-                            int pilihanSelesai7;
-                            do {
-                                System.out.print("Masukkan Pilihan (1 atau 2): ");
-                                pilihanSelesai7 = input.nextInt();
-                                input.nextLine(); // Consume the newline character
-                            } while (pilihanSelesai7 != 1 && pilihanSelesai7 != 2);
-
-                            if (pilihanSelesai7 == 2) {
-                                System.out.println("-----------------------------------------------");
-                                System.out.println("|       Terima kasih telah menggunakan ATM.   |");
-                                System.out.println("|               Selamat tinggal!              |");
-                                System.out.println("-----------------------------------------------");
-                                System.exit(0);
-                            }
+                            tampilRiwayat();
+                            kembaliAtauKeluar(input);
                             break;
                         case 8:
                             // CEK SALDO
                             System.out.println("-----------------------------------------------");
                             System.out.println("|                 INFO SALDO                  |");
-                            System.out.println("|                                             |");
-                            System.out.println("       SALDO ANDA SEBESAR : Rp " + sampleSaldo + "     ");
-                            System.out.println("|                                             |");
-                            System.out.println("|       1. Kembali             2. Keluar      |");
+                            System.out.println("   Nama        : " + sampleUsername );
+                            System.out.println("   Saldo akhir : Rp " + sampleSaldo );
                             System.out.println("-----------------------------------------------");
-                            int pilihanSelesai8;
-                            do {
-                                System.out.print("Masukkan Pilihan (1 atau 2): ");
-                                pilihanSelesai8 = input.nextInt();
-                                input.nextLine(); // Consume the newline character
-                            } while (pilihanSelesai8 != 1 && pilihanSelesai8 != 2);
-
-                            if (pilihanSelesai8 == 2) {
-                                System.out.println("-----------------------------------------------");
-                                System.out.println("|       Terima kasih telah menggunakan ATM.   |");
-                                System.out.println("|               Selamat tinggal!              |");
-                                System.out.println("-----------------------------------------------");
-                                System.exit(0);
-                            }
+                            kembaliAtauKeluar(input);
                             break;
 
                         case 9:
                             // UBAH PIN
-                            System.out.println("-----------------------------------------------");
-                            System.out.println("|                 UBAH PIN                    |");
-                            System.out.println("-----------------------------------------------");
-                            System.out.print("Masukkan PIN Anda saat ini: ");
-                            int pinSekarang = input.nextInt();
+                            tampilUbahPin();
+                            kembaliAtauKeluar(input);
 
-                            if (pinSekarang != samplePin) {
-                                System.out.println("-----------------------------------------------");
-                                System.out.println("|                 !! WARNING !!               |");
-                                System.out.println("|        PIN tidak valid. Akses ditolak.      |");
-                                System.out.println("-----------------------------------------------");
-                                continue;
-                            }
-
-                            System.out.print("Masukkan PIN Baru Anda : ");
-                            int pinBaru = input.nextInt();
-                            System.out.print("Konfirmasi PIN Baru: ");
-                            int confirmPin = input.nextInt();
-
-                            if (pinBaru != confirmPin) {
-                                System.out.println("------------------------------------------------");
-                                System.out.println("|                 !! WARNING !!                |");
-                                System.out.println("|              Perubahan PIN gagal             |");
-                                System.out.println("|    Pin baru dan Konfirmasi pin tidak cocok.  |");
-                                System.out.println("------------------------------------------------");
-
-                            } else {
-                                samplePin = pinBaru; // Update the PIN
-                                System.out.println("Perubahan PIN Berhasil.");
-
-                                System.out.println("\n Apakah anda ingin kembali ke menu atau exit");
-                                System.out.println("1. Kembali ke halaman Menu");
-                                System.out.println("2. Exit");
-
-                                int pilihanSelesai9;
-                                do {
-                                    System.out.print("Masukkan Pilihan (1 atau 2): ");
-                                    pilihanSelesai9 = input.nextInt();
-                                    input.nextLine(); // Consume the newline character
-                                } while (pilihanSelesai9 != 1 && pilihanSelesai9 != 2);
-
-                                if (pilihanSelesai9 == 2) {
-                                    System.out.println("-----------------------------------------------");
-                                    System.out.println("|       Terima kasih telah menggunakan ATM.   |");
-                                    System.out.println("|               Selamat tinggal!              |");
-                                    System.out.println("-----------------------------------------------");
-                                    System.exit(0);
-                                }
-                            }
                             break;
                         case 10:
                             // Help
-                            System.out.println(
-                                    "=========================================================================================");
-                            System.out.println(
-                                    "|                                        HELP                                           |");
-                            System.out.println(
-                                    "=========================================================================================");
-                            System.out.println(
-                                    "| - Gunakan Menu ke-1 jika anda ingin melakukan penarikan saldo                         |");
-                            System.out.println(
-                                    "| - Gunakan Menu ke-2 jika anda ingin mengisi saldo                                     |");
-                            System.out.println(
-                                    "| - Gunakan Menu ke-3 jika anda ingin melakukakan transfer sesama/berbeda nasabah       |");
-                            System.out.println(
-                                    "| - Gunakan Menu ke-4 jika anda ingin melakukan pembayaran melalui Virtual Account (VA) |");
-                            System.out.println(
-                                    "| - Gunakan Menu ke-5 jika anda ingin melakukan sedekah pada platform yang tersedia     |");
-                            System.out.println(
-                                    "| - Gunakan Menu ke-6 jika anda ingin melihat nilai tukar mata uang                     |");
-                            System.out.println(
-                                    "| - Gunakan Menu ke-7 jika ingin melihat riwayat transaksi anda                         |");
-                            System.out.println(
-                                    "| - Gunakan Menu ke-8 jika anda ingin melihat jumlah saldo yang tersedia                |");
-                            System.out.println(
-                                    "| - Gunakan Menu ke-9 jika ingin mengubah pin anda                                      |");
-                            System.out.println(
-                                    "| - Untuk tarik dan setor tunai, minimal transaksi sebesar Rp.50000                     |");
-                            System.out.println(
-                                    "| - Jika terdapat masalah pada mesin ATM hubungi admin (085105120605)                   |");
-                            System.out.println(
-                                    "|                                                                                       |");
-                            System.out.println(
-                                    "-----------------------------------------------------------------------------------------");
-                            System.out.println(
-                                    "|                  1. Kembali                               2. Keluar                   |");
-                            System.out.println(
-                                    "-----------------------------------------------------------------------------------------");
-                            int pilihanSelesai10;
-                            do {
-                                System.out.print("Masukkan Pilihan (1 atau 2): ");
-                                pilihanSelesai10 = input.nextInt();
-                                input.nextLine(); // Consume the newline character
-                            } while (pilihanSelesai10 != 1 && pilihanSelesai10 != 2);
-
-                            if (pilihanSelesai10 == 2) {
-                                System.out.println("-----------------------------------------------");
-                                System.out.println("|       Terima kasih telah menggunakan ATM.   |");
-                                System.out.println("|               Selamat tinggal!              |");
-                                System.out.println("-----------------------------------------------");
-                                System.exit(0);
-                            }
+                            tampilHelp();
+                            kembaliAtauKeluar(input);
                             break;
                         default:
                             System.out.println("Pilihan Menu tidak tersedia");
@@ -835,5 +586,128 @@ public class Main {
             }
         }
         System.out.println("Anda telah melampaui upaya login maksimum. Akun Anda terkunci. Hubungi Admin");
+    }
+
+    // Function tampilKurs
+    private static void tampilKurs(){
+        System.out.println("--------------------------------- ");
+        System.out.println("|            INFO KURS           |");
+        System.out.println("--------------------------------- ");
+        System.out.println("   => USD");
+        System.out.println("   Beli : " + kursBeliUSD);
+        System.out.println("   Jual : " + kursJualUSD);
+
+        System.out.println("\nApakah ingin konversi KURS (y/n)?");
+        char konversiKurs = input.next().charAt(0);
+        if (konversiKurs == 'y') {
+            KonversiKurs(kursBeliUSD, kursJualUSD);
+        }
+    }
+
+    // Fuction tampilRiwayat
+    private static void tampilRiwayat(){
+        System.out.println("Transaction History: " + currentSnapshot);
+        // Print all snapshots
+        System.out.println("History:");
+        for (int i = 0; i < currentSnapshot; i++) {
+            System.out.println(history[i][0] + " : " + history[i][1]);
+        }
+    }
+
+    // Function tampilhelp
+    private static void tampilHelp(){
+        System.out.println("=========================================================================================");
+        System.out.println("|                                        HELP                                           |");
+        System.out.println("=========================================================================================");
+        System.out.println("| - Gunakan Menu ke-1 jika anda ingin melakukan penarikan saldo                         |");
+        System.out.println("| - Gunakan Menu ke-2 jika anda ingin mengisi saldo                                     |");
+        System.out.println("| - Gunakan Menu ke-3 jika anda ingin melakukakan transfer sesama/berbeda nasabah       |");
+        System.out.println("| - Gunakan Menu ke-4 jika anda ingin melakukan pembayaran melalui Virtual Account (VA) |");
+        System.out.println("| - Gunakan Menu ke-5 jika anda ingin melakukan sedekah pada platform yang tersedia     |");
+        System.out.println("| - Gunakan Menu ke-6 jika anda ingin melihat nilai tukar mata uang                     |");
+        System.out.println("| - Gunakan Menu ke-7 jika ingin melihat riwayat transaksi anda                         |");
+        System.out.println("| - Gunakan Menu ke-8 jika anda ingin melihat jumlah saldo yang tersedia                |");
+        System.out.println("| - Gunakan Menu ke-9 jika ingin mengubah pin anda                                      |");
+        System.out.println("| - Untuk tarik dan setor tunai, minimal transaksi sebesar Rp.50000                     |");
+        System.out.println("| - Jika terdapat masalah pada mesin ATM hubungi admin (085105120605)                   |");
+        System.out.println("-----------------------------------------------------------------------------------------");
+    }
+
+    // Function tampilUbahPin
+    private static void tampilUbahPin() {
+        System.out.println("-----------------------------------------------");
+        System.out.println("|                 UBAH PIN                    |");
+        System.out.println("-----------------------------------------------");
+        System.out.print("Masukkan PIN Anda saat ini: ");
+        int pinSekarang = input.nextInt();
+
+        if (pinSekarang != samplePin) {
+            System.out.println("-----------------------------------------------");
+            System.out.println("|                 !! WARNING !!               |");
+            System.out.println("|        PIN tidak valid. Akses ditolak.      |");
+            System.out.println("-----------------------------------------------");
+            return;
+        }
+
+        System.out.print("Masukkan PIN Baru Anda : ");
+        int pinBaru = input.nextInt();
+        System.out.print("Konfirmasi PIN Baru: ");
+        int confirmPin = input.nextInt();
+
+        if (pinBaru != confirmPin) {
+            System.out.println("------------------------------------------------");
+            System.out.println("|                 !! WARNING !!                |");
+            System.out.println("|              Perubahan PIN gagal             |");
+            System.out.println("|    Pin baru dan Konfirmasi pin tidak cocok.  |");
+            System.out.println("------------------------------------------------");
+
+        } else {
+            samplePin = pinBaru; // Update the PIN
+            System.out.println("--------------------------------- ");
+            System.out.println("|     Perubahan PIN Berhasil     |");
+            System.out.println("--------------------------------- ");
+        }
+    }
+
+    // Function Konfirmasi
+    private static char konfirmasi(Scanner input) {
+        System.out.println("-----------------------------------------------");
+        System.out.println("| Keterangan :                                |");
+        System.out.println("| - Jika benar ketik 'y'                      |");
+        System.out.println("| - Jika salah ketik 'n'                      |");
+        System.out.println("-----------------------------------------------");
+    
+        return input.next().charAt(0);
+    }
+
+    // Function pilihan kembali atau keluar
+    private static void kembaliAtauKeluar(Scanner input) {
+        System.out.println("\n---------------------------------");
+        System.out.println("|   1. Kembali    2. Keluar      |");
+        System.out.println("--------------------------------- ");
+
+        int pilihan;
+        do {
+            System.out.print("Masukkan Pilihan (1 atau 2): ");
+            pilihan = input.nextInt();
+            input.nextLine(); // Consume the newline character
+        } while (pilihan != 1 && pilihan != 2);
+
+        if (pilihan == 2) {
+            System.out.println("-----------------------------------------------");
+            System.out.println("|       Terima kasih telah menggunakan ATM.   |");
+            System.out.println("|               Selamat tinggal!              |");
+            System.out.println("-----------------------------------------------");
+            System.exit(0);
+        }
+    }
+
+    // Function KonversiKURS
+    private static void KonversiKurs(double kursBeliUSD, double kursJualUSD) {
+        System.out.println("Masukkan jumlah(Rupiah) yang ingin dikonversi ke USD");
+        System.out.print("Masukkan jumlah Rupiah: Rp ");
+        int inputKurs = input.nextInt();
+        System.out.println("1. Beli : " + inputKurs / kursBeliUSD);
+        System.out.println("2. Jual : " + inputKurs / kursJualUSD);
     }
 }
