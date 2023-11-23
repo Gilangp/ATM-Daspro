@@ -59,7 +59,7 @@ import java.util.Scanner;
 
 public class Main {
 
-    // static String[][] dataAccount = {
+    // static String[][] dataAccountz = {
     //     {"Fajar", "admin","123456", "123"},
     //     {"Yefta", "user", "789012", "456", "5000000", "BRI"},
     //     {"Gipal", "user", "345678", "789", "2500000", "BCA"},
@@ -67,7 +67,7 @@ public class Main {
 
     // static boolean[] menuAktif = {true, true, true, true, true, true, true, true, true, true};
     // static Scanner sc = new Scanner(System.in);
-
+z
     // public static void main(String[] args) {
     //     int maxAttempts = 3;
     //     boolean isLoginIn = false;
@@ -86,7 +86,7 @@ public class Main {
 
     //         if (accountIndex != -1) {
     //             isLoginIn = true;
-    //             String accountType = dataAccount[accountIndex][1];
+    //             String accountType = dataAccountz[accountIndex][1];
                     
     //                 if (accountType.equals("admin")) {
     //                     showAdminMenu(accountIndex);
@@ -112,8 +112,8 @@ public class Main {
     //     sc.close();
     // }
     // static int findAccount(String accountNumber, String pin) {
-    //     for ( int i = 0; i < dataAccount.length; i++) {
-    //         if (dataAccount[i][2].equals(accountNumber) && dataAccount[i][3].equals(pin)){
+    //     for ( int i = 0; i < dataAccountz.length; i++) {
+    //         if (dataAccountz[i][2].equals(accountNumber) && dataAccountz[i][3].equals(pin)){
     //             return i;
     //         }
     //     }
