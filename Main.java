@@ -53,9 +53,72 @@
 // System.out.println("|          Pin yang anda masukkan salah       |");
 // System.out.println("-----------------------------------------------");
 
+
+
 import java.util.Scanner;
 
 public class Main {
+
+    // static String[][] dataAccount = {
+    //     {"Fajar", "admin","123456", "123"},
+    //     {"Yefta", "user", "789012", "456", "5000000", "BRI"},
+    //     {"Gipal", "user", "345678", "789", "2500000", "BCA"},
+    // };
+
+    // static boolean[] menuAktif = {true, true, true, true, true, true, true, true, true, true};
+    // static Scanner sc = new Scanner(System.in);
+
+    // public static void main(String[] args) {
+    //     int maxAttempts = 3;
+    //     boolean isLoginIn = false;
+
+    //     while (maxAttempts > 0 && !isLoginIn) {
+    //         System.out.println("-----------------------------------------------");
+    //         System.out.println("|             SELAMAT DATANG di ATM           |");
+    //         System.out.println("|                 SILAHKAN LOGIN              |");
+    //         System.out.println("-----------------------------------------------");
+    //         System.out.print("Masukkan Nomor Rekening anda : ");
+    //         String noRek = sc.nextLine();
+    //         System.out.print("Masukkan Pin : ");
+    //         String inputPin = sc.nextLine();
+
+    //         int accountIndex = findAccount(noRek, inputPin);
+
+    //         if (accountIndex != -1) {
+    //             isLoginIn = true;
+    //             String accountType = dataAccount[accountIndex][1];
+                    
+    //                 if (accountType.equals("admin")) {
+    //                     showAdminMenu(accountIndex);
+    //                 } else if (accountType.equals("user")) {
+    //                     showUserMenu(accountIndex);
+    //                 }
+    //                 break; // Keluar loop setelah login berhasi
+                
+    //             } else {
+    //             maxAttempts--;
+    //             if (maxAttempts > 0) {
+    //                 // Jika login gagal
+    //                 System.out.println("-----------------------------------------------");
+    //                 System.out.println("|              !! LOGIN GAGAL !!              |");
+    //                 System.out.println("|   USERNAME / PIN YANG ANDA MASUKKAN SALAH   |");
+    //                 System.out.println("|           Anda memiliki " + maxAttempts + " kesempatan lagi |");
+    //                 System.out.println("-----------------------------------------------");
+    //             } else {
+    //                 System.out.println("Anda telah melewati batas percobaan login. Akun Anda terkunci. Hubungi Admin.");
+    //             }
+    //         }
+    //     }
+    //     sc.close();
+    // }
+    // static int findAccount(String accountNumber, String pin) {
+    //     for ( int i = 0; i < dataAccount.length; i++) {
+    //         if (dataAccount[i][2].equals(accountNumber) && dataAccount[i][3].equals(pin)){
+    //             return i;
+    //         }
+    //     }
+    //     return -1;
+    // }
 
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in); // Define and initialize the scanner
