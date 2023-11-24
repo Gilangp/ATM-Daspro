@@ -116,14 +116,21 @@ public class Main {
                     System.out.println("-----------------------------------------------");
                     System.out.println("|              !! LOGIN GAGAL !!              |");
                     System.out.println("|                                             |");
-                    System.out.println("|   USERNAME / PIN YANG ANDA MASUKKAN SALAH   |");
+                    System.out.println("|    NO REK / PIN YANG ANDA MASUKKAN SALAH    |");
                     System.out.println("|                                             |");
                     System.out.println("|     Sisa percobaan kurang " + maxAttempts + " kali lagi\t      |");
                     System.out.println("|        NB : Maksimal percobaan 3 kali       |");
                     System.out.println("-----------------------------------------------");
                 } else {
-                    dataAccount[indexAkun][6] = "Blocked";
-                    System.out.println("Anda telah melampaui upaya login maksimum. Akun Anda terkunci. Hubungi Admin");
+                    System.out.println("Anda telah melampaui upaya login maksimum. Hubungi Admin");
+                    System.out.println("-----------------------------------------------");
+                    System.out.println("|              !! LOGIN GAGAL !!              |");
+                    System.out.println("|                                             |");
+                    System.out.println("|    NO REK / PIN YANG ANDA MASUKKAN SALAH    |");
+                    System.out.println("|                                             |");
+                    System.out.println("|  Anda telah melampaui upaya login maksimum  |");
+                    System.out.println("|               Hubungi Admin                 |");
+                    System.out.println("-----------------------------------------------");
                 }
             }
         }
@@ -266,29 +273,29 @@ public class Main {
     static void hapusSedekah() {
         System.out.println("Hapus Sedekah");
 
-    // Menampilkan sedekah yang dapat dihapus
-    tampilOpsi(donationOptions, nextIndex, "Sedekah yang dapat dihapus");
+        // Menampilkan sedekah yang dapat dihapus
+        tampilOpsi(donationOptions, nextIndex, "Sedekah yang dapat dihapus");
 
-    // Memilih sedekah yang akan dihapus
-    System.out.print("Masukkan nomor sedekah yang akan dihapus: ");
-    int indexSedekah = input.nextInt();
+        // Memilih sedekah yang akan dihapus
+        System.out.print("Masukkan nomor sedekah yang akan dihapus: ");
+        int indexSedekah = input.nextInt();
 
-    // Memastikan nomor sedekah berada dalam batas yang benar
-    if (indexSedekah >= 1 && indexSedekah <= nextIndex) {
-        // Menghapus nilai pada indeks yang dipilih
-        for (int i = indexSedekah - 1; i < nextIndex - 1; i++) {
-            donationOptions[i] = donationOptions[i + 1];
+        // Memastikan nomor sedekah berada dalam batas yang benar
+        if (indexSedekah >= 1 && indexSedekah <= nextIndex) {
+            // Menghapus nilai pada indeks yang dipilih
+            for (int i = indexSedekah - 1; i < nextIndex - 1; i++) {
+                donationOptions[i] = donationOptions[i + 1];
+            }
+
+            // Menampilkan pesan sukses
+            System.out.println("Sedekah berhasil dihapus.");
+
+            // Mengurangi indeks berikutnya
+            nextIndex--;
+
+        } else {
+            System.out.println("Nomor sedekah tidak valid.");
         }
-
-        // Menampilkan pesan sukses
-        System.out.println("Sedekah berhasil dihapus.");
-
-        // Mengurangi indeks berikutnya
-        nextIndex--;
-
-    } else {
-        System.out.println("Nomor sedekah tidak valid.");
-    }
     }
 
     // Function tampilUserMenu
