@@ -62,9 +62,13 @@ public class Main {
     private static double kursBeliUSD = 15000;
     private static double kursJualUSD = 15000;
     private static String[][] dataAccount = {
-            { "Fajar", "admin", "123456", "123" },
-            { "Yefta", "user", "1234", "456", "5000000", "BRI" },
-            { "Gipal", "user", "345678", "789", "2500000", "BCA" },
+            { "Fajar", "admin", "11223344", "11223344" },
+            { "Yefta", "user", "1234", "123", "1000000", "BRI" },
+            { "Gopal", "user", "4567", "456", "500000", "BCA" },
+            { "Gilang", "user", "7890", "789", "250000", "BNI" },
+            { "Prabowo", "user", "1212", "121", "150000", "Mandiri" },
+            { "Jokowi", "user", "1313", "131", "550000", "CIMB" },
+            { "Jackie Chan", "user", "1414", "141", "150000", "BCA" },
     };
 
     static boolean[] menuAktif = { true, true, true, true, true, true, true, true, true, true };
@@ -296,20 +300,22 @@ public class Main {
                     }
                     break;
                 case 3:
-                    // Transfer
-                    // String[][] dataAccount = {
-                    //         { "Fajar", "123456", "BCA" },
-                    //         { "Yefta", "789012", "BRI" },
-                    //         { "Gopal", "345678", "BNI" }
-                    // };
-
                     String[][] dataBank = {
                             { "123", "BCA" },
                             { "456", "BRI" },
-                            { "234", "BNI" }
+                            { "234", "BNI" },
+                            { "567", "Mandiri"},
+                            { "789", "CIMB"}
                     };
-
-                    System.out.print("Masukkan nomor kode bank tujuan anda: ");
+                    
+                    System.out.println("-----------------------------------------------");
+                    System.out.println("|              KODE BANK TUJUAN               |");
+                    System.out.println("-----------------------------------------------");
+                    for (int i = 0; i < dataBank.length; i++) {
+                    System.out.println((i + 1) + ". " + dataBank[i][1] + " (" + dataBank[i][0] + ")");
+                    }
+                    System.out.println("-----------------------------------------------");
+                    System.out.println("Masukkan nomor kode bank tujuan anda: ");
                     String kodeBankTujuan = input.next();
                     String namaBank = "";
                     int indexKodeBank = -1;
@@ -341,8 +347,10 @@ public class Main {
 
                     // Mencari nomor rekening tujuan di dalam array
                     for (int i = 0; i < dataAccount.length; i++) {
-                        if (dataAccount[i][1].equals(nomorRekeningTujuan)
-                                && dataAccount[i][2].equals(namaBank)) {
+                        if (dataAccount[i][1].equals("user")  // Hanya mencari akun user
+                                && !dataAccount[i][0].equals(dataAccount[indexAkun][0])  // Bukan rekening sendiri
+                                && dataAccount[i][2].equals(nomorRekeningTujuan)
+                                && dataAccount[i][5].equals(namaBank)) {
                             indexRekeningTujuan = i;
                             break;
                         }
@@ -352,7 +360,7 @@ public class Main {
                         System.out.println("-----------------------------------------------");
                         System.out.println("|             !! TRANSAKSI GAGAL !!           |");
                         System.out.println("|                                             |");
-                        System.out.println("|        Nomor rekening tidak ditemukan       |");
+                        System.out.println("|           Nomor rekening tidak valid        |");
                         System.out.println("-----------------------------------------------");
                         break; // Hentikan eksekusi transfer karena nomor rekening tidak valid
                     }
