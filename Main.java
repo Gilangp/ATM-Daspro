@@ -71,6 +71,10 @@ public class Main {
             { "Jackie Chan", "user", "1414", "141", "150000", "BCA", "Active" },
     };
 
+    static String[] donationOptions = {
+                "BAZNAS", "KPRB", "Dompet DHUAFA", "DigiZakat", "LAMZIZ"
+        };
+
     static boolean[] menuAktif = { true, true, true, true, true, true, true, true, true, true };
     static Scanner sc = new Scanner(System.in);
 
@@ -202,13 +206,13 @@ public class Main {
                     char responsTarik = konfirmasi(input);
                     switch (responsTarik) {
                         case 'y':
-                        System.out.println("Masukkan konfirmasi pin anda");
-                        int inputPin = input.nextInt();
-                    
-                        if (isPinValid(inputPin, indexAkun)) {
+                            System.out.println("Masukkan konfirmasi pin anda");
+                            int inputPin = input.nextInt();
+
+                            if (isPinValid(inputPin, indexAkun)) {
                                 if (tarikTunai < sampleSaldo) {
                                     if (tarikTunai >= 50000) {
-                                        
+
                                         sampleSaldo -= tarikTunai; // sampleSaldo = sampleSaldo - masukan
                                         dataAccount[indexAkun][4] = String.valueOf(sampleSaldo);
 
@@ -268,7 +272,7 @@ public class Main {
                             // konfirmasi pin
                             System.out.println("Masukkan konfirmasi pin anda");
                             int inputPin = input.nextInt();
-                        
+
                             if (isPinValid(inputPin, indexAkun)) {
                                 if (inputSetor >= 50000) {
                                     sampleSaldo += inputSetor;
@@ -309,15 +313,15 @@ public class Main {
                             { "123", "BCA" },
                             { "456", "BRI" },
                             { "234", "BNI" },
-                            { "567", "Mandiri"},
-                            { "789", "CIMB"}
+                            { "567", "Mandiri" },
+                            { "789", "CIMB" }
                     };
-                    
+
                     System.out.println("-----------------------------------------------");
                     System.out.println("|              KODE BANK TUJUAN               |");
                     System.out.println("-----------------------------------------------");
                     for (int i = 0; i < dataBank.length; i++) {
-                    System.out.println((i + 1) + ". " + dataBank[i][1] + " (" + dataBank[i][0] + ")");
+                        System.out.println((i + 1) + ". " + dataBank[i][1] + " (" + dataBank[i][0] + ")");
                     }
                     System.out.println("-----------------------------------------------");
                     System.out.println("Masukkan nomor kode bank tujuan anda: ");
@@ -352,8 +356,8 @@ public class Main {
 
                     // Mencari nomor rekening tujuan di dalam array
                     for (int i = 0; i < dataAccount.length; i++) {
-                        if (dataAccount[i][1].equals("user")  // Hanya mencari akun user
-                                && !dataAccount[i][0].equals(dataAccount[indexAkun][0])  // Bukan rekening sendiri
+                        if (dataAccount[i][1].equals("user") // Hanya mencari akun user
+                                && !dataAccount[i][0].equals(dataAccount[indexAkun][0]) // Bukan rekening sendiri
                                 && dataAccount[i][2].equals(nomorRekeningTujuan)
                                 && dataAccount[i][5].equals(namaBank)) {
                             indexRekeningTujuan = i;
@@ -401,7 +405,7 @@ public class Main {
                             // konfirmasi pin
                             System.out.println("Masukkan konfirmasi pin anda");
                             int inputPin = input.nextInt();
-                        
+
                             if (isPinValid(inputPin, indexAkun)) {
                                 // Code saldo tidak cukup
                                 if (sampleSaldo >= jumlahTransfer) {
@@ -481,7 +485,7 @@ public class Main {
                                 // konfirmasi pin
                                 System.out.println("Masukkan konfirmasi pin anda");
                                 int inputPin = input.nextInt();
-                            
+
                                 if (isPinValid(inputPin, indexAkun)) {
                                     // Ambil nominal pembayaran dari data VA
 
@@ -533,92 +537,8 @@ public class Main {
                     }
                     break;
                 case 5:
-                    // SEDEKAH
-                    System.out.println("-----------------------------------------------");
-                    System.out.println("|              SELAMAT BERSEDEKAH             |");
-                    System.out.println("|            Silahkan Pilih Sedekah           |");
-                    System.out.println("|                                             |");
-                    System.out.println("|   1. BAZNAS                 4. DigiZakat    |");
-                    System.out.println("|   2. KPRB                   5. LAMZIZ       |");
-                    System.out.println("|   3. Dompet DHUAFA                          |");
-                    System.out.println("-----------------------------------------------");
-
-                    String[] donationOptions = {
-                            "BAZNAS", "KPRB", "Dompet DHUAFA", "DigiZakat", "LAMZIZ"
-                    };
-
-                    System.out.println("Pilih sedekah");
-                    int pilihanSedekah = input.nextInt();
-
-                    if (pilihanSedekah < 1 || pilihanSedekah > donationOptions.length) {
-                        System.out.println("-----------------------------------------------");
-                        System.out.println("|                !! WARNING !!                |");
-                        System.out.println("|                                             |");
-                        System.out.println("|        Pilihan sedekah tidak tersedia       |");
-                        System.out.println("-----------------------------------------------");
-                        continue;
-                    }
-
-                    System.out.println("Masukkan sedekah yang ingin diberikan ");
-                    int inputSedekah = input.nextInt();
-                    if (inputSedekah <= 0) {
-                        System.out.println("-----------------------------------------------");
-                        System.out.println("|             !! TRANSAKSI GAGAL !!           |");
-                        System.out.println("|                                             |");
-                        System.out.println("|           JUMLAH SEDEKAH TIDAK VALID        |");
-                        System.out.println("|              MOHON TELITI KEMBALI           |");
-                        System.out.println("-----------------------------------------------");
-                        input.close();
-                        return;
-                    }
-                    // konfirmasi
-                    System.out.println("-----------------------------------------------");
-                    System.out.println("|   Konfirmasi Sedekah yang ingin diberikan   |");
-                    System.out.println("-----------------------------------------------");
-                    System.out.println("    kepada  : Dompet" + donationOptions[pilihanSedekah - 1] + "");
-                    System.out.println("    Sebesar : Rp. " + inputSedekah + "  \t\t  ");
-                    System.out.println("-----------------------------------------------");
-
-                    char responsSedekah = konfirmasi(input);
-                    if (responsSedekah == 'y') {
-
-                        // konfirmasi pin
-                        System.out.println("Masukkan konfirmasi pin anda");
-                        int inputPin = input.nextInt();
-                    
-                        if (isPinValid(inputPin, indexAkun)) {
-                            // Code saldo tidak cukup
-                            if (inputSedekah < sampleSaldo) {
-                                sampleSaldo -= inputSedekah;
-                                dataAccount[indexAkun][4] = String.valueOf(sampleSaldo);
-
-                                history[currentSnapshot] = new String[] { "Bersedekah", "-" + inputSedekah };
-                                currentSnapshot++;
-                                System.out.println("-----------------------------------------------");
-                                System.out.println("|                SEDEKAH BERHASIL             |");
-                                System.out.println("-----------------------------------------------");
-                                System.out.println("    kepada  : Dompet" + donationOptions[pilihanSedekah - 1] + "");
-                                System.out.println("    Sebesar Rp " + inputSedekah);
-                                System.out.println("    Sisa saldo anda Rp " + sampleSaldo);
-                                System.out.println("-----------------------------------------------");
-                                kembaliAtauKeluar(input);
-                            } else {
-                                System.out.println("-----------------------------------------------");
-                                System.out.println("|             !! TRANSAKSI GAGAL !!           |");
-                                System.out.println("|                                             |");
-                                System.out.println("|             Saldo anda tidak cukup          |");
-                                System.out.println("-----------------------------------------------");
-                            }
-                        } else {
-                            System.out.println("-----------------------------------------------");
-                            System.out.println("|             !! TRANSAKSI GAGAL !!           |");
-                            System.out.println("|                                             |");
-                            System.out.println("|          Pin yang anda masukkan salah       |");
-                            System.out.println("-----------------------------------------------");
-                        }
-                    } else {
-                        continue;
-                    }
+                    tampilSedekah(indexAkun, sampleSaldo);
+                    kembaliAtauKeluar(input);
                     break;
                 case 6:
                     // Info Kurs
@@ -633,11 +553,7 @@ public class Main {
                     break;
                 case 8:
                     // CEK SALDO
-                    System.out.println("-----------------------------------------------");
-                    System.out.println("|                  INFORMASI                  |");
-                    System.out.println("   Nama        : " + dataAccount[indexAkun][0]);
-                    System.out.println("   Saldo akhir : Rp " + sampleSaldo);
-                    System.out.println("-----------------------------------------------");
+                    tampilInformasi(indexAkun, sampleSaldo);
                     kembaliAtauKeluar(input);
                     break;
 
@@ -658,6 +574,90 @@ public class Main {
             }
         }
 
+    }
+
+    // Function tampilSedekah
+    static void tampilSedekah(int indexAkun, int sampleSaldo) {
+        // SEDEKAH
+        System.out.println("-----------------------------------------------");
+        System.out.println("|              SELAMAT BERSEDEKAH             |");
+        System.out.println("|            Silahkan Pilih Sedekah           |");
+        System.out.println("-----------------------------------------------");
+        for (int i = 0; i < donationOptions.length; i++) {
+            System.out.println( (i + 1) + ". " + donationOptions[i]);
+        }
+        System.out.println("-----------------------------------------------");
+
+        System.out.print("Pilih sedekah : ");
+        int pilihanSedekah = input.nextInt();
+
+        if (pilihanSedekah < 1 || pilihanSedekah > donationOptions.length) {
+            System.out.println("-----------------------------------------------");
+            System.out.println("|                !! WARNING !!                |");
+            System.out.println("|                                             |");
+            System.out.println("|        Pilihan sedekah tidak tersedia       |");
+            System.out.println("-----------------------------------------------");
+            return;
+        }
+
+        System.out.println("Masukkan sedekah yang ingin diberikan ");
+        int inputSedekah = input.nextInt();
+        if (inputSedekah <= 0) {
+            System.out.println("-----------------------------------------------");
+            System.out.println("|             !! TRANSAKSI GAGAL !!           |");
+            System.out.println("|                                             |");
+            System.out.println("|           JUMLAH SEDEKAH TIDAK VALID        |");
+            System.out.println("|              MOHON TELITI KEMBALI           |");
+            System.out.println("-----------------------------------------------");
+            input.close();
+            return;
+        }
+        // konfirmasi
+        System.out.println("-----------------------------------------------");
+        System.out.println("|   Konfirmasi Sedekah yang ingin diberikan   |");
+        System.out.println("-----------------------------------------------");
+        System.out.println("    kepada  : Dompet" + donationOptions[pilihanSedekah - 1] + "");
+        System.out.println("    Sebesar : Rp. " + inputSedekah + "  \t\t  ");
+        System.out.println("-----------------------------------------------");
+
+        char responsSedekah = konfirmasi(input);
+        if (responsSedekah == 'y') {
+
+            // konfirmasi pin
+            System.out.println("Masukkan konfirmasi pin anda");
+            int inputPin = input.nextInt();
+
+            if (isPinValid(inputPin, indexAkun)) {
+                // Code saldo tidak cukup
+                if (inputSedekah < sampleSaldo) {
+                    sampleSaldo -= inputSedekah;
+                    dataAccount[indexAkun][4] = String.valueOf(sampleSaldo);
+
+                    history[currentSnapshot] = new String[] { "Bersedekah", "-" + inputSedekah };
+                    currentSnapshot++;
+                    System.out.println("-----------------------------------------------");
+                    System.out.println("|                SEDEKAH BERHASIL             |");
+                    System.out.println("-----------------------------------------------");
+                    System.out.println("    kepada  : Dompet" + donationOptions[pilihanSedekah - 1] + "");
+                    System.out.println("    Sebesar Rp " + inputSedekah);
+                    System.out.println("    Sisa saldo anda Rp " + sampleSaldo);
+                    System.out.println("-----------------------------------------------");
+                    kembaliAtauKeluar(input);
+                } else {
+                    System.out.println("-----------------------------------------------");
+                    System.out.println("|             !! TRANSAKSI GAGAL !!           |");
+                    System.out.println("|                                             |");
+                    System.out.println("|             Saldo anda tidak cukup          |");
+                    System.out.println("-----------------------------------------------");
+                }
+            } else {
+                System.out.println("-----------------------------------------------");
+                System.out.println("|             !! TRANSAKSI GAGAL !!           |");
+                System.out.println("|                                             |");
+                System.out.println("|          Pin yang anda masukkan salah       |");
+                System.out.println("-----------------------------------------------");
+            }
+        }
     }
 
     // Function tampilKurs
@@ -705,6 +705,15 @@ public class Main {
         System.out.println("-----------------------------------------------------------------------------------------");
     }
 
+    // Function tampilInformasi
+    private static void tampilInformasi(int indexAkun, int sampleSaldo) {
+        System.out.println("-----------------------------------------------");
+        System.out.println("|                  INFORMASI                  |");
+        System.out.println("   Nama        : " + dataAccount[indexAkun][0]);
+        System.out.println("   Saldo akhir : Rp " + sampleSaldo);
+        System.out.println("-----------------------------------------------");
+    }
+
     // Function tampilUbahPin
     private static void tampilUbahPin(int indexAkun) {
         System.out.println("-----------------------------------------------");
@@ -713,7 +722,7 @@ public class Main {
         System.out.print("Masukkan PIN Anda saat ini: ");
 
         int inputPin = input.nextInt();
-    
+
         if (!isPinValid(inputPin, indexAkun)) {
             System.out.println("-----------------------------------------------");
             System.out.println("|                 !! WARNING !!               |");
@@ -780,7 +789,7 @@ public class Main {
         int actualPin = Integer.parseInt(dataAccount[accountIndex][3]);
         return enteredPin == actualPin;
     }
-    
+
     // Function KonversiKURS
     private static void KonversiKurs(double kursBeliUSD, double kursJualUSD) {
         System.out.println("Masukkan jumlah(Rupiah) yang ingin dikonversi ke USD");
