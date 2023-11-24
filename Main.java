@@ -58,10 +58,6 @@ import java.util.Scanner;
 public class Main {
 
     private static Scanner input = new Scanner(System.in); // Define and initialize the scanner object
-    // Sample account details for demonstration
-    private static String sampleUsername = "user123";
-    private static int samplePin = 1234;
-    private static int sampleSaldo = 100000;
 
     private static double kursBeliUSD = 15000;
     private static double kursJualUSD = 15000;
@@ -634,7 +630,7 @@ public class Main {
 
                 case 9:
                     // UBAH PIN
-                    tampilUbahPin();
+                    tampilUbahPin(indexAkun);
                     kembaliAtauKeluar(input);
 
                     break;
@@ -697,14 +693,15 @@ public class Main {
     }
 
     // Function tampilUbahPin
-    private static void tampilUbahPin() {
+    private static void tampilUbahPin(int indexAkun) {
         System.out.println("-----------------------------------------------");
         System.out.println("|                 UBAH PIN                    |");
         System.out.println("-----------------------------------------------");
         System.out.print("Masukkan PIN Anda saat ini: ");
-        int pinSekarang = input.nextInt();
 
-        if (pinSekarang != samplePin) {
+        int inputPin = input.nextInt();
+    
+        if (!isPinValid(inputPin, indexAkun)) {
             System.out.println("-----------------------------------------------");
             System.out.println("|                 !! WARNING !!               |");
             System.out.println("|        PIN tidak valid. Akses ditolak.      |");
@@ -725,7 +722,7 @@ public class Main {
             System.out.println("------------------------------------------------");
 
         } else {
-            samplePin = pinBaru; // Update the PIN
+            dataAccount[indexAkun][3] = String.valueOf(pinBaru);
             System.out.println("--------------------------------- ");
             System.out.println("|     Perubahan PIN Berhasil     |");
             System.out.println("--------------------------------- ");
