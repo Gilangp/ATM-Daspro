@@ -38,8 +38,6 @@ public class Main {
     static String[] donationOptions = new String[100];
     static int nextIndex = 5;
 
-    
-    
     static boolean[] menuAktif = { true, true, true, true, true, true, true, true, true, true };
 
     static String[][] history = new String[1000][2];
@@ -51,7 +49,7 @@ public class Main {
         donationOptions[4] = "LAMZIZ";
         // Add more values as needed
     }
-    
+
     static int currentSnapshot = 1;
 
     // public static void main(String[] args) {
@@ -70,8 +68,6 @@ public class Main {
     public static void main(String[] args) {
         // Menambah Riwayat pertama
         history[0] = new String[] { "Saldo awal", "100000" };
-        
-    
 
         // SELAMAT DATANG
         System.out.println("-----------------------------------------------");
@@ -183,7 +179,7 @@ public class Main {
 
     // Function 2. tampilInformasiSedekah
     static void tampilInformasiSedekah() {
-        tampilOpsi(donationOptions, nextIndex , "Macam - Macam Sedekah");
+        tampilOpsi(donationOptions, nextIndex, "Macam - Macam Sedekah");
         operasiAdmin("Sedekah");
         int operation = input.nextInt();
         switch (operation) {
@@ -196,8 +192,10 @@ public class Main {
             case 3:
                 hapusSedekah();
                 break;
+            case 4:
+                break;
             default:
-                alertTidakTersedia("Pilihan");
+                alertTidakTersedia("operasi");
                 break;
         }
     }
@@ -217,6 +215,7 @@ public class Main {
         System.out.println("1. Tambah " + nama);
         System.out.println("2. Edit " + nama);
         System.out.println("3. Hapus " + nama);
+        System.out.println("4. Lainnya");
     }
 
     static void tambahSedekah() {
@@ -227,31 +226,47 @@ public class Main {
         String namaSedekahBaru = input.next();
 
         // Menambahkan nilai baru pada indeks berikutnya
-    donationOptions[nextIndex] = namaSedekahBaru;
+        donationOptions[nextIndex] = namaSedekahBaru;
 
-    // Menampilkan pesan sukses
-    System.out.println("Sedekah " + namaSedekahBaru + " berhasil ditambahkan.");
+        // Menampilkan pesan sukses
+        System.out.println("Sedekah " + namaSedekahBaru + " berhasil ditambahkan.");
 
-    // Menambahkan indeks berikutnya
-    nextIndex++;
+        // Menambahkan indeks berikutnya
+        nextIndex++;
 
     }
 
     static void editSedekah() {
         System.out.println("Edit Sedekah");
-        System.out.println("Pilih jenis sedekah yang akan diubah:");
-        tampilOpsi(donationOptions, donationOptions.length,"Macam - Macam Sedekah");
-        int jenisSedekah = input.nextInt();
 
-        // Implementasi untuk mengedit sedekah
-        System.out.println("Sedekah " + donationOptions[jenisSedekah - 1] + " berhasil diubah.");
+        // Menampilkan sedekah yang dapat diedit
+        tampilOpsi(donationOptions, nextIndex, "Sedekah yang dapat diubah");
+
+        // Memilih sedekah yang akan diubah
+        System.out.print("Masukkan nomor sedekah yang akan diubah: ");
+        int indexSedekah = input.nextInt();
+
+        // Memastikan nomor sedekah berada dalam batas yang benar
+        if (indexSedekah >= 1 && indexSedekah <= nextIndex) {
+            System.out.println("Masukkan nama sedekah baru:");
+            String namaSedekahBaru = input.next();
+
+            // Mengubah nilai pada indeks yang dipilih
+            donationOptions[indexSedekah - 1] = namaSedekahBaru;
+
+            // Menampilkan pesan sukses
+            System.out.println("Sedekah berhasil diubah.");
+
+        } else {
+            alertInputTidakValid("Nomor sedekah");
+        }
 
     }
 
     static void hapusSedekah() {
         System.out.println("Hapus Sedekah");
         System.out.println("Pilih jenis sedekah yang akan dihapus:");
-        tampilOpsi(donationOptions, donationOptions.length,  "Macam - Macam Sedekah");
+        tampilOpsi(donationOptions, donationOptions.length, "Macam - Macam Sedekah");
         int jenisSedekah = input.nextInt();
 
         // Implementasi untuk menghapus sedekah
