@@ -3,56 +3,6 @@
  * Main
  */
 
-// TEMPLATE INFO
-
-// EXIT
-// System.out.println("-----------------------------------------------");
-// System.out.println("|       Terima kasih telah menggunakan ATM.   |");
-// System.out.println("|               Selamat tinggal!              |");
-// System.out.println("-----------------------------------------------");
-
-// TRANSAKSI BERHASIL
-// System.out.println("-----------------------------------------------");
-// System.out.println("|             TARIK TUNAI BERHASIL            |");
-// System.out.println("|                                             |");
-// System.out.println("|                 INFO SALDO                  |");
-// System.out.println("|    Saldo anda saat ini adalah Rp. 100000    |");
-// System.out.println("|                                             |");
-// System.out.println("|       1. Kembali             2. Keluar      |");
-// System.out.println("-----------------------------------------------");
-
-// KONFIRMASI
-// System.out.println("-----------------------------------------------");
-// System.out.println("|    Saldo yang ingin anda tarik sebesar      |");
-// System.out.println("|                Rp. 100000                   |");
-// System.out.println("|                                             |");
-// System.out.println("-----------------------------------------------");
-// System.out.println("| Keterangan :                                |");
-// System.out.println("| - Jika benar ketik 'y'                      |");
-// System.out.println("| - Jika salah klik 'n'                       |");
-// System.out.println("-----------------------------------------------");
-
-// MINIMAL TRANSAKSI
-// System.out.println("-----------------------------------------------");
-// System.out.println("|             !! TRANSAKSI GAGAL !!           |");
-// System.out.println("|                                             |");
-// System.out.println("|          Minimal transaksi Rp 50.000        |");
-// System.out.println("-----------------------------------------------");
-
-// SALDO TIDAK CUKUP
-// System.out.println("-----------------------------------------------");
-// System.out.println("|             !! TRANSAKSI GAGAL !!           |");
-// System.out.println("|                                             |");
-// System.out.println("|             Saldo anda tidak cukup          |");
-// System.out.println("-----------------------------------------------");
-
-// PIN SALAH
-// System.out.println("-----------------------------------------------");
-// System.out.println("|             !! TRANSAKSI GAGAL !!           |");
-// System.out.println("|                                             |");
-// System.out.println("|          Pin yang anda masukkan salah       |");
-// System.out.println("-----------------------------------------------");
-
 import java.util.Scanner;
 
 public class Main {
@@ -62,7 +12,7 @@ public class Main {
     static double kursBeliUSD = 15000;
     static double kursJualUSD = 15000;
     static String[][] dataAccount = {
-            { "Fajar", "admin", "11223344", "11223344" },
+            { "Fajar", "admin", "11223344", "1234" },
             { "Yefta", "user", "1234", "123", "1000000", "BRI", "Active" },
             { "Gopal", "user", "4567", "456", "500000", "BCA", "Active" },
             { "Gilang", "user", "7890", "789", "250000", "BNI", "Active" },
@@ -85,12 +35,24 @@ public class Main {
             { "789", "CIMB" }
     };
 
-    static String[] donationOptions = {
-            "BAZNAS", "KPRB", "Dompet DHUAFA", "DigiZakat", "LAMZIZ"
-    };
+    static String[] donationOptions = new String[100];
+    static int nextIndex = 5;
 
+    
+    
     static boolean[] menuAktif = { true, true, true, true, true, true, true, true, true, true };
-    static Scanner sc = new Scanner(System.in);
+
+    static String[][] history = new String[1000][2];
+    static {
+        donationOptions[0] = "BAZNAS";
+        donationOptions[1] = "KPRB";
+        donationOptions[2] = "Dompet DHUAFA";
+        donationOptions[3] = "DigiZakat";
+        donationOptions[4] = "LAMZIZ";
+        // Add more values as needed
+    }
+    
+    static int currentSnapshot = 1;
 
     // public static void main(String[] args) {
     int maxAttempts = 3;
@@ -105,20 +67,11 @@ public class Main {
         return -1;
     }
 
-    static void showAdminMenu(int accountIndex) {
-        System.out.println("menu bagian admin");
-    }
-
-    static void showUserMenu(int accountIndex) {
-        System.out.println("menu bagian user");
-    }
-
-    static String[][] history = new String[1000][2];
-    static int currentSnapshot = 1;
-
     public static void main(String[] args) {
         // Menambah Riwayat pertama
         history[0] = new String[] { "Saldo awal", "100000" };
+        
+    
 
         // SELAMAT DATANG
         System.out.println("-----------------------------------------------");
@@ -135,9 +88,9 @@ public class Main {
             System.out.println("-----------------------------------------------");
 
             System.out.print("Masukkan Nomor Rekening Anda: ");
-            String noRek = sc.nextLine();
+            String noRek = input.nextLine();
             System.out.print("Masukkan Pin: ");
-            String inputPin = sc.nextLine();
+            String inputPin = input.nextLine();
 
             int indexAkun = findAccount(noRek, inputPin);
 
@@ -149,7 +102,7 @@ public class Main {
 
                 if (accountType.equals("admin")) {
                     alertLoginBerhasil();
-                    showAdminMenu(indexAkun);
+                    tampilAdminMenu();
                 }
 
                 if (accountType.equals("user")) {
@@ -178,12 +131,132 @@ public class Main {
                 }
             }
         }
-        sc.close();
+        input.close();
     }
 
     // Function tampilUserMenu
     static void tampilAdminMenu() {
-        // Tampil Admin menu
+        while (true) {
+            System.out.println("-----------------------------------------------");
+            System.out.println("|             Silahkan Pilih Menu             |");
+            System.out.println("|                                             |");
+            System.out.println("| 1. Informasi Akun         3. Informasi KURS |");
+            System.out.println("| 2. Informasi Sedekah      4. Informasi HELP |");
+            System.out.println("-----------------------------------------------");
+            int menu = input.nextInt();
+            switch (menu) {
+                case 1:
+                    // Informasi Akun
+                    tampilInformasiAkun();
+                    kembaliAtauKeluar(input);
+                    break;
+
+                case 2:
+                    // Informasi Sedekah
+                    tampilInformasiSedekah();
+                    kembaliAtauKeluar(input);
+
+                    break;
+                case 3:
+                    // Informasi KURS
+                    tampilInformasiKURS();
+                    kembaliAtauKeluar(input);
+                    break;
+
+                case 4:
+                    // Informasi Help
+                    tampilInformasiHelp();
+                    kembaliAtauKeluar(input);
+                    break;
+                default:
+                    alertTidakTersedia("Menu");
+                    break;
+            }
+        }
+    }
+
+    // ADMIN MENU
+    // Function 1. tampilInformasiAkun
+    static void tampilInformasiAkun() {
+        //
+    }
+
+    // Function 2. tampilInformasiSedekah
+    static void tampilInformasiSedekah() {
+        tampilOpsi(donationOptions, nextIndex , "Macam - Macam Sedekah");
+        operasiAdmin("Sedekah");
+        int operation = input.nextInt();
+        switch (operation) {
+            case 1:
+                tambahSedekah();
+                break;
+            case 2:
+                editSedekah();
+                break;
+            case 3:
+                hapusSedekah();
+                break;
+            default:
+                alertTidakTersedia("Pilihan");
+                break;
+        }
+    }
+
+    // Function 3. tampilInformasiKURS
+    static void tampilInformasiKURS() {
+        //
+    }
+
+    // Function 4. tampilInformasiHelp
+    static void tampilInformasiHelp() {
+        //
+    }
+
+    static void operasiAdmin(String nama) {
+        System.out.println("Pilih operasi untuk " + nama + ":");
+        System.out.println("1. Tambah " + nama);
+        System.out.println("2. Edit " + nama);
+        System.out.println("3. Hapus " + nama);
+    }
+
+    static void tambahSedekah() {
+
+        System.out.println("Tambah Sedekah");
+        // Menambahkan nilai baru pada array
+        System.out.println("Masukkan nama sedekah baru:");
+        String namaSedekahBaru = input.next();
+
+        // Menambahkan nilai baru pada indeks berikutnya
+    donationOptions[nextIndex] = namaSedekahBaru;
+
+    // Menampilkan pesan sukses
+    System.out.println("Sedekah " + namaSedekahBaru + " berhasil ditambahkan.");
+
+    // Menambahkan indeks berikutnya
+    nextIndex++;
+
+    }
+
+    static void editSedekah() {
+        System.out.println("Edit Sedekah");
+        System.out.println("Pilih jenis sedekah yang akan diubah:");
+        tampilOpsi(donationOptions, donationOptions.length,"Macam - Macam Sedekah");
+        int jenisSedekah = input.nextInt();
+
+        // Implementasi untuk mengedit sedekah
+        System.out.println("Sedekah " + donationOptions[jenisSedekah - 1] + " berhasil diubah.");
+
+    }
+
+    static void hapusSedekah() {
+        System.out.println("Hapus Sedekah");
+        System.out.println("Pilih jenis sedekah yang akan dihapus:");
+        tampilOpsi(donationOptions, donationOptions.length,  "Macam - Macam Sedekah");
+        int jenisSedekah = input.nextInt();
+
+        // Implementasi untuk menghapus sedekah
+        System.out.println("Sedekah " + donationOptions[jenisSedekah - 1] + " berhasil dihapus.");
+
     }
 
     // Function tampilUserMenu
@@ -260,7 +333,9 @@ public class Main {
 
     }
 
-    // Function tampilTarikTunai
+    // USER MENU
+
+    // Function 1. tampilTarikTunai
     static void tampilTarikTunai(int indexAkun, int sampleSaldo) {
         int tarikTunai;
 
@@ -313,7 +388,7 @@ public class Main {
         }
     }
 
-    // Function tampilSetorTunai
+    // Function 2. tampilSetorTunai
     static void tampilSetorTunai(int indexAkun, int sampleSaldo) {
         System.out.println("Masukkan jumlah uang yang ingin di setor");
         int inputSetor = input.nextInt();
@@ -360,7 +435,7 @@ public class Main {
         }
     }
 
-    // Function tampilTransfer
+    // Function 3. tampilTransfer
     static void tampilTransfer(int indexAkun, int sampleSaldo) {
         tampilOpsi(dataBank, "KODE BANK TUJUAN");
 
@@ -453,75 +528,75 @@ public class Main {
         }
     }
 
-    // Function tampilVA
-    static void tampilVA(int indexAkun, int sampleSaldo){
+    // Function 4. tampilVA
+    static void tampilVA(int indexAkun, int sampleSaldo) {
         System.out.print("Masukkan nomor Virtual Account (VA): ");
-                    String inputNomorVA = input.next();
+        String inputNomorVA = input.next();
 
-                    int indexVA = -1;
+        int indexVA = -1;
 
-                    cariVa( inputNomorVA, indexVA);
+        cariVa(inputNomorVA, indexVA);
 
-                    if (indexVA != -1) {
-                        String namaPemilikVA = dataVA[indexVA][1];
-                        int jumlahPembayaran = Integer.parseInt(dataVA[indexVA][2]);
+        if (indexVA != -1) {
+            String namaPemilikVA = dataVA[indexVA][1];
+            int jumlahPembayaran = Integer.parseInt(dataVA[indexVA][2]);
 
-                        System.out.println("-----------------------------------");
-                        System.out.println("|         VIRTUAL ACCOUNT         |");
-                        System.out.println("-----------------------------------");
-                        System.out.println("  Nama Pemilik VA: " + namaPemilikVA);
-                        System.out.println("  Pembayaran VA sebesar: Rp " + jumlahPembayaran);
-                        System.out.println("-----------------------------------");
-                        char responsVa = konfirmasi(input);
-                        switch (responsVa) {
-                            case 'y':
+            System.out.println("-----------------------------------");
+            System.out.println("|         VIRTUAL ACCOUNT         |");
+            System.out.println("-----------------------------------");
+            System.out.println("  Nama Pemilik VA: " + namaPemilikVA);
+            System.out.println("  Pembayaran VA sebesar: Rp " + jumlahPembayaran);
+            System.out.println("-----------------------------------");
+            char responsVa = konfirmasi(input);
+            switch (responsVa) {
+                case 'y':
 
-                                // konfirmasi pin
-                                System.out.println("Masukkan konfirmasi pin anda");
-                                int inputPin = input.nextInt();
+                    // konfirmasi pin
+                    System.out.println("Masukkan konfirmasi pin anda");
+                    int inputPin = input.nextInt();
 
-                                if (isPinValid(inputPin, indexAkun)) {
-                                    // Ambil nominal pembayaran dari data VA
+                    if (isPinValid(inputPin, indexAkun)) {
+                        // Ambil nominal pembayaran dari data VA
 
-                                    if (sampleSaldo >= jumlahPembayaran) {
-                                        sampleSaldo -= jumlahPembayaran;
-                                        dataAccount[indexAkun][4] = String.valueOf(sampleSaldo);
+                        if (sampleSaldo >= jumlahPembayaran) {
+                            sampleSaldo -= jumlahPembayaran;
+                            dataAccount[indexAkun][4] = String.valueOf(sampleSaldo);
 
-                                        history[0] = new String[] { "Saldo awal", "100000" };
+                            history[0] = new String[] { "Saldo awal", "100000" };
 
-                                        history[currentSnapshot] = new String[] {
-                                                "Pembayaran ke " + namaPemilikVA,
-                                                String.valueOf("-" + jumlahPembayaran) };
-                                        currentSnapshot++;
-                                        dataVA[indexVA][2] = String.valueOf(jumlahPembayaran);
-                                        System.out.println(
-                                                "---------------------------------------------------------------");
-                                        System.out.println(
-                                                "|                       TRANSAKSI BERHASIL                    |");
-                                        System.out.println(
-                                                "---------------------------------------------------------------");
-                                        System.out.println("  Nama VA       : " + namaPemilikVA);
-                                        System.out.println("  Pembayaran VA : Rp " + jumlahPembayaran);
-                                        System.out.println("  Sisa saldo    : Rp " + sampleSaldo);
-                                        System.out.println(
-                                                "---------------------------------------------------------------");
-                                        kembaliAtauKeluar(input);
-                                    } else {
-                                        alertSaldoTidakCukup();
-                                    }
-                                } else {
-                                    alertPinSalah();
-                                }
+                            history[currentSnapshot] = new String[] {
+                                    "Pembayaran ke " + namaPemilikVA,
+                                    String.valueOf("-" + jumlahPembayaran) };
+                            currentSnapshot++;
+                            dataVA[indexVA][2] = String.valueOf(jumlahPembayaran);
+                            System.out.println(
+                                    "---------------------------------------------------------------");
+                            System.out.println(
+                                    "|                       TRANSAKSI BERHASIL                    |");
+                            System.out.println(
+                                    "---------------------------------------------------------------");
+                            System.out.println("  Nama VA       : " + namaPemilikVA);
+                            System.out.println("  Pembayaran VA : Rp " + jumlahPembayaran);
+                            System.out.println("  Sisa saldo    : Rp " + sampleSaldo);
+                            System.out.println(
+                                    "---------------------------------------------------------------");
+                            kembaliAtauKeluar(input);
+                        } else {
+                            alertSaldoTidakCukup();
                         }
                     } else {
-                        alertInputTidakValid("Nomor VA");
+                        alertPinSalah();
                     }
+            }
+        } else {
+            alertInputTidakValid("Nomor VA");
+        }
     }
 
-    // Function tampilSedekah
+    // Function 5. tampilSedekah
     static void tampilSedekah(int indexAkun, int sampleSaldo) {
         // SEDEKAH
-        tampilOpsi(donationOptions, "Pilih Sedekah");
+        tampilOpsi(donationOptions, nextIndex, "Pilih Sedekah");
 
         System.out.print("Pilih sedekah : ");
         int pilihanSedekah = input.nextInt();
@@ -577,7 +652,7 @@ public class Main {
         }
     }
 
-    // Function tampilKurs
+    // Function 6. tampilKurs
     static void tampilKurs() {
         System.out.println("--------------------------------- ");
         System.out.println("|            INFO KURS           |");
@@ -593,7 +668,7 @@ public class Main {
         }
     }
 
-    // Fuction tampilRiwayat
+    // Fuction 7. tampilRiwayat
     static void tampilRiwayat() {
         System.out.println("Transaction History: " + currentSnapshot);
         // Print all snapshots
@@ -603,26 +678,7 @@ public class Main {
         }
     }
 
-    // Function tampilhelp
-    static void tampilHelp() {
-        System.out.println("=========================================================================================");
-        System.out.println("|                                        HELP                                           |");
-        System.out.println("=========================================================================================");
-        System.out.println("| - Gunakan Menu ke-1 jika anda ingin melakukan penarikan saldo                         |");
-        System.out.println("| - Gunakan Menu ke-2 jika anda ingin mengisi saldo                                     |");
-        System.out.println("| - Gunakan Menu ke-3 jika anda ingin melakukakan transfer sesama/berbeda nasabah       |");
-        System.out.println("| - Gunakan Menu ke-4 jika anda ingin melakukan pembayaran melalui Virtual Account (VA) |");
-        System.out.println("| - Gunakan Menu ke-5 jika anda ingin melakukan sedekah pada platform yang tersedia     |");
-        System.out.println("| - Gunakan Menu ke-6 jika anda ingin melihat nilai tukar mata uang                     |");
-        System.out.println("| - Gunakan Menu ke-7 jika ingin melihat riwayat transaksi anda                         |");
-        System.out.println("| - Gunakan Menu ke-8 jika anda ingin melihat jumlah saldo yang tersedia                |");
-        System.out.println("| - Gunakan Menu ke-9 jika ingin mengubah pin anda                                      |");
-        System.out.println("| - Untuk tarik dan setor tunai, minimal transaksi sebesar Rp.50000                     |");
-        System.out.println("| - Jika terdapat masalah pada mesin ATM hubungi admin (085105120605)                   |");
-        System.out.println("-----------------------------------------------------------------------------------------");
-    }
-
-    // Function tampilInformasi
+    // Function 8. tampilInformasi
     static void tampilInformasi(int indexAkun, int sampleSaldo) {
         System.out.println("-----------------------------------------------");
         System.out.println("|                  INFORMASI                  |");
@@ -631,7 +687,7 @@ public class Main {
         System.out.println("-----------------------------------------------");
     }
 
-    // Function tampilUbahPin
+    // Function 9. tampilUbahPin
     static void tampilUbahPin(int indexAkun) {
         System.out.println("-----------------------------------------------");
         System.out.println("|                 UBAH PIN                    |");
@@ -668,6 +724,26 @@ public class Main {
         }
     }
 
+    // Function 10. tampilhelp
+    static void tampilHelp() {
+        System.out.println("=========================================================================================");
+        System.out.println("|                                        HELP                                           |");
+        System.out.println("=========================================================================================");
+        System.out.println("| - Gunakan Menu ke-1 jika anda ingin melakukan penarikan saldo                         |");
+        System.out.println("| - Gunakan Menu ke-2 jika anda ingin mengisi saldo                                     |");
+        System.out.println("| - Gunakan Menu ke-3 jika anda ingin melakukakan transfer sesama/berbeda nasabah       |");
+        System.out.println("| - Gunakan Menu ke-4 jika anda ingin melakukan pembayaran melalui Virtual Account (VA) |");
+        System.out.println("| - Gunakan Menu ke-5 jika anda ingin melakukan sedekah pada platform yang tersedia     |");
+        System.out.println("| - Gunakan Menu ke-6 jika anda ingin melihat nilai tukar mata uang                     |");
+        System.out.println("| - Gunakan Menu ke-7 jika ingin melihat riwayat transaksi anda                         |");
+        System.out.println("| - Gunakan Menu ke-8 jika anda ingin melihat jumlah saldo yang tersedia                |");
+        System.out.println("| - Gunakan Menu ke-9 jika ingin mengubah pin anda                                      |");
+        System.out.println("| - Untuk tarik dan setor tunai, minimal transaksi sebesar Rp.50000                     |");
+        System.out.println("| - Jika terdapat masalah pada mesin ATM hubungi admin (085105120605)                   |");
+        System.out.println("-----------------------------------------------------------------------------------------");
+    }
+
+    // PEMROSESAN DATA
     // Function Konfirmasi
     static char konfirmasi(Scanner input) {
         System.out.println("-----------------------------------------------");
@@ -680,12 +756,12 @@ public class Main {
     }
 
     // Fungsi untuk menampilkan opsi
-    static void tampilOpsi(String[] options, String header) {
+    static void tampilOpsi(String[] options, int length, String header) {
         System.out.println("-----------------------------------------------");
         System.out.println("              " + header + "                   ");
         System.out.println("-----------------------------------------------");
-        for (int i = 0; i < options.length; i++) {
-            System.out.println((i + 1) + ". " + options[i]);
+        for (int i = 0; i < length; i++) {
+            System.out.println("    " + (i + 1) + ". " + options[i]);
         }
         System.out.println("-----------------------------------------------");
     }
@@ -741,7 +817,7 @@ public class Main {
     }
 
     // Function cariVA
-    static void cariVa(String inputNomorVA,int indexVA){
+    static void cariVa(String inputNomorVA, int indexVA) {
         for (int i = 0; i < dataVA.length; i++) {
             if (dataVA[i][0].equals(inputNomorVA)) {
                 indexVA = i;
@@ -772,6 +848,7 @@ public class Main {
         System.out.println("2. Jual : " + inputKurs / kursJualUSD);
     }
 
+    // ALERT
     // Function Alert Input tidak valid
     static void alertInputTidakValid(String nama) {
         System.out.println("-----------------------------------------------");
@@ -781,7 +858,7 @@ public class Main {
         System.out.println("-----------------------------------------------");
     }
 
-    //
+    // Function Alert Tidak tersedia
     static void alertTidakTersedia(String nama) {
         System.out.println("-----------------------------------------------");
         System.out.println("|               !! Peringatan !!              |");
