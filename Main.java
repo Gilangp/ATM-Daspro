@@ -71,6 +71,13 @@ public class Main {
             { "Jackie Chan", "user", "1414", "141", "150000", "BCA", "Active" },
     };
 
+    static String[][] dataVA = {
+                            { "VA12345", "Shopee", "100000" },
+                            { "VA67890", "Tokopedia", "150000" },
+                            { "VA54321", "Kai Tiket", "200000" }
+                    };
+
+
     static String[] donationOptions = {
                 "BAZNAS", "KPRB", "Dompet DHUAFA", "DigiZakat", "LAMZIZ"
         };
@@ -128,21 +135,23 @@ public class Main {
             int indexAkun = findAccount(noRek, inputPin);
 
             if (indexAkun != -1) {
-                if (dataAccount[indexAkun][6].equals("Blocked")) {
-                    System.out.println("Akun Anda terkunci. Hubungi Admin.");
-                    break;
-                }
+                
                 isLoginIn = true;
                 String accountType = dataAccount[indexAkun][1];
                 System.out.println(accountType);
-                System.out.println("-----------------------------------------------");
-                System.out.println("|                LOGIN BERHASIL!              |");
-                System.out.println("-----------------------------------------------");
 
+                
                 if (accountType.equals("admin")) {
+                    alertLoginBerhasil();
                     showAdminMenu(indexAkun);
-                } else if (accountType.equals("user")) {
+                } 
 
+                if (accountType.equals("user")) {
+                    if (dataAccount[indexAkun][6].equals("Blocked")) {
+                    alertLoginGagal("Akun Anda terkunci. Hubungi Admin.");
+                    break;
+                    }
+                    alertLoginBerhasil();
                     tampilUserMenu(indexAkun);
                 }
             } else {
@@ -228,26 +237,14 @@ public class Main {
                                         System.out.println("-----------------------------------------------");
                                         kembaliAtauKeluar(input);
                                     } else {
-                                        System.out.println("-----------------------------------------------");
-                                        System.out.println("|             !! TRANSAKSI GAGAL !!           |");
-                                        System.out.println("|                                             |");
-                                        System.out.println("|          Minimal transaksi Rp 50.000        |");
-                                        System.out.println("-----------------------------------------------");
+                                        alertMinimalTransaksi();
                                     }
                                 } else {
-                                    System.out.println("-----------------------------------------------");
-                                    System.out.println("|             !! TRANSAKSI GAGAL !!           |");
-                                    System.out.println("|                                             |");
-                                    System.out.println("|             Saldo anda tidak cukup          |");
-                                    System.out.println("-----------------------------------------------");
+                                    alertSaldoTidakCukup();
                                 }
 
                             } else {
-                                System.out.println("-----------------------------------------------");
-                                System.out.println("|             !! TRANSAKSI GAGAL !!           |");
-                                System.out.println("|                                             |");
-                                System.out.println("|          Pin yang anda masukkan salah       |");
-                                System.out.println("-----------------------------------------------");
+                                alertPinSalah();
                             }
                         case 'n':
                     }
@@ -289,20 +286,11 @@ public class Main {
                                     System.out.println("-----------------------------------------------");
                                     kembaliAtauKeluar(input);
                                 } else {
-                                    System.out.println("-----------------------------------------------");
-                                    System.out.println("|             !! TRANSAKSI GAGAL !!           |");
-                                    System.out.println("|                                             |");
-                                    System.out.println("|          Minimal transaksi Rp 50.000        |");
-                                    System.out.println("-----------------------------------------------");
+                                    alertMinimalTransaksi();
                                 }
 
                             } else {
-                                System.out.println("-----------------------------------------------");
-                                System.out.println("|             !! TRANSAKSI GAGAL !!           |");
-                                System.out.println("|                                             |");
-                                System.out.println("|          PIN YANG ANDA MASUKKAN SALAH       |");
-                                System.out.println("|             MOHON TELITI KEMBALI            |");
-                                System.out.println("-----------------------------------------------");
+                                alertPinSalah();
                             }
                         case 'n':
                             break;
@@ -317,13 +305,9 @@ public class Main {
                             { "789", "CIMB" }
                     };
 
-                    System.out.println("-----------------------------------------------");
-                    System.out.println("|              KODE BANK TUJUAN               |");
-                    System.out.println("-----------------------------------------------");
-                    for (int i = 0; i < dataBank.length; i++) {
-                        System.out.println((i + 1) + ". " + dataBank[i][1] + " (" + dataBank[i][0] + ")");
-                    }
-                    System.out.println("-----------------------------------------------");
+                    tampilOpsi(dataBank, "KODE BANK TUJUAN");
+
+                    
                     System.out.println("Masukkan nomor kode bank tujuan anda: ");
                     String kodeBankTujuan = input.next();
                     String namaBank = "";
@@ -340,12 +324,7 @@ public class Main {
                     }
 
                     if (indexKodeBank == -1) {
-                        System.out.println("-----------------------------------------------");
-                        System.out.println("|             !! TRANSAKSI GAGAL !!           |");
-                        System.out.println("|                                             |");
-                        System.out.println("|          NOMOR KODE BANK TIDAK VALID        |");
-                        System.out.println("|              MOHON TELITI KEMBALI           |");
-                        System.out.println("-----------------------------------------------");
+                        alertInputTidakValid("Kode Bank");
                         break; // Hentikan eksekusi transfer karena kode bank tidak valid
 
                     }
@@ -366,11 +345,7 @@ public class Main {
                     }
 
                     if (indexRekeningTujuan == -1) {
-                        System.out.println("-----------------------------------------------");
-                        System.out.println("|             !! TRANSAKSI GAGAL !!           |");
-                        System.out.println("|                                             |");
-                        System.out.println("|           Nomor rekening tidak valid        |");
-                        System.out.println("-----------------------------------------------");
+                        alertInputTidakValid("Nomer Rekening");
                         break; // Hentikan eksekusi transfer karena nomor rekening tidak valid
                     }
 
@@ -379,11 +354,7 @@ public class Main {
                     double jumlahTransfer = input.nextDouble();
 
                     if (jumlahTransfer <= 0) {
-                        System.out.println("-----------------------------------------------");
-                        System.out.println("|             !! TRANSAKSI GAGAL !!           |");
-                        System.out.println("|                                             |");
-                        System.out.println("|           Jumlah tranfer tidak valid!       |");
-                        System.out.println("-----------------------------------------------");
+                        alertInputTidakValid("Jumlah Transfer");
                         input.close();
                         return;
                     }
@@ -429,19 +400,11 @@ public class Main {
                                     System.out.println("-----------------------------------------------");
                                     kembaliAtauKeluar(input);
                                 } else {
-                                    System.out.println("-----------------------------------------------");
-                                    System.out.println("|             !! TRANSAKSI GAGAL !!           |");
-                                    System.out.println("|                                             |");
-                                    System.out.println("|             Saldo anda tidak cukup          |");
-                                    System.out.println("-----------------------------------------------");
+                                    alertSaldoTidakCukup();
                                 }
 
                             } else {
-                                System.out.println("-----------------------------------------------");
-                                System.out.println("|             !! TRANSAKSI GAGAL !!           |");
-                                System.out.println("|                                             |");
-                                System.out.println("|          Pin yang anda masukkan salah       |");
-                                System.out.println("-----------------------------------------------");
+                                alertPinSalah();
                             }
                         case 'n':
                             break;
@@ -450,12 +413,6 @@ public class Main {
                     break;
                 case 4:
                     // Pembayaran VA
-                    String[][] dataVA = {
-                            { "VA12345", "Shopee", "100000" },
-                            { "VA67890", "Tokopedia", "150000" },
-                            { "VA54321", "Kai Tiket", "200000" }
-                    };
-
                     System.out.print("Masukkan nomor Virtual Account (VA): ");
                     String inputNomorVA = input.next();
 
@@ -500,40 +457,23 @@ public class Main {
                                                 String.valueOf("-" + jumlahPembayaran) };
                                         currentSnapshot++;
                                         dataVA[indexVA][2] = String.valueOf(jumlahPembayaran);
-                                        System.out.println(
-                                                "---------------------------------------------------------------");
-                                        System.out.println(
-                                                "|                       TRANSAKSI BERHASIL                    |");
-                                        System.out.println(
-                                                "---------------------------------------------------------------");
+                                        System.out.println("---------------------------------------------------------------");
+                                        System.out.println("|                       TRANSAKSI BERHASIL                    |");
+                                        System.out.println("---------------------------------------------------------------");
                                         System.out.println("  Nama VA       : " + namaPemilikVA);
                                         System.out.println("  Pembayaran VA : Rp " + jumlahPembayaran);
                                         System.out.println("  Sisa saldo    : Rp " + sampleSaldo);
-                                        System.out.println(
-                                                "---------------------------------------------------------------");
+                                        System.out.println("---------------------------------------------------------------");
                                         kembaliAtauKeluar(input);
                                     } else {
-                                        System.out.println("-----------------------------------------------");
-                                        System.out.println("|             !! TRANSAKSI GAGAL !!           |");
-                                        System.out.println("|                                             |");
-                                        System.out.println("|             Saldo anda tidak cukup          |");
-                                        System.out.println("-----------------------------------------------");
+                                        alertSaldoTidakCukup();
                                     }
                                 } else {
-                                    System.out.println("-----------------------------------------------");
-                                    System.out.println("|             !! TRANSAKSI GAGAL !!           |");
-                                    System.out.println("|                                             |");
-                                    System.out.println("|          Pin yang anda masukkan salah       |");
-                                    System.out.println("-----------------------------------------------");
+                                    alertPinSalah();
                                 }
                         }
                     } else {
-                        System.out.println("-----------------------------------------------");
-                        System.out.println("|             !! TRANSAKSI GAGAL !!           |");
-                        System.out.println("|                                             |");
-                        System.out.println("|              NOMOR VA TIDAK VALID           |");
-                        System.out.println("|              MOHON TELITI KEMBALI           |");
-                        System.out.println("-----------------------------------------------");
+                        alertInputTidakValid("Nomor VA");
                     }
                     break;
                 case 5:
@@ -569,7 +509,7 @@ public class Main {
                     kembaliAtauKeluar(input);
                     break;
                 default:
-                    System.out.println("Pilihan Menu tidak tersedia");
+                    alertTidakTersedia("Menu");
                     break;
             }
         }
@@ -579,37 +519,21 @@ public class Main {
     // Function tampilSedekah
     static void tampilSedekah(int indexAkun, int sampleSaldo) {
         // SEDEKAH
-        System.out.println("-----------------------------------------------");
-        System.out.println("|              SELAMAT BERSEDEKAH             |");
-        System.out.println("|            Silahkan Pilih Sedekah           |");
-        System.out.println("-----------------------------------------------");
-        for (int i = 0; i < donationOptions.length; i++) {
-            System.out.println( (i + 1) + ". " + donationOptions[i]);
-        }
-        System.out.println("-----------------------------------------------");
+        tampilOpsi(donationOptions, "Pilih Sedekah");
+
 
         System.out.print("Pilih sedekah : ");
         int pilihanSedekah = input.nextInt();
 
         if (pilihanSedekah < 1 || pilihanSedekah > donationOptions.length) {
-            System.out.println("-----------------------------------------------");
-            System.out.println("|                !! WARNING !!                |");
-            System.out.println("|                                             |");
-            System.out.println("|        Pilihan sedekah tidak tersedia       |");
-            System.out.println("-----------------------------------------------");
+            alertTidakTersedia("Sedekah");
             return;
         }
 
         System.out.println("Masukkan sedekah yang ingin diberikan ");
         int inputSedekah = input.nextInt();
         if (inputSedekah <= 0) {
-            System.out.println("-----------------------------------------------");
-            System.out.println("|             !! TRANSAKSI GAGAL !!           |");
-            System.out.println("|                                             |");
-            System.out.println("|           JUMLAH SEDEKAH TIDAK VALID        |");
-            System.out.println("|              MOHON TELITI KEMBALI           |");
-            System.out.println("-----------------------------------------------");
-            input.close();
+            alertInputTidakValid("Jumlah Sedekah");
             return;
         }
         // konfirmasi
@@ -644,18 +568,10 @@ public class Main {
                     System.out.println("-----------------------------------------------");
                     kembaliAtauKeluar(input);
                 } else {
-                    System.out.println("-----------------------------------------------");
-                    System.out.println("|             !! TRANSAKSI GAGAL !!           |");
-                    System.out.println("|                                             |");
-                    System.out.println("|             Saldo anda tidak cukup          |");
-                    System.out.println("-----------------------------------------------");
+                    alertSaldoTidakCukup();
                 }
             } else {
-                System.out.println("-----------------------------------------------");
-                System.out.println("|             !! TRANSAKSI GAGAL !!           |");
-                System.out.println("|                                             |");
-                System.out.println("|          Pin yang anda masukkan salah       |");
-                System.out.println("-----------------------------------------------");
+                alertPinSalah();
             }
         }
     }
@@ -725,7 +641,7 @@ public class Main {
 
         if (!isPinValid(inputPin, indexAkun)) {
             System.out.println("-----------------------------------------------");
-            System.out.println("|                 !! WARNING !!               |");
+            System.out.println("|               !! Peringatan !!              |");
             System.out.println("|        PIN tidak valid. Akses ditolak.      |");
             System.out.println("-----------------------------------------------");
             return;
@@ -738,7 +654,7 @@ public class Main {
 
         if (pinBaru != confirmPin) {
             System.out.println("------------------------------------------------");
-            System.out.println("|                 !! WARNING !!                |");
+            System.out.println("|               !! Peringatan !!               |");
             System.out.println("|              Perubahan PIN gagal             |");
             System.out.println("|    Pin baru dan Konfirmasi pin tidak cocok.  |");
             System.out.println("------------------------------------------------");
@@ -760,6 +676,28 @@ public class Main {
         System.out.println("-----------------------------------------------");
 
         return input.next().charAt(0);
+    }
+
+    // Fungsi untuk menampilkan opsi
+    private static void tampilOpsi(String[] options, String header) {
+        System.out.println("-----------------------------------------------");
+        System.out.println("              " + header + "                   ");
+        System.out.println("-----------------------------------------------");
+        for (int i = 0; i < options.length; i++) {
+            System.out.println((i + 1) + ". " + options[i]);
+        }
+        System.out.println("-----------------------------------------------");
+    }
+
+    // Fungsi untuk menampilkan opsi bank
+    private static void tampilOpsi(String[][] options, String header) {
+        System.out.println("-----------------------------------------------");
+        System.out.println("              " + header + "                   ");
+        System.out.println("-----------------------------------------------");
+        for (int i = 0; i < options.length; i++) {
+            System.out.println((i + 1) + ". " + options[i][1] + " (" + options[i][0] + ")");
+        }
+        System.out.println("-----------------------------------------------");
     }
 
     // Function pilihan kembali atau keluar
@@ -797,5 +735,62 @@ public class Main {
         int inputKurs = input.nextInt();
         System.out.println("1. Beli : " + inputKurs / kursBeliUSD);
         System.out.println("2. Jual : " + inputKurs / kursJualUSD);
+    }
+
+    // Function Alert Input tidak valid
+    static void alertInputTidakValid(String nama){
+        System.out.println("-----------------------------------------------");
+            System.out.println("|             !! TRANSAKSI GAGAL !!           |");
+            System.out.println("|                                             |");
+            System.out.println("    Alert : " + nama+" tidak valid");
+            System.out.println("-----------------------------------------------");
+    }
+
+    // 
+    static void alertTidakTersedia(String nama){
+        System.out.println("-----------------------------------------------");
+        System.out.println("|               !! Peringatan !!              |");
+        System.out.println("|                                             |");
+        System.out.println("          Pilihan " + nama + " tidak tersedia       ");
+        System.out.println("-----------------------------------------------");
+    }
+
+    // Function Alert Login Berhasil
+    static void alertLoginBerhasil(){
+        System.out.println("-----------------------------------------------");
+        System.out.println("|               LOGIN BERHASIL!               |");
+        System.out.println("-----------------------------------------------");
+    }
+    // Function Alert Login Berhasil
+    static void alertLoginGagal(String pesan){
+        System.out.println("-----------------------------------------------");
+        System.out.println("|               LOGIN Gagal!               |");
+        System.out.println("    Pesan : " + pesan);
+        System.out.println("-----------------------------------------------");
+    }
+    // Function Alert Saldo tidak cukup
+    static void alertSaldoTidakCukup(){
+        System.out.println("-----------------------------------------------");
+        System.out.println("|             !! TRANSAKSI GAGAL !!           |");
+        System.out.println("|                                             |");
+        System.out.println("|            Saldo anda tidak cukup           |");
+        System.out.println("-----------------------------------------------");
+    }
+    // Function Alert Pin Salah
+    static void alertPinSalah(){
+        System.out.println("-----------------------------------------------");
+        System.out.println("|             !! TRANSAKSI GAGAL !!           |");
+        System.out.println("|                                             |");
+        System.out.println("|          Pin yang anda masukkan salah       |");
+        System.out.println("-----------------------------------------------");
+    }
+
+    // Function Alert Minimal Transaksi
+    static void alertMinimalTransaksi(){
+        System.out.println("-----------------------------------------------");
+        System.out.println("|             !! TRANSAKSI GAGAL !!           |");
+        System.out.println("|                                             |");
+        System.out.println("|          Minimal transaksi Rp 50.000        |");
+        System.out.println("-----------------------------------------------");
     }
 }
