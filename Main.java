@@ -63,12 +63,12 @@ public class Main {
     private static double kursJualUSD = 15000;
     private static String[][] dataAccount = {
             { "Fajar", "admin", "11223344", "11223344" },
-            { "Yefta", "user", "1234", "123", "1000000", "BRI" },
-            { "Gopal", "user", "4567", "456", "500000", "BCA" },
-            { "Gilang", "user", "7890", "789", "250000", "BNI" },
-            { "Prabowo", "user", "1212", "121", "150000", "Mandiri" },
-            { "Jokowi", "user", "1313", "131", "550000", "CIMB" },
-            { "Jackie Chan", "user", "1414", "141", "150000", "BCA" },
+            { "Yefta", "user", "1234", "123", "1000000", "BRI", "Active" },
+            { "Gopal", "user", "4567", "456", "500000", "BCA", "Active" },
+            { "Gilang", "user", "7890", "789", "250000", "BNI", "Active" },
+            { "Prabowo", "user", "1212", "121", "150000", "Mandiri", "Active" },
+            { "Jokowi", "user", "1313", "131", "550000", "CIMB", "Active" },
+            { "Jackie Chan", "user", "1414", "141", "150000", "BCA", "Active" },
     };
 
     static boolean[] menuAktif = { true, true, true, true, true, true, true, true, true, true };
@@ -124,6 +124,10 @@ public class Main {
             int indexAkun = findAccount(noRek, inputPin);
 
             if (indexAkun != -1) {
+                if (dataAccount[indexAkun][6].equals("Blocked")) {
+                    System.out.println("Akun Anda terkunci. Hubungi Admin.");
+                    break;
+                }
                 isLoginIn = true;
                 String accountType = dataAccount[indexAkun][1];
                 System.out.println(accountType);
@@ -150,6 +154,7 @@ public class Main {
                     System.out.println("|        NB : Maksimal percobaan 3 kali       |");
                     System.out.println("-----------------------------------------------");
                 } else {
+                    dataAccount[indexAkun][6] = "Blocked";
                     System.out.println("Anda telah melampaui upaya login maksimum. Akun Anda terkunci. Hubungi Admin");
                 }
             }
