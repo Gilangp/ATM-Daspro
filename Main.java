@@ -265,13 +265,30 @@ public class Main {
 
     static void hapusSedekah() {
         System.out.println("Hapus Sedekah");
-        System.out.println("Pilih jenis sedekah yang akan dihapus:");
-        tampilOpsi(donationOptions, donationOptions.length, "Macam - Macam Sedekah");
-        int jenisSedekah = input.nextInt();
 
-        // Implementasi untuk menghapus sedekah
-        System.out.println("Sedekah " + donationOptions[jenisSedekah - 1] + " berhasil dihapus.");
+    // Menampilkan sedekah yang dapat dihapus
+    tampilOpsi(donationOptions, nextIndex, "Sedekah yang dapat dihapus");
 
+    // Memilih sedekah yang akan dihapus
+    System.out.print("Masukkan nomor sedekah yang akan dihapus: ");
+    int indexSedekah = input.nextInt();
+
+    // Memastikan nomor sedekah berada dalam batas yang benar
+    if (indexSedekah >= 1 && indexSedekah <= nextIndex) {
+        // Menghapus nilai pada indeks yang dipilih
+        for (int i = indexSedekah - 1; i < nextIndex - 1; i++) {
+            donationOptions[i] = donationOptions[i + 1];
+        }
+
+        // Menampilkan pesan sukses
+        System.out.println("Sedekah berhasil dihapus.");
+
+        // Mengurangi indeks berikutnya
+        nextIndex--;
+
+    } else {
+        System.out.println("Nomor sedekah tidak valid.");
+    }
     }
 
     // Function tampilUserMenu
