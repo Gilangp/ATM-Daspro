@@ -11,15 +11,17 @@ public class Main {
 
     static double kursBeliUSD = 15000;
     static double kursJualUSD = 15000;
-    static String[][] dataAccount = {
-            { "Fajar", "admin", "11223344", "1234" },
-            { "Yefta", "user", "1234", "123", "1000000", "BRI", "Active" },
-            { "Gopal", "user", "4567", "456", "500000", "BCA", "Active" },
-            { "Gilang", "user", "7890", "789", "250000", "BNI", "Active" },
-            { "Prabowo", "user", "1212", "121", "150000", "Mandiri", "Active" },
-            { "Jokowi", "user", "1313", "131", "550000", "CIMB", "Active" },
-            { "Jackie Chan", "user", "1414", "141", "150000", "BCA", "Active" },
-    };
+    static String[][] dataAccount = new String[1000][2];
+    static {
+        dataAccount[0] = new String[] { "Fajar", "admin", "11223344", "1234" };
+        dataAccount[1] = new String[] { "Yefta", "user", "1234", "123", "1000000", "BRI", "Active" };
+        dataAccount[2] = new String[] { "Gopal", "user", "4567", "456", "500000", "BCA", "Active" };
+        dataAccount[3] = new String[] { "Gilang", "user", "7890", "789", "250000", "BNI", "Active" };
+        dataAccount[4] = new String[] { "Prabowo", "user", "1212", "121", "150000", "Mandiri", "Active" };
+        dataAccount[5] = new String[] { "Jokowi", "user", "1313", "131", "550000", "CIMB", "Active" };
+        dataAccount[6] = new String[] { "Jackie Chan", "user", "1414", "141", "150000", "BCA", "Active" };
+    }
+    static int nextIndexUser = 7;
 
     static String[][] dataVA = {
             { "VA12345", "Shopee", "100000" },
@@ -36,7 +38,7 @@ public class Main {
     };
 
     static String[] donationOptions = new String[100];
-    static int nextIndex = 5;
+    static int nextIndexBank = 5;
 
     static boolean[] menuAktif = { true, true, true, true, true, true, true, true, true, true };
 
@@ -49,6 +51,7 @@ public class Main {
         donationOptions[4] = "LAMZIZ";
         // Add more values as needed
     }
+    static int nextIndexSedekah = 5;
 
     static int currentSnapshot = 1;
 
@@ -181,12 +184,30 @@ public class Main {
     // ADMIN MENU
     // Function 1. tampilInformasiAkun
     static void tampilInformasiAkun() {
-        //
+        tampilOpsi("Informasi Akun");
+        operasiAdmin("Akun");
+        int operation = input.nextInt();
+        switch (operation) {
+            case 1:
+                tambahInformasiAkun();
+                break;
+            case 2:
+                editInformasiAkun();
+                break;
+            case 3:
+                aktivasiAkun();
+                break;
+            case 4:
+                break;
+            default:
+                alertTidakTersedia("operasi");
+                break;
+        }
     }
 
     // Function 2. tampilInformasiSedekah
     static void tampilInformasiSedekah() {
-        tampilOpsi(donationOptions, nextIndex, "Macam - Macam Sedekah");
+        tampilOpsi(donationOptions, nextIndexSedekah, "Macam - Macam Sedekah");
         operasiAdmin("Sedekah");
         int operation = input.nextInt();
         switch (operation) {
@@ -217,12 +238,55 @@ public class Main {
         //
     }
 
+    // Tampil Informasi operasiAdmin
     static void operasiAdmin(String nama) {
         System.out.println("Pilih operasi untuk " + nama + ":");
         System.out.println("1. Tambah " + nama);
         System.out.println("2. Edit " + nama);
         System.out.println("3. Hapus " + nama);
         System.out.println("4. Lainnya");
+    }
+
+    static void tambahInformasiAkun() {
+        System.out.println("Masukkan nama:");
+        String nama = input.next();
+
+        String noRek = "";
+        while (true) {
+            System.out.println("Masukkan Nomer Rekening:");
+            noRek = input.next();
+            if (!isAccountNumberExists(noRek)) {
+                break;
+            }else{
+                System.out.println("Maaf, nomor rekening sudah terdaftar. Silakan masukkan nomor rekening baru.");
+            }
+        }
+        System.out.println("Masukkan PIN:");
+        String pin = input.next();
+
+        // Add the new account to the dataAccount array
+        String[] newAccount = { nama, "user", noRek, pin, "0", "BCA", "Active" };
+        dataAccount[nextIndexUser] = newAccount;
+        // Increment the nextIndexUser
+        nextIndexUser++;
+
+        System.out.println("Akun baru berhasil ditambahkan.");
+    }
+    static boolean isAccountNumberExists(String targetNoRek) {
+        for (int i = 1; i < nextIndexUser; i++) {
+            if (targetNoRek.equals(dataAccount[i][2])) {  // Assuming the account number is at index 6
+                return true;  // Account number already exists
+            }
+        }
+        return false;  // Account number does not exist
+    }
+
+    static void editInformasiAkun() {
+
+    }
+
+    static void aktivasiAkun() {
+
     }
 
     static void tambahSedekah() {
@@ -233,13 +297,13 @@ public class Main {
         String namaSedekahBaru = input.next();
 
         // Menambahkan nilai baru pada indeks berikutnya
-        donationOptions[nextIndex] = namaSedekahBaru;
+        donationOptions[nextIndexSedekah] = namaSedekahBaru;
 
         // Menampilkan pesan sukses
         System.out.println("Sedekah " + namaSedekahBaru + " berhasil ditambahkan.");
 
         // Menambahkan indeks berikutnya
-        nextIndex++;
+        nextIndexSedekah++;
 
     }
 
@@ -247,14 +311,14 @@ public class Main {
         System.out.println("Edit Sedekah");
 
         // Menampilkan sedekah yang dapat diedit
-        tampilOpsi(donationOptions, nextIndex, "Sedekah yang dapat diubah");
+        tampilOpsi(donationOptions, nextIndexSedekah, "Sedekah yang dapat diubah");
 
         // Memilih sedekah yang akan diubah
         System.out.print("Masukkan nomor sedekah yang akan diubah: ");
         int indexSedekah = input.nextInt();
 
         // Memastikan nomor sedekah berada dalam batas yang benar
-        if (indexSedekah >= 1 && indexSedekah <= nextIndex) {
+        if (indexSedekah >= 1 && indexSedekah <= nextIndexSedekah) {
             System.out.println("Masukkan nama sedekah baru:");
             String namaSedekahBaru = input.next();
 
@@ -274,16 +338,16 @@ public class Main {
         System.out.println("Hapus Sedekah");
 
         // Menampilkan sedekah yang dapat dihapus
-        tampilOpsi(donationOptions, nextIndex, "Sedekah yang dapat dihapus");
+        tampilOpsi(donationOptions, nextIndexSedekah, "Sedekah yang dapat dihapus");
 
         // Memilih sedekah yang akan dihapus
         System.out.print("Masukkan nomor sedekah yang akan dihapus: ");
         int indexSedekah = input.nextInt();
 
         // Memastikan nomor sedekah berada dalam batas yang benar
-        if (indexSedekah >= 1 && indexSedekah <= nextIndex) {
+        if (indexSedekah >= 1 && indexSedekah <= nextIndexSedekah) {
             // Menghapus nilai pada indeks yang dipilih
-            for (int i = indexSedekah - 1; i < nextIndex - 1; i++) {
+            for (int i = indexSedekah - 1; i < nextIndexSedekah - 1; i++) {
                 donationOptions[i] = donationOptions[i + 1];
             }
 
@@ -291,7 +355,7 @@ public class Main {
             System.out.println("Sedekah berhasil dihapus.");
 
             // Mengurangi indeks berikutnya
-            nextIndex--;
+            nextIndexSedekah--;
 
         } else {
             System.out.println("Nomor sedekah tidak valid.");
@@ -618,7 +682,7 @@ public class Main {
     // Function 5. tampilSedekah
     static void tampilSedekah(int indexAkun, int sampleSaldo) {
         // SEDEKAH
-        tampilOpsi(donationOptions, nextIndex, "Pilih Sedekah");
+        tampilOpsi(donationOptions, nextIndexSedekah, "Pilih Sedekah");
 
         System.out.print("Pilih sedekah : ");
         int pilihanSedekah = input.nextInt();
@@ -790,6 +854,21 @@ public class Main {
         System.out.println("-----------------------------------------------");
     }
 
+    static void tampilOpsi(String header) {
+        System.out.println("-----------------------------------------------");
+        System.out.println("              " + header + "                   ");
+        System.out.println("-----------------------------------------------");
+        System.out.println();
+        System.out.printf("%-13s %-12s %-10s %-10s%n",
+                "Nama", "No Rekening", "Bank", "Status");
+
+        for (int i = 1; i < nextIndexUser; i++) {
+            System.out.printf("%-13s %-12s %-10s %-10s%n",
+                    dataAccount[i][0], dataAccount[i][2], dataAccount[i][5], dataAccount[i][6]);
+        }
+        System.out.println("-----------------------------------------------");
+    }
+
     // Function pilihan kembali atau keluar
     static void kembaliAtauKeluar(Scanner input) {
         System.out.println("\n---------------------------------");
@@ -827,7 +906,7 @@ public class Main {
 
         while (currentAttempts < maxAttempts) {
             if (enteredPin == actualPin) {
-                return ;  // PIN is valid
+                return; // PIN is valid
             } else {
                 int remainingAttempts = maxAttempts - currentAttempts;
                 alertPinSalah(remainingAttempts);
@@ -841,11 +920,11 @@ public class Main {
 
         // If the user exceeds the maximum attempts, block the account and exit
         System.out.println("Exceeded maximum attempts. Account blocked.");
-        dataAccount[accountIndex][6] = "Blocked";  // Assuming status is stored at index 6
+        dataAccount[accountIndex][6] = "Blocked"; // Assuming status is stored at index 6
         System.exit(0);
-        return ;
+        return;
     }
-    
+
     // Function cariBank
     static void cariBank(String kodeBankTujuan, int indexKodeBank, String namaBank) {
         for (int i = 0; i < dataBank.length; i++) {
@@ -940,6 +1019,7 @@ public class Main {
         System.out.println("|          Pin yang anda masukkan salah       |");
         System.out.println("-----------------------------------------------");
     }
+
     static void alertPinSalah(int remainingAttempts) {
         System.out.println("-----------------------------------------------");
         System.out.println("|                !! PERINGATAN !!             |");
