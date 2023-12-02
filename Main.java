@@ -283,12 +283,32 @@ public class Main {
     }
 
     static void editInformasiAkun() {
+        System.out.println("-----------------------------------------------");
+        System.out.println("|                Edit AKUN                |");
+        System.out.println("-----------------------------------------------");
+        // Display the list of accounts
 
+        tampilOpsi("Informasi Akun");
+
+        System.out.println("Masukkan nomor akun yang ingin diedit:");
+        int accountIndex = input.nextInt();
+
+        if (isValidAccountIndex(accountIndex)) {
+            System.out.println("Masukkan nama baru untuk akun " + dataAccount[accountIndex][0] + ":");
+            String newName = input.next();
+
+            // Update the name of the selected account
+            dataAccount[accountIndex][0] = newName;
+
+            System.out.println("Nama akun berhasil diubah menjadi " + newName + ".");
+        } else {
+            System.out.println("Nomor akun tidak valid.");
+        }
     }
 
     static void aktivasiAkun() {
         System.out.println("-----------------------------------------------");
-        System.out.println("|                AKTIVASI AKUN                |");
+        System.out.println("|                Aktivasi AKUN                |");
         System.out.println("-----------------------------------------------");
 
         System.out.println("Pilih operasi:");
