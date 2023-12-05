@@ -11,7 +11,7 @@ public class Main {
 
     static double kursBeliUSD = 15000;
     static double kursJualUSD = 15000;
-    static String[][] dataAccount = new String[1000][2];
+    static String[][] dataAccount = new String[1000][7];
     static {
         dataAccount[0] = new String[] { "Fajar", "admin", "11223344", "1234" };
         dataAccount[1] = new String[] { "Yefta", "user", "1234", "123", "1000000", "BRI", "Active" };
@@ -37,12 +37,12 @@ public class Main {
             { "789", "CIMB" }
     };
 
-    static String[] donationOptions = new String[100];
     static int nextIndexBank = 5;
 
     static boolean[] menuAktif = { true, true, true, true, true, true, true, true, true, true };
-
     static String[][] history = new String[1000][2];
+
+    static String[] donationOptions = new String[100];
     static {
         donationOptions[0] = "BAZNAS";
         donationOptions[1] = "KPRB";
@@ -53,6 +53,22 @@ public class Main {
     }
     static int nextIndexSedekah = 5;
 
+    static String[] helpOptions = new String[100];
+    static {
+        helpOptions[0] = "Gunakan Menu ke-1 jika anda ingin melakukan penarikan saldo";
+        helpOptions[1] = "Gunakan Menu ke-2 jika anda ingin mengisi saldo";
+        helpOptions[2] = "Gunakan Menu ke-3 jika anda ingin melakukakan transfer sesama/berbeda nasabah";
+        helpOptions[3] = "Gunakan Menu ke-4 jika anda ingin melakukan pembayaran melalui Virtual Account (VA)";
+        helpOptions[4] = "Gunakan Menu ke-5 jika anda ingin melakukan sedekah pada platform yang tersedia";
+        helpOptions[5] = "Gunakan Menu ke-6 jika anda ingin melihat nilai tukar mata uang ";
+        helpOptions[6] = "Gunakan Menu ke-7 jika ingin melihat riwayat transaksi anda ";
+        helpOptions[7] = "Gunakan Menu ke-8 jika anda ingin melihat jumlah saldo yang tersedia";
+        helpOptions[8] = "Gunakan Menu ke-9 jika ingin mengubah pin anda ";
+        helpOptions[9] = "Untuk tarik dan setor tunai, minimal transaksi sebesar Rp.50000";
+        helpOptions[10] = "Jika terdapat masalah pada mesin ATM hubungi admin (085105120605)";
+    }
+    static int nextIndexHelp = 11;
+
     static int currentSnapshot = 1;
 
     // public static void main(String[] args) {
@@ -61,7 +77,8 @@ public class Main {
 
     static int findAccount(String accountNumber, String pin) {
         for (int i = 0; i < dataAccount.length; i++) {
-            if (dataAccount[i][2].equals(accountNumber) && dataAccount[i][3].equals(pin)) {
+            if (dataAccount[i][2] != null && dataAccount[i][3] != null &&
+                    dataAccount[i][2].equals(accountNumber) && dataAccount[i][3].equals(pin)) {
                 return i;
             }
         }
@@ -185,7 +202,7 @@ public class Main {
     // Function 1. tampilInformasiAkun
     static void tampilInformasiAkun() {
         tampilOpsi("Informasi Akun");
-        operasiAdmin("Akun", "Tambah Akun", "Edit Akun", "Aktivasi Akun");
+        operasiAdmin("Akun");
         int operation = input.nextInt();
         switch (operation) {
             case 1:
@@ -208,7 +225,7 @@ public class Main {
     // Function 2. tampilInformasiSedekah
     static void tampilInformasiSedekah() {
         tampilOpsi(donationOptions, nextIndexSedekah, "Macam - Macam Sedekah");
-        operasiAdmin("Sedekah", "Tambah Sedekah", "Edit Sedekah", "Hapus Sedekah");
+        operasiAdmin("Sedekah");
         int operation = input.nextInt();
         switch (operation) {
             case 1:
@@ -235,15 +252,105 @@ public class Main {
 
     // Function 4. tampilInformasiHelp
     static void tampilInformasiHelp() {
-        //
+        tampilOpsi(helpOptions, nextIndexHelp, "Informasi Help");
+
+        operasiAdmin("Help");
+        int operation = input.nextInt();
+        switch (operation) {
+            case 1:
+                tambahInformasiHelp();
+                break;
+            case 2:
+                editInformasiHelp();
+                break;
+            case 3:
+                hapusHelp();
+                break;
+            case 4:
+                break;
+            default:
+                alertTidakTersedia("operasi");
+                break;
+        }
+    }
+
+    static void tambahInformasiHelp() {
+        System.out.println("Tambah Informasi Help");
+        // Implementasi logika untuk menambah informasi help
+        System.out.println("Masukkan informasi help baru:");
+        input.nextLine(); // Consume the newline character
+        String informasiHelpBaru = input.nextLine();
+
+        // Menambahkan nilai baru pada indeks berikutnya
+        helpOptions[nextIndexHelp] = informasiHelpBaru;
+
+        // Menampilkan pesan sukses
+        System.out.println("Informasi Help " + informasiHelpBaru + " berhasil ditambahkan.");
+
+        // Menambahkan indeks berikutnya
+        nextIndexHelp++;
+    }
+
+    static void editInformasiHelp() {
+        System.out.println("Edit Informasi Help");
+
+        // Menampilkan informasi help yang dapat diubah
+        tampilOpsi(helpOptions, nextIndexHelp, "Informasi Help yang dapat diubah");
+
+        // Memilih informasi help yang akan diubah
+        System.out.print("Pilih informasi help yang akan diubah: ");
+        int indexHelp = input.nextInt();
+
+        // Memastikan nomor informasi help berada dalam batas yang benar
+        if (indexHelp >= 1 && indexHelp <= nextIndexHelp) {
+            System.out.println("Masukkan informasi help baru:");
+            String informasiHelpBaru = input.next();
+
+            // Mengubah nilai pada indeks yang dipilih
+            helpOptions[indexHelp - 1] = informasiHelpBaru;
+
+            // Menampilkan pesan sukses
+            System.out.println("Informasi Help berhasil diubah.");
+
+        } else {
+            alertInputTidakValidAdmin("Nomor informasi help");
+        }
+    }
+
+    static void hapusHelp() {
+        System.out.println("Hapus Informasi Help");
+
+        // Menampilkan informasi help yang dapat dihapus
+        tampilOpsi(helpOptions, nextIndexHelp, "Informasi Help yang dapat dihapus");
+
+        // Memilih informasi help yang akan dihapus
+        System.out.print("Pilih informasi help yang akan dihapus: ");
+        int indexHelp = input.nextInt();
+
+        // Memastikan nomor informasi help berada dalam batas yang benar
+        if (indexHelp >= 1 && indexHelp <= nextIndexHelp) {
+            // Menghapus nilai pada indeks yang dipilih
+            for (int i = indexHelp - 1; i < nextIndexHelp - 1; i++) {
+                helpOptions[i] = helpOptions[i + 1];
+            }
+
+            // Menampilkan pesan sukses
+            System.out.println("Informasi Help berhasil dihapus.");
+
+            // Mengurangi indeks berikutnya
+            nextIndexHelp--;
+
+        } else {
+            System.out.println("Informasi help tidak valid.");
+        }
     }
 
     // Tampil Informasi operasiAdmin
-    static void operasiAdmin(String nama, String pilihan1, String pilihan2, String pilihan3) {
+    static void operasiAdmin(String nama) {
         System.out.println("Pilih operasi untuk " + nama + ":");
-        System.out.println("1. " + pilihan1);
-        System.out.println("2. " + pilihan2);
-        System.out.println("3. " + pilihan3);
+        System.out.println("1. Tambah " + nama);
+        System.out.println("2. Edit " + nama);
+        System.out.println("3. Hapus " + nama);
         System.out.println("4. Lainnya");
     }
 
@@ -283,100 +390,11 @@ public class Main {
     }
 
     static void editInformasiAkun() {
-        System.out.println("-----------------------------------------------");
-        System.out.println("|                Edit AKUN                |");
-        System.out.println("-----------------------------------------------");
-        // Display the list of accounts
 
-        tampilOpsi("Informasi Akun");
-
-        System.out.println("Masukkan nomor akun yang ingin diedit:");
-        int accountIndex = input.nextInt();
-
-        if (isValidAccountIndex(accountIndex)) {
-            System.out.println("Masukkan nama baru untuk akun " + dataAccount[accountIndex][0] + ":");
-            String newName = input.next();
-
-            // Update the name of the selected account
-            dataAccount[accountIndex][0] = newName;
-
-            System.out.println("Nama akun berhasil diubah menjadi " + newName + ".");
-        } else {
-            System.out.println("Nomor akun tidak valid.");
-        }
     }
 
     static void aktivasiAkun() {
-        System.out.println("-----------------------------------------------");
-        System.out.println("|                Aktivasi AKUN                |");
-        System.out.println("-----------------------------------------------");
 
-        System.out.println("Pilih operasi:");
-        System.out.println("1. Aktifkan Akun");
-        System.out.println("2. Nonaktifkan Akun");
-
-        int operation = input.nextInt();
-
-        switch (operation) {
-            case 1:
-                tampilListAkunByStatus("Disabled");
-                break;
-            case 2:
-                tampilListAkunByStatus("Active");
-                break;
-            default:
-                System.out.println("Operasi tidak valid.");
-                return;
-        }
-
-        if (operation == 1 && !isEmptyList("Disabled")) {
-            System.out.println("Masukkan nomor akun yang ingin diaktifkan:");
-            int accountIndex = input.nextInt();
-            performAktivasiAkun(accountIndex, "Active");
-        } else if (operation == 2 && !isEmptyList("Active")) {
-            System.out.println("Masukkan nomor akun yang ingin dinonaktifkan:");
-            int accountIndex = input.nextInt();
-            performAktivasiAkun(accountIndex, "Disabled");
-        } else {
-            System.out.println("Tidak ada akun dengan status yang sesuai.");
-        }
-    }
-
-    static boolean isEmptyList(String targetStatus) {
-        for (int i = 1; i < nextIndexUser; i++) {
-            if (dataAccount[i][6].equals(targetStatus)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    static void performAktivasiAkun(int accountIndex, String newStatus) {
-        if (isValidAccountIndex(accountIndex)) {
-            aktivasiAkunStatus(accountIndex, newStatus);
-            System.out.println("Akun berhasil di" + (newStatus.equals("Active") ? "aktifkan." : "nonaktifkan."));
-        } else {
-            System.out.println("Nomor akun tidak valid.");
-        }
-    }
-
-    static void aktivasiAkunStatus(int accountIndex, String newStatus) {
-        dataAccount[accountIndex][6] = newStatus; // Assuming the status is at index 6
-    }
-
-    static boolean isValidAccountIndex(int accountIndex) {
-        return accountIndex >= 1 && accountIndex < nextIndexUser;
-    }
-
-    static void tampilListAkunByStatus(String targetStatus) {
-        boolean isEmpty = true;
-        System.out.println("List Akun (" + (targetStatus.equals("Active") ? "Nonaktif" : "Aktif") + "):");
-        for (int i = 1; i < nextIndexUser; i++) {
-            if (dataAccount[i][6].equals(targetStatus)) { // Assuming the status is at index 6
-                System.out.println(i + ". " + dataAccount[i][0] + " (" + dataAccount[i][2] + ")");
-                isEmpty = false;
-            }
-        }
     }
 
     static void tambahSedekah() {
@@ -540,7 +558,7 @@ public class Main {
         System.out.println("-----------------------------------------------");
         System.out.println("|    Saldo yang ingin anda tarik sebesar      |");
         System.out.println("|                                             |");
-        System.out.println("                  Rp.  " + tarikTunai + "  \t\t\t  ");
+        System.out.println("         Rp.  " + tarikTunai + "  \t\t\t  ");
         System.out.println("|                                             |");
         System.out.println("-----------------------------------------------");
         char responsTarik = konfirmasi(input);
@@ -562,8 +580,7 @@ public class Main {
                         System.out.println("|            TARIK TUNAI BERHASIL             |");
                         System.out.println("|                                             |");
                         System.out.println("|                 INFO SALDO                  |");
-                        System.out.println(
-                                "     Saldo anda saat ini adalah Rp. " + sampleSaldo + "  ");
+                        System.out.println("    Saldo anda saat ini adalah Rp. " + sampleSaldo + "  ");
                         System.out.println("-----------------------------------------------");
                         kembaliAtauKeluar(input);
                     } else {
@@ -585,7 +602,7 @@ public class Main {
         System.out.println("-----------------------------------------------");
         System.out.println("|     Saldo yang ingin anda setor sebesar     |");
         System.out.println("|                                             |");
-        System.out.println("                  Rp.  " + inputSetor + "  \t\t  ");
+        System.out.println("          Rp.  " + inputSetor + "  \t\t          ");
         System.out.println("|                                             |");
         System.out.println("-----------------------------------------------");
         char responsSetor = konfirmasi(input);
@@ -607,8 +624,7 @@ public class Main {
                     System.out.println("|               SETOR BERHASIL                |");
                     System.out.println("|                                             |");
                     System.out.println("|                 INFO SALDO                  |");
-                    System.out.println(
-                            "     Saldo anda saat ini adalah Rp. " + sampleSaldo + "  ");
+                    System.out.println("    Saldo anda saat ini adalah Rp. " + sampleSaldo + "  ");
                     System.out.println("-----------------------------------------------");
                     kembaliAtauKeluar(input);
                 } else {
@@ -661,14 +677,14 @@ public class Main {
         }
 
         // konfirmasi
-        System.out.println("-----------------------------------------------");
+        System.out.println("------------------------------------------------");
         System.out.println("|              KONFIRMASI TRANSFER             |");
-        System.out.println("-----------------------------------------------");
+        System.out.println("------------------------------------------------");
         System.out.println("    Kepada  : " + namaPemilikAccount);
         System.out.println("    Bank    : " + namaBank);
         System.out.println("    No Rek  : " + nomorRekeningTujuan);
         System.out.println("    Jumlah  : Rp.  " + jumlahTransfer);
-        System.out.println("-----------------------------------------------");
+        System.out.println("------------------------------------------------");
 
         char responsTransfer = konfirmasi(input);
         switch (responsTransfer) {
@@ -721,12 +737,12 @@ public class Main {
             String namaPemilikVA = dataVA[indexVA][1];
             int jumlahPembayaran = Integer.parseInt(dataVA[indexVA][2]);
 
-            System.out.println("-----------------------------------");
-            System.out.println("|         VIRTUAL ACCOUNT         |");
-            System.out.println("-----------------------------------");
-            System.out.println("  Nama Pemilik VA: " + namaPemilikVA);
-            System.out.println("  Pembayaran VA sebesar: Rp " + jumlahPembayaran);
-            System.out.println("-----------------------------------");
+            System.out.println("----------------------------------------");
+            System.out.println("|            VIRTUAL ACCOUNT           |");
+            System.out.println("----------------------------------------");
+            System.out.println("    Nama Pemilik VA: " + namaPemilikVA);
+            System.out.println("    Pembayaran VA sebesar: Rp " + jumlahPembayaran);
+            System.out.println("----------------------------------------");
             char responsVa = konfirmasi(input);
             switch (responsVa) {
                 case 'y':
@@ -748,17 +764,13 @@ public class Main {
                                 String.valueOf("-" + jumlahPembayaran) };
                         currentSnapshot++;
                         dataVA[indexVA][2] = String.valueOf(jumlahPembayaran);
-                        System.out.println(
-                                "---------------------------------------------------------------");
-                        System.out.println(
-                                "|                       TRANSAKSI BERHASIL                    |");
-                        System.out.println(
-                                "---------------------------------------------------------------");
-                        System.out.println("  Nama VA       : " + namaPemilikVA);
-                        System.out.println("  Pembayaran VA : Rp " + jumlahPembayaran);
-                        System.out.println("  Sisa saldo    : Rp " + sampleSaldo);
-                        System.out.println(
-                                "---------------------------------------------------------------");
+                        System.out.println("---------------------------------------------------------------");
+                        System.out.println("|                       TRANSAKSI BERHASIL                    |");
+                        System.out.println("---------------------------------------------------------------");
+                        System.out.println("    Nama VA       : " + namaPemilikVA);
+                        System.out.println("    Pembayaran VA : Rp " + jumlahPembayaran);
+                        System.out.println("    Sisa saldo    : Rp " + sampleSaldo);
+                        System.out.println("---------------------------------------------------------------");
                         kembaliAtauKeluar(input);
                     } else {
                         alertSaldoTidakCukup();
@@ -827,12 +839,13 @@ public class Main {
 
     // Function 6. tampilKurs
     static void tampilKurs() {
-        System.out.println("--------------------------------- ");
-        System.out.println("|            INFO KURS           |");
-        System.out.println("--------------------------------- ");
+        System.out.println("-----------------------------------");
+        System.out.println("|            INFO KURS            |");
+        System.out.println("-----------------------------------");
         System.out.println("   => USD");
-        System.out.println("   Beli : " + kursBeliUSD);
-        System.out.println("   Jual : " + kursJualUSD);
+        System.out.println("    Beli : " + kursBeliUSD);
+        System.out.println("    Jual : " + kursJualUSD);
+        System.out.println("-----------------------------------");
 
         System.out.println("\nApakah ingin konversi KURS (y/n)?");
         char konversiKurs = input.next().charAt(0);
@@ -855,6 +868,7 @@ public class Main {
     static void tampilInformasi(int indexAkun, int sampleSaldo) {
         System.out.println("-----------------------------------------------");
         System.out.println("|                  INFORMASI                  |");
+        System.out.println("-----------------------------------------------");
         System.out.println("   Nama        : " + dataAccount[indexAkun][0]);
         System.out.println("   Saldo akhir : Rp " + sampleSaldo);
         System.out.println("-----------------------------------------------");
@@ -925,7 +939,7 @@ public class Main {
     // Fungsi untuk menampilkan opsi
     static void tampilOpsi(String[] options, int length, String header) {
         System.out.println("-----------------------------------------------");
-        System.out.println("              " + header + "                   ");
+        System.out.println("                " + header + "                   ");
         System.out.println("-----------------------------------------------");
         for (int i = 0; i < length; i++) {
             System.out.println("    " + (i + 1) + ". " + options[i]);
@@ -936,7 +950,7 @@ public class Main {
     // Fungsi untuk menampilkan opsi bank
     static void tampilOpsi(String[][] options, String header) {
         System.out.println("-----------------------------------------------");
-        System.out.println("              " + header + "                   ");
+        System.out.println("                " + header + "                   ");
         System.out.println("-----------------------------------------------");
         for (int i = 0; i < options.length; i++) {
             System.out.println((i + 1) + ". " + options[i][1] + " (" + options[i][0] + ")");
@@ -946,25 +960,24 @@ public class Main {
 
     static void tampilOpsi(String header) {
         System.out.println("-----------------------------------------------");
-        System.out.println("              " + header + "                   ");
+        System.out.println("                " + header + "                   ");
         System.out.println("-----------------------------------------------");
         System.out.println();
-        System.out.printf("%-3s %-13s %-8s %-10s %-10s%n",
-                "No", "Nama", "No Rek", "Bank", "Status");
+        System.out.printf("%-13s %-12s %-10s %-10s%n",
+                "Nama", "No Rekening", "Bank", "Status");
 
-        System.out.println("-----------------------------------------------");
         for (int i = 1; i < nextIndexUser; i++) {
-            System.out.printf("%-3s %-13s %-8s %-10s %-10s%n",
-                    i, dataAccount[i][0], dataAccount[i][2], dataAccount[i][5], dataAccount[i][6]);
+            System.out.printf("%-13s %-12s %-10s %-10s%n",
+                    dataAccount[i][0], dataAccount[i][2], dataAccount[i][5], dataAccount[i][6]);
         }
         System.out.println("-----------------------------------------------");
     }
 
     // Function pilihan kembali atau keluar
     static void kembaliAtauKeluar(Scanner input) {
-        System.out.println("\n---------------------------------");
+        System.out.println("\n--------------------------------");
         System.out.println("|   1. Kembali    2. Keluar      |");
-        System.out.println("--------------------------------- ");
+        System.out.println("----------------------------------");
 
         int pilihan;
         do {
@@ -1065,7 +1078,15 @@ public class Main {
         System.out.println("-----------------------------------------------");
         System.out.println("|             !! TRANSAKSI GAGAL !!           |");
         System.out.println("|                                             |");
-        System.out.println("    Alert : " + nama + " tidak valid");
+        System.out.println("         Alert : " + nama + " tidak valid");
+        System.out.println("-----------------------------------------------");
+    }
+
+    static void alertInputTidakValidAdmin(String nama) {
+        System.out.println("-----------------------------------------------");
+        System.out.println("|             !! Perubahan GAGAL !!           |");
+        System.out.println("|                                             |");
+        System.out.println("         Alert : " + nama + " tidak valid");
         System.out.println("-----------------------------------------------");
     }
 
@@ -1074,7 +1095,7 @@ public class Main {
         System.out.println("-----------------------------------------------");
         System.out.println("|               !! Peringatan !!              |");
         System.out.println("|                                             |");
-        System.out.println("          Pilihan " + nama + " tidak tersedia       ");
+        System.out.println("       Pilihan " + nama + " tidak tersedia       ");
         System.out.println("-----------------------------------------------");
     }
 
@@ -1088,8 +1109,8 @@ public class Main {
     // Function Alert Login Berhasil
     static void alertLoginGagal(String pesan) {
         System.out.println("-----------------------------------------------");
-        System.out.println("|               LOGIN Gagal!               |");
-        System.out.println("    Pesan : " + pesan);
+        System.out.println("|               LOGIN Gagal!                  |");
+        System.out.println("      Pesan : " + pesan);
         System.out.println("-----------------------------------------------");
     }
 
@@ -1115,7 +1136,7 @@ public class Main {
         System.out.println("-----------------------------------------------");
         System.out.println("|                !! PERINGATAN !!             |");
         System.out.println("|                                             |");
-        System.out.println("|         Pin yang anda masukkan salah       |");
+        System.out.println("|         Pin yang anda masukkan salah        |");
         System.out.println("            Sisa kesempatan anda : " + remainingAttempts);
         System.out.println("-----------------------------------------------");
     }
