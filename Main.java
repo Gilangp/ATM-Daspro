@@ -41,6 +41,11 @@ public class Main {
 
     static boolean[] menuAktif = { true, true, true, true, true, true, true, true, true, true };
     static String[][] history = new String[1000][2];
+    // Menambah Riwayat pertama
+    static {
+        history[0] = new String[] { "Saldo awal", "100000" };
+    }
+    static int currentSnapshot = 1;
 
     static String[] donationOptions = new String[100];
     static {
@@ -69,11 +74,7 @@ public class Main {
     }
     static int nextIndexHelp = 11;
 
-    static int currentSnapshot = 1;
-
-    // public static void main(String[] args) {
     int maxAttempts = 3;
-    boolean isLoginIn = false;
 
     static int findAccount(String accountNumber, String pin) {
         for (int i = 0; i < dataAccount.length; i++) {
@@ -85,9 +86,11 @@ public class Main {
         return -1;
     }
 
+    static boolean isLoginIn = false;
+
+
     public static void main(String[] args) {
-        // Menambah Riwayat pertama
-        history[0] = new String[] { "Saldo awal", "100000" };
+        
 
         // SELAMAT DATANG
         System.out.println("-----------------------------------------------");
@@ -95,7 +98,6 @@ public class Main {
         System.out.println("-----------------------------------------------");
 
         int maxAttempts = 3;
-        boolean isLoginIn = false;
 
         while (maxAttempts > 0 && !isLoginIn) {
             System.out.println("-----------------------------------------------");
@@ -154,7 +156,6 @@ public class Main {
                 }
             }
         }
-        input.close();
     }
 
     // Function tampilUserMenu
@@ -295,7 +296,7 @@ public class Main {
         System.out.println("Edit Informasi Help");
 
         // Menampilkan informasi help yang dapat diubah
-        tampilOpsi(helpOptions, nextIndexHelp, "Informasi Help yang dapat diubah");
+        tampilOpsi(helpOptions, nextIndexHelp, "Informasi Help");
 
         // Memilih informasi help yang akan diubah
         System.out.print("Pilih informasi help yang akan diubah: ");
@@ -907,23 +908,8 @@ public class Main {
 
     // Function 10. tampilhelp
     static void tampilHelp() {
-        System.out.println("=========================================================================================");
-        System.out.println("|                                        HELP                                           |");
-        System.out.println("=========================================================================================");
-        System.out.println("| - Gunakan Menu ke-1 jika anda ingin melakukan penarikan saldo                         |");
-        System.out.println("| - Gunakan Menu ke-2 jika anda ingin mengisi saldo                                     |");
-        System.out.println("| - Gunakan Menu ke-3 jika anda ingin melakukakan transfer sesama/berbeda nasabah       |");
-        System.out.println("| - Gunakan Menu ke-4 jika anda ingin melakukan pembayaran melalui Virtual Account (VA) |");
-        System.out.println("| - Gunakan Menu ke-5 jika anda ingin melakukan sedekah pada platform yang tersedia     |");
-        System.out.println("| - Gunakan Menu ke-6 jika anda ingin melihat nilai tukar mata uang                     |");
-        System.out.println("| - Gunakan Menu ke-7 jika ingin melihat riwayat transaksi anda                         |");
-        System.out.println("| - Gunakan Menu ke-8 jika anda ingin melihat jumlah saldo yang tersedia                |");
-        System.out.println("| - Gunakan Menu ke-9 jika ingin mengubah pin anda                                      |");
-        System.out.println("| - Untuk tarik dan setor tunai, minimal transaksi sebesar Rp.50000                     |");
-        System.out.println("| - Jika terdapat masalah pada mesin ATM hubungi admin (085105120605)                   |");
-        System.out.println("-----------------------------------------------------------------------------------------");
+        tampilOpsi(helpOptions, nextIndexHelp, "Informasi Help");
     }
-
     // PEMROSESAN DATA
     // Function Konfirmasi
     static char konfirmasi(Scanner input) {
