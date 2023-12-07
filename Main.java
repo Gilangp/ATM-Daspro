@@ -276,7 +276,7 @@ public class Main {
         System.out.println("---------------------------------");
         System.out.println("|        INFO KURS MATA UANG     |");
         System.out.println("---------------------------------");
-        
+        // Mencetak Informasi Mata uang beserta Nilai Kurs beli dan jual
         for (int i = 0; i < kodeMataUang.length; i++) {
             System.out.println("   Mata Uang : " + kodeMataUang[i]);
             System.out.println("   Beli      : " + kursMataUang[i][0]);
@@ -623,14 +623,16 @@ public class Main {
         System.out.println("Masukkan Harga Jual Mata Uang Baru: ");
         double hargaJualBaru = input.nextDouble();
 
+        //Membuat Array baru
         String [] tempKodeMataUang = new String[kodeMataUang.length + 1];
         double[][] tempKursMataUang = new double[kursMataUang.length + 1][2];
 
         for ( int i = 0; i < kodeMataUang.length; i++) {
             tempKodeMataUang[i] = kodeMataUang[i];
-            tempKursMataUang[0] = kursMataUang[0];
-            tempKursMataUang[2] = kursMataUang[1];
+            tempKursMataUang[i][0] = kursMataUang[i][0];
+            tempKursMataUang[i][1] = kursMataUang[i][1];
         }
+        // Menambahkan Indeks
         tempKodeMataUang[kodeMataUang.length] = kodeBaru;
         tempKursMataUang[kursMataUang.length][0] = hargaBeliBaru;
         tempKursMataUang[kursMataUang.length][1] = hargaJualBaru;
