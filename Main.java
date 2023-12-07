@@ -9,19 +9,18 @@ public class Main {
 
     static Scanner input = new Scanner(System.in); // Define and initialize the scanner object
 
-
     // Deklarasi kode mata uang
     static String[] kodeMataUang = { "USD", "EUR", "GBP" }; // Kode mata uang
     // Array 2D untuk menyimpan kurs mata uang (bisa disesuaikan)
     static double[][] kursMataUang = {
-        { 15000, 15000 }, // USD
-        { 17000, 17000 }, // EUR
-        { 20000, 20000 }  // GBP
+            { 15000, 15000 }, // USD
+            { 17000, 17000 }, // EUR
+            { 20000, 20000 } // GBP
     };
 
     static String[][] dataAccount = new String[1000][6];
     static {
-        dataAccount[0] = new String[] { "Fajar", "admin", "11223344", "1234" };
+        dataAccount[0] = new String[] { "Fajar", "admin", "11223344", "1234", "", "", "Active" };
         dataAccount[1] = new String[] { "Yefta", "user", "1234", "123", "1000000", "BRI", "Active" };
         dataAccount[2] = new String[] { "Gopal", "user", "4567", "456", "500000", "BCA", "Active" };
         dataAccount[3] = new String[] { "Gilang", "user", "7890", "789", "250000", "BNI", "Active" };
@@ -87,7 +86,8 @@ public class Main {
     static int findAccount(String accountNumber, String pin) {
         for (int i = 0; i < dataAccount.length; i++) {
             if (dataAccount[i][2] != null && dataAccount[i][3] != null &&
-                    dataAccount[i][2].equals(accountNumber) && dataAccount[i][3].equals(pin) ) {
+                    dataAccount[i][2].equals(accountNumber) && dataAccount[i][3].equals(pin)
+                    && dataAccount[i][6] == "Active") {
                 return i;
             }
         }
@@ -103,7 +103,6 @@ public class Main {
         handleMainMenu();
     }
 
-
     private static void handleLogout() {
         isLoginIn = false;
         isAdmin = false;
@@ -113,7 +112,7 @@ public class Main {
     }
 
     static String currentUser;
-    
+
     private static void handleLogin() {
         int loginAttempts = 3;
         System.out.println("-----------------------------------------------");
@@ -137,51 +136,52 @@ public class Main {
                 isLoginIn = true;
                 isAdmin = accountType.equals("admin");
                 return;
-            } else {
-                    loginAttempts--;
-                    if (loginAttempts > 0) {
-                        // Jika login gagal
-                        System.out.println("-----------------------------------------------");
-                        System.out.println("|              !! LOGIN GAGAL !!              |");
-                        System.out.println("|                                             |");
-                        System.out.println("|    NO REK / PIN YANG ANDA MASUKKAN SALAH    |");
-                        System.out.println("|                                             |");
-                        System.out.println("|     Sisa percobaan kurang " + loginAttempts + " kali lagi\t      |");
-                        System.out.println("|        NB : Maksimal percobaan 3 kali       |");
-                        System.out.println("-----------------------------------------------");
-                    } else {
-                        System.out.println("Anda telah melampaui upaya login maksimum. Hubungi Admin");
-                        System.out.println("-----------------------------------------------");
-                        System.out.println("|              !! LOGIN GAGAL !!              |");
-                        System.out.println("|                                             |");
-                        System.out.println("|    NO REK / PIN YANG ANDA MASUKKAN SALAH    |");
-                        System.out.println("|                                             |");
-                        System.out.println("|  Anda telah melampaui upaya login maksimum  |");
-                        System.out.println("|               Hubungi Admin                 |");
-                        System.out.println("-----------------------------------------------");
-                    }
-                }
-        }
+            } 
+            loginAttempts--;
+            
+            if(loginAttempts > 0){
+                System.out.println("-----------------------------------------------");
+            System.out.println("|              !! LOGIN GAGAL !!              |");
+            System.out.println("|                                             |");
+            System.out.println("|    NO REK / PIN YANG ANDA MASUKKAN SALAH    |");
+            System.out.println("|                                             |");
+            System.out.println("|     Sisa percobaan kurang " + loginAttempts + " kali lagi\t      |");
+            System.out.println("|        NB : Maksimal percobaan 3 kali       |");
+            System.out.println("-----------------------------------------------");
 
-        System.out.println("You have exceeded the maximum login attempts. Your account is locked.");
+            }
+
+        }
+            System.out.println("-----------------------------------------------");
+            System.out.println("|              !! LOGIN GAGAL !!              |");
+            System.out.println("|                                             |");
+            System.out.println("|    NO REK / PIN YANG ANDA MASUKKAN SALAH    |");
+            System.out.println("|                                             |");
+            System.out.println("|  Anda telah melampaui upaya login maksimum  |");
+            System.out.println("|               Hubungi Admin                 |");
+            System.out.println("-----------------------------------------------");
+        System.exit(0);
     }
+
     private static void handleMainMenu() {
         while (true) {
             if (!isLoginIn) {
                 System.out.println("No user is currently logged in.");
                 handleLogin();
             } else {
+                alertLoginBerhasil();
                 if (isAdmin) {
-                    System.out.println("admin");
+                    // System.out.println("admin");
                     tampilAdminMenu();
                 } else {
-                    System.out.println("user");
+                    // System.out.println("user");
                     tampilUserMenu(indexAkun);
                 }
                 System.out.println("0. Logout");
             }
         }
     }
+
     // Function tampilUserMenu
     static void tampilAdminMenu() {
         while (isLoginIn) {
@@ -228,7 +228,7 @@ public class Main {
     static void tampilInformasiAkun() {
         tampilOpsi("Informasi Akun");
         operasiAdmin("Akun", "Tambah Akun", "Edit Akun", "Aktivasi Akun");
-        
+
         int operation = input.nextInt();
         switch (operation) {
             case 1:
@@ -284,7 +284,7 @@ public class Main {
             System.out.println("---------------------------------");
         }
 
-        operasiAdmin("Info KURS","tambah mata uang", "edit mata uang", "hapus mata uang");
+        operasiAdmin("Info KURS", "tambah mata uang", "edit mata uang", "hapus mata uang");
         int operation = input.nextInt();
         switch (operation) {
             case 1:
@@ -616,18 +616,18 @@ public class Main {
     static void tambahMataUang() {
         System.out.println("Masukkan Kode Mata Uang Baru: ");
         String kodeBaru = input.next();
-    
+
         System.out.println("Masukkan Harga Beli Mata Uang Baru: ");
         double hargaBeliBaru = input.nextDouble();
-    
+
         System.out.println("Masukkan Harga Jual Mata Uang Baru: ");
         double hargaJualBaru = input.nextDouble();
 
-        //Membuat Array baru
-        String [] tempKodeMataUang = new String[kodeMataUang.length + 1];
+        // Membuat Array baru
+        String[] tempKodeMataUang = new String[kodeMataUang.length + 1];
         double[][] tempKursMataUang = new double[kursMataUang.length + 1][2];
 
-        for ( int i = 0; i < kodeMataUang.length; i++) {
+        for (int i = 0; i < kodeMataUang.length; i++) {
             tempKodeMataUang[i] = kodeMataUang[i];
             tempKursMataUang[i][0] = kursMataUang[i][0];
             tempKursMataUang[i][1] = kursMataUang[i][1];
@@ -649,7 +649,7 @@ public class Main {
 
         int indexEdit = -1;
 
-        for ( int i = 0; i < kodeMataUang.length; i++) {
+        for (int i = 0; i < kodeMataUang.length; i++) {
             if (kodeMataUang[i].equals(kodeEdit)) {
                 indexEdit = i;
                 break;
@@ -658,10 +658,10 @@ public class Main {
         if (indexEdit != -1) {
             System.out.println("Masukkan Harga Beli Baru: ");
             double hargaBeliBaru = input.nextDouble();
-    
+
             System.out.println("Masukkan Harga Jual Baru: ");
             double hargaJualBaru = input.nextDouble();
-            
+
             kursMataUang[indexEdit][0] = hargaBeliBaru;
             kursMataUang[indexEdit][1] = hargaJualBaru;
 
@@ -674,21 +674,21 @@ public class Main {
     static void hapusMataUang() {
         System.out.println("Masukkan Kode Mata Uang yang Akan Dihapus: ");
         String kodeHapus = input.next();
-    
+
         int indexHapus = -1;
-    
+
         for (int i = 0; i < kodeMataUang.length; i++) {
             if (kodeMataUang[i].equals(kodeHapus)) {
                 indexHapus = i;
                 break;
             }
         }
-    
+
         if (indexHapus != -1) {
             // Menghapus data mata uang dari array
             String[] tempKodeMataUang = new String[kodeMataUang.length - 1];
             double[][] tempKursMataUang = new double[kursMataUang.length - 1][2];
-    
+
             int tempIndex = 0;
             for (int i = 0; i < kodeMataUang.length; i++) {
                 if (i != indexHapus) {
@@ -698,10 +698,10 @@ public class Main {
                     tempIndex++;
                 }
             }
-    
+
             kodeMataUang = tempKodeMataUang;
             kursMataUang = tempKursMataUang;
-    
+
             System.out.println("KURS Mata Uang " + kodeHapus + " telah dihapus!");
         } else {
             System.out.println("Kode Mata Uang tidak ditemukan!");
@@ -1080,7 +1080,7 @@ public class Main {
         System.out.println("---------------------------------");
         System.out.println("|        INFO KURS MATA UANG     |");
         System.out.println("---------------------------------");
-        
+
         for (int i = 0; i < kodeMataUang.length; i++) {
             System.out.println("   Mata Uang : " + kodeMataUang[i]);
             System.out.println("   Beli      : " + kursMataUang[i][0]);
@@ -1294,9 +1294,9 @@ public class Main {
 
         System.out.println("Pilih mata uang tujuan (masukkan kode mata uang): ");
         String mataUangTujuan = input.next();
-    
+
         double kursTujuan = 0;
-    
+
         // Mencari nilai kurs untuk mata uang tujuan
         for (int i = 0; i < kodeMataUang.length; i++) {
             if (kodeMataUang[i].equals(mataUangTujuan)) {
@@ -1304,15 +1304,16 @@ public class Main {
                 break;
             }
         }
-    
+
         if (kursTujuan == 0) {
             System.out.println("Kode mata uang tujuan tidak valid.");
         } else {
             System.out.println("Masukkan jumlah uang yang akan dikonversi: ");
             double jumlahUang = input.nextDouble();
-    
+
             double hasilKonversi = jumlahUang / kursTujuan; // Kalkulasi konversi dari IDR ke mata uang tujuan
-            System.out.println(jumlahUang + " " + mataUangAsal + " setara dengan " + hasilKonversi + " " + mataUangTujuan);
+            System.out.println(
+                    jumlahUang + " " + mataUangAsal + " setara dengan " + hasilKonversi + " " + mataUangTujuan);
         }
     }
 
