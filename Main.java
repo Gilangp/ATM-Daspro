@@ -539,8 +539,8 @@ public class Main {
 
         for ( int i = 0; i < kodeMataUang.length; i++) {
             tempKodeMataUang[i] = kodeMataUang[i];
-            tempKursMataUang[0] = kursMataUang[0];
-            tempKursMataUang[1] = kursMataUang[1];
+            tempKursMataUang[i][0] = kursMataUang[i][0];
+            tempKursMataUang[i][1] = kursMataUang[i][1];
         }
         // Menambahkan Indeks
         tempKodeMataUang[kodeMataUang.length] = kodeBaru;
