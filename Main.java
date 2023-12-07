@@ -95,80 +95,96 @@ public class Main {
     }
 
     static boolean isLoginIn = false;
-
+    static boolean isAdmin = false;
+    static int indexAkun = -1;
 
     public static void main(String[] args) {
-        
+        handleLogin();
+        handleMainMenu();
+    }
 
-        // SELAMAT DATANG
+
+    private static void handleLogout() {
+        isLoginIn = false;
+        isAdmin = false;
+        currentUser = null;
+        indexAkun = -1;
+        System.out.println("Logout successful.");
+    }
+
+    static String currentUser;
+    
+    private static void handleLogin() {
+        int loginAttempts = 3;
         System.out.println("-----------------------------------------------");
         System.out.println("|             SELAMAT DATANG di ATM           |");
         System.out.println("-----------------------------------------------");
+        System.out.println("|                 SILAHKAN LOGIN              |");
+        System.out.println("|           SEBELUM MELAKUKAN TRANSAKSI       |");
+        System.out.println("-----------------------------------------------");
 
-        int maxAttempts = 3;
-
-        while (maxAttempts > 0 && !isLoginIn) {
-            System.out.println("-----------------------------------------------");
-            System.out.println("|                 SILAHKAN LOGIN              |");
-            System.out.println("|           SEBELUM MELAKUKAN TRANSAKSI       |");
-            System.out.println("-----------------------------------------------");
-
+        while (loginAttempts > 0) {
+            // Prompt for username and PIN
             System.out.print("Masukkan Nomor Rekening Anda: ");
             String noRek = input.nextLine();
             System.out.print("Masukkan Pin: ");
             String inputPin = input.nextLine();
 
-            int indexAkun = findAccount(noRek, inputPin);
+            indexAkun = findAccount(noRek, inputPin);
 
             if (indexAkun != -1) {
-
-                isLoginIn = true;
                 String accountType = dataAccount[indexAkun][1];
-                System.out.println(accountType);
-
-                if (accountType.equals("admin")) {
-                    alertLoginBerhasil();
-                    tampilAdminMenu();
-                }
-
-                if (accountType.equals("user")) {
-                    if (dataAccount[indexAkun][6].equals("Blocked")) {
-                        alertLoginGagal("Akun Anda terkunci. Hubungi Admin.");
-                        break;
+                isLoginIn = true;
+                isAdmin = accountType.equals("admin");
+                return;
+            } else {
+                    loginAttempts--;
+                    if (loginAttempts > 0) {
+                        // Jika login gagal
+                        System.out.println("-----------------------------------------------");
+                        System.out.println("|              !! LOGIN GAGAL !!              |");
+                        System.out.println("|                                             |");
+                        System.out.println("|    NO REK / PIN YANG ANDA MASUKKAN SALAH    |");
+                        System.out.println("|                                             |");
+                        System.out.println("|     Sisa percobaan kurang " + loginAttempts + " kali lagi\t      |");
+                        System.out.println("|        NB : Maksimal percobaan 3 kali       |");
+                        System.out.println("-----------------------------------------------");
+                    } else {
+                        System.out.println("Anda telah melampaui upaya login maksimum. Hubungi Admin");
+                        System.out.println("-----------------------------------------------");
+                        System.out.println("|              !! LOGIN GAGAL !!              |");
+                        System.out.println("|                                             |");
+                        System.out.println("|    NO REK / PIN YANG ANDA MASUKKAN SALAH    |");
+                        System.out.println("|                                             |");
+                        System.out.println("|  Anda telah melampaui upaya login maksimum  |");
+                        System.out.println("|               Hubungi Admin                 |");
+                        System.out.println("-----------------------------------------------");
                     }
-                    alertLoginBerhasil();
+                }
+        }
+
+        System.out.println("You have exceeded the maximum login attempts. Your account is locked.");
+    }
+    private static void handleMainMenu() {
+        while (true) {
+            if (!isLoginIn) {
+                System.out.println("No user is currently logged in.");
+                handleLogin();
+            } else {
+                if (isAdmin) {
+                    System.out.println("admin");
+                    tampilAdminMenu();
+                } else {
+                    System.out.println("user");
                     tampilUserMenu(indexAkun);
                 }
-            } else {
-                maxAttempts--;
-                if (maxAttempts > 0) {
-                    // Jika login gagal
-                    System.out.println("-----------------------------------------------");
-                    System.out.println("|              !! LOGIN GAGAL !!              |");
-                    System.out.println("|                                             |");
-                    System.out.println("|    NO REK / PIN YANG ANDA MASUKKAN SALAH    |");
-                    System.out.println("|                                             |");
-                    System.out.println("|     Sisa percobaan kurang " + maxAttempts + " kali lagi\t      |");
-                    System.out.println("|        NB : Maksimal percobaan 3 kali       |");
-                    System.out.println("-----------------------------------------------");
-                } else {
-                    System.out.println("Anda telah melampaui upaya login maksimum. Hubungi Admin");
-                    System.out.println("-----------------------------------------------");
-                    System.out.println("|              !! LOGIN GAGAL !!              |");
-                    System.out.println("|                                             |");
-                    System.out.println("|    NO REK / PIN YANG ANDA MASUKKAN SALAH    |");
-                    System.out.println("|                                             |");
-                    System.out.println("|  Anda telah melampaui upaya login maksimum  |");
-                    System.out.println("|               Hubungi Admin                 |");
-                    System.out.println("-----------------------------------------------");
-                }
+                System.out.println("0. Logout");
             }
         }
     }
-
     // Function tampilUserMenu
     static void tampilAdminMenu() {
-        while (true) {
+        while (isLoginIn) {
             System.out.println("-----------------------------------------------");
             System.out.println("|             Silahkan Pilih Menu             |");
             System.out.println("|                                             |");
@@ -409,7 +425,7 @@ public class Main {
         String pin = input.next();
 
         // Add the new account to the dataAccount array
-        String[] newAccount = { nama, "user", noRek, pin, "0", "BCA", "Active" };
+        String[] newAccount = { nama, "user", noRek, pin, "100000", "BCA", "Active" };
         dataAccount[nextIndexUser] = newAccount;
         // Increment the nextIndexUser
         nextIndexUser++;
@@ -604,7 +620,7 @@ public class Main {
 
     // Function tampilUserMenu
     static void tampilUserMenu(int indexAkun) {
-        while (true) {
+        while (isLoginIn) {
             int sampleSaldo = Integer.parseInt(dataAccount[indexAkun][4]);
             // SETELAH LOGIN
             System.out.println("-----------------------------------------------");
@@ -700,7 +716,7 @@ public class Main {
                 int inputPin = input.nextInt();
                 confirmPin(inputPin, indexAkun, input);
                 if (tarikTunai < sampleSaldo) {
-                    if (tarikTunai >= 50000) {
+                    if (tarikTunai > 50000) {
 
                         sampleSaldo -= tarikTunai; // sampleSaldo = sampleSaldo - masukan
                         dataAccount[indexAkun][4] = String.valueOf(sampleSaldo);
@@ -1043,6 +1059,7 @@ public class Main {
     static void tampilHelp() {
         tampilOpsi(helpOptions, nextIndexHelp, "Informasi Help");
     }
+
     // PEMROSESAN DATA
     // Function Konfirmasi
     static char konfirmasi(Scanner input) {
@@ -1110,7 +1127,7 @@ public class Main {
             System.out.println("|       Terima kasih telah menggunakan ATM.   |");
             System.out.println("|               Selamat tinggal!              |");
             System.out.println("-----------------------------------------------");
-            System.exit(0);
+            handleLogout();
         }
     }
 
