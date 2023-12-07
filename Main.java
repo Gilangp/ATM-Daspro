@@ -9,8 +9,16 @@ public class Main {
 
     static Scanner input = new Scanner(System.in); // Define and initialize the scanner object
 
-    static double kursBeliUSD = 15000;
-    static double kursJualUSD = 15000;
+
+    // Deklarasi kode mata uang
+    static String[] kodeMataUang = { "USD", "EUR", "GBP" }; // Kode mata uang
+    // Array 2D untuk menyimpan kurs mata uang (bisa disesuaikan)
+    static double[][] kursMataUang = {
+        { 15000, 15000 }, // USD
+        { 17000, 17000 }, // EUR
+        { 20000, 20000 }  // GBP
+    };
+
     static String[][] dataAccount = new String[1000][7];
     static {
         dataAccount[0] = new String[] { "Fajar", "admin", "11223344", "1234" };
@@ -248,7 +256,35 @@ public class Main {
 
     // Function 3. tampilInformasiKURS
     static void tampilInformasiKURS() {
-        //
+        System.out.println("---------------------------------");
+        System.out.println("|        INFO KURS MATA UANG     |");
+        System.out.println("---------------------------------");
+        
+        for (int i = 0; i < kodeMataUang.length; i++) {
+            System.out.println("   Mata Uang : " + kodeMataUang[i]);
+            System.out.println("   Beli      : " + kursMataUang[i][0]);
+            System.out.println("   Jual      : " + kursMataUang[i][1]);
+            System.out.println("---------------------------------");
+        }
+
+        operasiAdmin("Info Kurs");
+        int operation = input.nextInt();
+        switch (operation) {
+            case 1:
+                tambahMataUang();
+                break;
+            case 2:
+                editMataUang();
+                break;
+            case 3:
+                hapusMataUang();
+                break;
+            case 4:
+                break;
+            default:
+                alertTidakTersedia("operasi");
+                break;
+        }
     }
 
     // Function 4. tampilInformasiHelp
@@ -468,6 +504,99 @@ public class Main {
 
         } else {
             System.out.println("Nomor sedekah tidak valid.");
+        }
+    }
+
+    static void tambahMataUang() {
+        System.out.println("Masukkan Kode Mata Uang Baru: ");
+        String kodeBaru = input.next();
+    
+        System.out.println("Masukkan Harga Beli Mata Uang Baru: ");
+        double hargaBeliBaru = input.nextDouble();
+    
+        System.out.println("Masukkan Harga Jual Mata Uang Baru: ");
+        double hargaJualBaru = input.nextDouble();
+
+        String [] tempKodeMataUang = new String[kodeMataUang.length + 1];
+        double[][] tempKursMataUang = new double[kursMataUang.length + 1][2];
+
+        for ( int i = 0; i < kodeMataUang.length; i++) {
+            tempKodeMataUang[i] = kodeMataUang[i];
+            tempKursMataUang[0] = kursMataUang[0];
+            tempKursMataUang[2] = kursMataUang[1];
+        }
+        tempKodeMataUang[kodeMataUang.length] = kodeBaru;
+        tempKursMataUang[kursMataUang.length][0] = hargaBeliBaru;
+        tempKursMataUang[kursMataUang.length][1] = hargaJualBaru;
+
+        kodeMataUang = tempKodeMataUang;
+        kursMataUang = tempKursMataUang;
+
+        System.out.println("KURS Mata Uang " + kodeBaru + " telah ditambahkan!");
+    }
+
+    static void editMataUang() {
+        System.out.println("Masukkan Kode Mata Uang yang Akan Diedit: ");
+        String kodeEdit = input.next();
+
+        int indexEdit = -1;
+
+        for ( int i = 0; i < kodeMataUang.length; i++) {
+            if (kodeMataUang[i].equals(kodeEdit)) {
+                indexEdit = i;
+                break;
+            }
+        }
+        if (indexEdit != -1) {
+            System.out.println("Masukkan Harga Beli Baru: ");
+            double hargaBeliBaru = input.nextDouble();
+    
+            System.out.println("Masukkan Harga Jual Baru: ");
+            double hargaJualBaru = input.nextDouble();
+            
+            kursMataUang[indexEdit][0] = hargaBeliBaru;
+            kursMataUang[indexEdit][1] = hargaJualBaru;
+
+            System.out.println("KURS Mata Uang " + kodeEdit + " telah diubah!");
+        } else {
+            System.out.println("Kode Mata Uang tidak ditemukan!");
+        }
+    }
+
+    static void hapusMataUang() {
+        System.out.println("Masukkan Kode Mata Uang yang Akan Dihapus: ");
+        String kodeHapus = input.next();
+    
+        int indexHapus = -1;
+    
+        for (int i = 0; i < kodeMataUang.length; i++) {
+            if (kodeMataUang[i].equals(kodeHapus)) {
+                indexHapus = i;
+                break;
+            }
+        }
+    
+        if (indexHapus != -1) {
+            // Menghapus data mata uang dari array
+            String[] tempKodeMataUang = new String[kodeMataUang.length - 1];
+            double[][] tempKursMataUang = new double[kursMataUang.length - 1][2];
+    
+            int tempIndex = 0;
+            for (int i = 0; i < kodeMataUang.length; i++) {
+                if (i != indexHapus) {
+                    tempKodeMataUang[tempIndex] = kodeMataUang[i];
+                    tempKursMataUang[tempIndex][0] = kursMataUang[i][0];
+                    tempKursMataUang[tempIndex][1] = kursMataUang[i][1];
+                    tempIndex++;
+                }
+            }
+    
+            kodeMataUang = tempKodeMataUang;
+            kursMataUang = tempKursMataUang;
+    
+            System.out.println("KURS Mata Uang " + kodeHapus + " telah dihapus!");
+        } else {
+            System.out.println("Kode Mata Uang tidak ditemukan!");
         }
     }
 
@@ -840,18 +969,20 @@ public class Main {
 
     // Function 6. tampilKurs
     static void tampilKurs() {
-        System.out.println("-----------------------------------");
-        System.out.println("|            INFO KURS            |");
-        System.out.println("-----------------------------------");
-        System.out.println("   => USD");
-        System.out.println("    Beli : " + kursBeliUSD);
-        System.out.println("    Jual : " + kursJualUSD);
-        System.out.println("-----------------------------------");
-
+        System.out.println("---------------------------------");
+        System.out.println("|        INFO KURS MATA UANG     |");
+        System.out.println("---------------------------------");
+        
+        for (int i = 0; i < kodeMataUang.length; i++) {
+            System.out.println("   Mata Uang : " + kodeMataUang[i]);
+            System.out.println("   Beli      : " + kursMataUang[i][0]);
+            System.out.println("   Jual      : " + kursMataUang[i][1]);
+            System.out.println("---------------------------------");
+        }
         System.out.println("\nApakah ingin konversi KURS (y/n)?");
         char konversiKurs = input.next().charAt(0);
         if (konversiKurs == 'y') {
-            KonversiKurs(kursBeliUSD, kursJualUSD);
+            konversiKurs();
         }
     }
 
@@ -1050,12 +1181,31 @@ public class Main {
     }
 
     // Function KonversiKURS
-    static void KonversiKurs(double kursBeliUSD, double kursJualUSD) {
-        System.out.println("Masukkan jumlah(Rupiah) yang ingin dikonversi ke USD");
-        System.out.print("Masukkan jumlah Rupiah: Rp ");
-        int inputKurs = input.nextInt();
-        System.out.println("1. Beli : " + inputKurs / kursBeliUSD);
-        System.out.println("2. Jual : " + inputKurs / kursJualUSD);
+    static void konversiKurs() {
+        String mataUangAsal = "IDR"; // Mata uang lokal
+
+        System.out.println("Pilih mata uang tujuan (masukkan kode mata uang): ");
+        String mataUangTujuan = input.next();
+    
+        double kursTujuan = 0;
+    
+        // Mencari nilai kurs untuk mata uang tujuan
+        for (int i = 0; i < kodeMataUang.length; i++) {
+            if (kodeMataUang[i].equals(mataUangTujuan)) {
+                kursTujuan = kursMataUang[i][0]; // Misalkan menggunakan kurs beli
+                break;
+            }
+        }
+    
+        if (kursTujuan == 0) {
+            System.out.println("Kode mata uang tujuan tidak valid.");
+        } else {
+            System.out.println("Masukkan jumlah uang yang akan dikonversi: ");
+            double jumlahUang = input.nextDouble();
+    
+            double hasilKonversi = jumlahUang / kursTujuan; // Kalkulasi konversi dari IDR ke mata uang tujuan
+            System.out.println(jumlahUang + " " + mataUangAsal + " setara dengan " + hasilKonversi + " " + mataUangTujuan);
+        }
     }
 
     // ALERT
