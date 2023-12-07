@@ -19,7 +19,7 @@ public class Main {
         { 20000, 20000 }  // GBP
     };
 
-    static String[][] dataAccount = new String[1000][7];
+    static String[][] dataAccount = new String[1000][6];
     static {
         dataAccount[0] = new String[] { "Fajar", "admin", "11223344", "1234" };
         dataAccount[1] = new String[] { "Yefta", "user", "1234", "123", "1000000", "BRI", "Active" };
@@ -87,7 +87,7 @@ public class Main {
     static int findAccount(String accountNumber, String pin) {
         for (int i = 0; i < dataAccount.length; i++) {
             if (dataAccount[i][2] != null && dataAccount[i][3] != null &&
-                    dataAccount[i][2].equals(accountNumber) && dataAccount[i][3].equals(pin)) {
+                    dataAccount[i][2].equals(accountNumber) && dataAccount[i][3].equals(pin) ) {
                 return i;
             }
         }
@@ -227,7 +227,8 @@ public class Main {
     // Function 1. tampilInformasiAkun
     static void tampilInformasiAkun() {
         tampilOpsi("Informasi Akun");
-        operasiAdmin("Akun");
+        operasiAdmin("Akun", "Tambah Akun", "Edit Akun", "Aktivasi Akun");
+        
         int operation = input.nextInt();
         switch (operation) {
             case 1:
@@ -250,7 +251,7 @@ public class Main {
     // Function 2. tampilInformasiSedekah
     static void tampilInformasiSedekah() {
         tampilOpsi(donationOptions, nextIndexSedekah, "Macam - Macam Sedekah");
-        operasiAdmin("Sedekah");
+        operasiAdmin("Sedekah", "Tambah Sedekah", "Edit Sedekah", "Hapus Sedekah");
         int operation = input.nextInt();
         switch (operation) {
             case 1:
@@ -283,7 +284,7 @@ public class Main {
             System.out.println("---------------------------------");
         }
 
-        operasiAdmin("Info Kurs");
+        operasiAdmin("Info KURS","tambah mata uang", "edit mata uang", "hapus mata uang");
         int operation = input.nextInt();
         switch (operation) {
             case 1:
@@ -307,7 +308,7 @@ public class Main {
     static void tampilInformasiHelp() {
         tampilOpsi(helpOptions, nextIndexHelp, "Informasi Help");
 
-        operasiAdmin("Help");
+        operasiAdmin("Help", "tambah informasi help", "edit informasi help", "hapus informasi help");
         int operation = input.nextInt();
         switch (operation) {
             case 1:
@@ -399,11 +400,11 @@ public class Main {
     }
 
     // Tampil Informasi operasiAdmin
-    static void operasiAdmin(String nama) {
+    static void operasiAdmin(String nama, String pilihan1, String pilihan2, String pilihan3) {
         System.out.println("Pilih operasi untuk " + nama + ":");
-        System.out.println("1. Tambah " + nama);
-        System.out.println("2. Edit " + nama);
-        System.out.println("3. Hapus " + nama);
+        System.out.println("1. " + pilihan1);
+        System.out.println("2. " + pilihan2);
+        System.out.println("3. " + pilihan3);
         System.out.println("4. Lainnya");
     }
 
@@ -443,11 +444,100 @@ public class Main {
     }
 
     static void editInformasiAkun() {
+        System.out.println("-----------------------------------------------");
+        System.out.println("|                Edit AKUN                |");
+        System.out.println("-----------------------------------------------");
+        // Display the list of accounts
 
+        tampilOpsi("Informasi Akun");
+
+        System.out.println("Masukkan nomor akun yang ingin diedit:");
+        int accountIndex = input.nextInt();
+
+        if (isValidAccountIndex(accountIndex)) {
+            System.out.println("Masukkan nama baru untuk akun " + dataAccount[accountIndex][0] + ":");
+            String newName = input.next();
+
+            // Update the name of the selected account
+            dataAccount[accountIndex][0] = newName;
+
+            System.out.println("Nama akun berhasil diubah menjadi " + newName + ".");
+        } else {
+            System.out.println("Nomor akun tidak valid.");
+        }
     }
 
     static void aktivasiAkun() {
+        System.out.println("-----------------------------------------------");
+        System.out.println("|                AKTIVASI AKUN                |");
+        System.out.println("-----------------------------------------------");
 
+        System.out.println("Pilih operasi:");
+        System.out.println("1. Aktifkan Akun");
+        System.out.println("2. Nonaktifkan Akun");
+
+        int operation = input.nextInt();
+
+        switch (operation) {
+            case 1:
+                tampilListAkunByStatus("Disabled");
+                break;
+            case 2:
+                tampilListAkunByStatus("Active");
+                break;
+            default:
+                System.out.println("Operasi tidak valid.");
+                return;
+        }
+
+        if (operation == 1 && !isEmptyList("Disabled")) {
+            System.out.println("Masukkan nomor akun yang ingin diaktifkan:");
+            int accountIndex = input.nextInt();
+            performAktivasiAkun(accountIndex, "Active");
+        } else if (operation == 2 && !isEmptyList("Active")) {
+            System.out.println("Masukkan nomor akun yang ingin dinonaktifkan:");
+            int accountIndex = input.nextInt();
+            performAktivasiAkun(accountIndex, "Disabled");
+        } else {
+            System.out.println("Tidak ada akun dengan status yang sesuai.");
+        }
+    }
+
+    static boolean isEmptyList(String targetStatus) {
+        for (int i = 1; i < nextIndexUser; i++) {
+            if (dataAccount[i][6].equals(targetStatus)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    static void performAktivasiAkun(int accountIndex, String newStatus) {
+        if (isValidAccountIndex(accountIndex)) {
+            aktivasiAkunStatus(accountIndex, newStatus);
+            System.out.println("Akun berhasil di" + (newStatus.equals("Active") ? "aktifkan." : "nonaktifkan."));
+        } else {
+            System.out.println("Nomor akun tidak valid.");
+        }
+    }
+
+    static void aktivasiAkunStatus(int accountIndex, String newStatus) {
+        dataAccount[accountIndex][6] = newStatus; // Assuming the status is at index 6
+    }
+
+    static boolean isValidAccountIndex(int accountIndex) {
+        return accountIndex >= 1 && accountIndex < nextIndexUser;
+    }
+
+    static void tampilListAkunByStatus(String targetStatus) {
+        boolean isEmpty = true;
+        System.out.println("List Akun (" + (targetStatus.equals("Active") ? "Nonaktif" : "Aktif") + "):");
+        for (int i = 1; i < nextIndexUser; i++) {
+            if (dataAccount[i][6].equals(targetStatus)) { // Assuming the status is at index 6
+                System.out.println(i + ". " + dataAccount[i][0] + " (" + dataAccount[i][2] + ")");
+                isEmpty = false;
+            }
+        }
     }
 
     static void tambahSedekah() {
@@ -1097,12 +1187,11 @@ public class Main {
         System.out.println("                " + header + "                   ");
         System.out.println("-----------------------------------------------");
         System.out.println();
-        System.out.printf("%-13s %-12s %-10s %-10s%n",
-                "Nama", "No Rekening", "Bank", "Status");
-
+        System.out.printf("%-3s %-13s %-8s %-10s %-10s%n",
+                "No", "Nama", "No Rek", "Bank", "Status");
         for (int i = 1; i < nextIndexUser; i++) {
-            System.out.printf("%-13s %-12s %-10s %-10s%n",
-                    dataAccount[i][0], dataAccount[i][2], dataAccount[i][5], dataAccount[i][6]);
+            System.out.printf("%-3s %-13s %-8s %-10s %-10s%n",
+                    i, dataAccount[i][0], dataAccount[i][2], dataAccount[i][5], dataAccount[i][6]);
         }
         System.out.println("-----------------------------------------------");
     }
