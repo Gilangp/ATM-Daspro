@@ -1294,26 +1294,30 @@ public class Main {
 
         System.out.println("Pilih mata uang tujuan (masukkan kode mata uang): ");
         String mataUangTujuan = input.next();
-
-        double kursTujuan = 0;
-
+    
+        double kursBeli = 0;
+        double kursJual = 0;
+    
         // Mencari nilai kurs untuk mata uang tujuan
         for (int i = 0; i < kodeMataUang.length; i++) {
             if (kodeMataUang[i].equals(mataUangTujuan)) {
-                kursTujuan = kursMataUang[i][0]; // Misalkan menggunakan kurs beli
+                kursBeli = kursMataUang[i][0];
+                kursJual = kursMataUang[i][1];
                 break;
             }
         }
-
-        if (kursTujuan == 0) {
+    
+        if (kursBeli == 0 || kursJual == 0) {
             System.out.println("Kode mata uang tujuan tidak valid.");
         } else {
             System.out.println("Masukkan jumlah uang yang akan dikonversi: ");
             double jumlahUang = input.nextDouble();
-
-            double hasilKonversi = jumlahUang / kursTujuan; // Kalkulasi konversi dari IDR ke mata uang tujuan
-            System.out.println(
-                    jumlahUang + " " + mataUangAsal + " setara dengan " + hasilKonversi + " " + mataUangTujuan);
+    
+            double hasilKursBeli = jumlahUang / kursBeli; // Kalkulasi konversi dari IDR ke mata uang tujuan (kurs beli)
+            double hasilKursJual = jumlahUang / kursJual; // Kalkulasi konversi dari IDR ke mata uang tujuan (kurs beli)
+            System.out.println(jumlahUang + " " + mataUangAsal + " setara dengan: ");
+            System.out.println("- Kurs Beli: " + hasilKursBeli + " " + mataUangTujuan);
+            System.out.println("- Kurs Beli: " + hasilKursJual + " " + mataUangTujuan);
         }
     }
 
