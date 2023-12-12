@@ -47,12 +47,9 @@ public class Main {
     static int nextIndexBank = 5;
 
     static boolean[] menuAktif = { true, true, true, true, true, true, true, true, true, true };
-    static String[][] history = new String[1000][2];
-    // Menambah Riwayat pertama
-    static {
-        history[0] = new String[] { "Saldo awal", "100000" };
-    }
-    static int currentSnapshot = 1;
+
+    static String[][] history = new String[1000][3];
+    static int currentSnapshot = 0;
 
     static String[] donationOptions = new String[100];
     static {
@@ -136,22 +133,23 @@ public class Main {
                 isLoginIn = true;
                 isAdmin = accountType.equals("admin");
                 return;
+            } else {
+                loginAttempts--;
+
+                if (loginAttempts > 0) {
+                    System.out.println("-----------------------------------------------");
+                    System.out.println("|              !! LOGIN GAGAL !!              |");
+                    System.out.println("|                                             |");
+                    System.out.println("|    NO REK / PIN YANG ANDA MASUKKAN SALAH    |");
+                    System.out.println("|                                             |");
+                    System.out.println("|     Sisa percobaan kurang " + loginAttempts + " kali lagi\t      |");
+                    System.out.println("|        NB : Maksimal percobaan 3 kali       |");
+                    System.out.println("-----------------------------------------------");
+                }
             }
-            loginAttempts--;
-
-            if (loginAttempts > 0) {
-                System.out.println("-----------------------------------------------");
-                System.out.println("|              !! LOGIN GAGAL !!              |");
-                System.out.println("|                                             |");
-                System.out.println("|    NO REK / PIN YANG ANDA MASUKKAN SALAH    |");
-                System.out.println("|                                             |");
-                System.out.println("|     Sisa percobaan kurang " + loginAttempts + " kali lagi\t      |");
-                System.out.println("|        NB : Maksimal percobaan 3 kali       |");
-                System.out.println("-----------------------------------------------");
-
-            }
-
         }
+
+        // Keluar dari program karena telah melampaui upaya login maksimum
         System.out.println("-----------------------------------------------");
         System.out.println("|              !! LOGIN GAGAL !!              |");
         System.out.println("|                                             |");
@@ -165,20 +163,16 @@ public class Main {
 
     private static void handleMainMenu() {
         while (true) {
-            if (!isLoginIn) {
-                System.out.println("No user is currently logged in.");
-                handleLogin();
+            alertLoginBerhasil();
+            if (isAdmin) {
+                // System.out.println("admin");
+                tampilAdminMenu();
             } else {
-                alertLoginBerhasil();
-                if (isAdmin) {
-                    // System.out.println("admin");
-                    tampilAdminMenu();
-                } else {
-                    // System.out.println("user");
-                    tampilUserMenu(indexAkun);
-                }
-                System.out.println("0. Logout");
+                // System.out.println("user");
+                tampilUserMenu(indexAkun);
             }
+            System.out.println("0. Logout");
+
         }
     }
 
@@ -806,13 +800,14 @@ public class Main {
                 int inputPin = input.nextInt();
                 confirmPin(inputPin, indexAkun, input);
                 if (tarikTunai < sampleSaldo) {
-                    if (tarikTunai > 50000) {
+                    if (tarikTunai >= 50000) {
 
                         sampleSaldo -= tarikTunai; // sampleSaldo = sampleSaldo - masukan
                         dataAccount[indexAkun][4] = String.valueOf(sampleSaldo);
 
                         history[currentSnapshot] = new String[] { "Tarik Tunai",
-                                "-" + tarikTunai };
+                                "-" + tarikTunai,
+                                "berhasil" };
                         currentSnapshot++;
                         System.out.println("-----------------------------------------------");
                         System.out.println("|            TARIK TUNAI BERHASIL             |");
@@ -823,9 +818,15 @@ public class Main {
                         kembaliAtauKeluar(input);
                     } else {
                         alertMinimalTransaksi();
+                        history[currentSnapshot] = new String[] { "Tarik Tunai",
+                                "-" + tarikTunai, "gagal, minimal 50000" };
+                        currentSnapshot++;
                     }
                 } else {
                     alertSaldoTidakCukup();
+                    history[currentSnapshot] = new String[] { "Tarik Tunai",
+                            "-" + tarikTunai, "gagal, Saldo tidak cukup" };
+                    currentSnapshot++;
                 }
             case 'n':
         }
@@ -856,7 +857,7 @@ public class Main {
                     sampleSaldo += inputSetor;
                     dataAccount[indexAkun][4] = String.valueOf(sampleSaldo);
 
-                    history[currentSnapshot] = new String[] { "Setor Tunai", "+" + inputSetor };
+                    history[currentSnapshot] = new String[] { "Setor Tunai", "+" + inputSetor, "berhasil" };
                     currentSnapshot++;
                     System.out.println("-----------------------------------------------");
                     System.out.println("|               SETOR BERHASIL                |");
@@ -867,6 +868,8 @@ public class Main {
                     kembaliAtauKeluar(input);
                 } else {
                     alertMinimalTransaksi();
+                    history[currentSnapshot] = new String[] { "Setor Tunai", "+" + inputSetor, "gagal minimal 50.000" };
+                    currentSnapshot++;
                 }
             case 'n':
                 break;
@@ -890,7 +893,8 @@ public class Main {
             return; // Hentikan eksekusi transfer karena kode bank tidak valid
         }
 
-        // int indexKodeBank = Integer.parseInt(hasilCariBank[0]); // Ubah kembali indeks ke tipe integer
+        // int indexKodeBank = Integer.parseInt(hasilCariBank[0]); // Ubah kembali
+        // indeks ke tipe integer
         namaBank = hasilCariBank[1]; // Ambil nama bank dari hasil pencarian
 
         // Input nomor rekening tujuan
@@ -945,9 +949,10 @@ public class Main {
                     sampleSaldo -= jumlahTransfer; // saldo = saldo - masukan
                     dataAccount[indexAkun][4] = String.valueOf(sampleSaldo);
 
-                    history[currentSnapshot] = new String[] {
-                            "Tranfer ke " + namaPemilikAccount,
-                            String.valueOf("-" + jumlahTransfer) };
+                    history[currentSnapshot][0] = "Transfer ke " + namaPemilikAccount;
+                    history[currentSnapshot][1] = String.valueOf("-" + jumlahTransfer);
+                    history[currentSnapshot][2] = "berhasil";
+
                     currentSnapshot++;
                     System.out.println("-----------------------------------------------");
                     System.out.println("|             TRANSFER  BERHASIL              |");
@@ -962,6 +967,10 @@ public class Main {
                     kembaliAtauKeluar(input);
                 } else {
                     alertSaldoTidakCukup();
+                    history[currentSnapshot] = new String[] {
+                            "Tranfer ke " + namaPemilikAccount,
+                            String.valueOf("-" + jumlahTransfer), "gagal, Saldo tidak cukup" };
+                    currentSnapshot++;
                 }
             case 'n':
                 break;
@@ -1002,11 +1011,10 @@ public class Main {
                         sampleSaldo -= jumlahPembayaran;
                         dataAccount[indexAkun][4] = String.valueOf(sampleSaldo);
 
-                        history[0] = new String[] { "Saldo awal", "100000" };
-
-                        history[currentSnapshot] = new String[] {
-                                "Pembayaran ke " + namaPemilikVA,
-                                String.valueOf("-" + jumlahPembayaran) };
+                        history[currentSnapshot][0] = "Transfer ke " + namaPemilikVA;
+                        history[currentSnapshot][1] = String.valueOf("-" + jumlahPembayaran);
+                        history[currentSnapshot][2] = "berhasil";
+                        
                         currentSnapshot++;
                         dataVA[indexVA][2] = String.valueOf(jumlahPembayaran);
                         System.out.println("---------------------------------------------------------------");
@@ -1019,6 +1027,10 @@ public class Main {
                         kembaliAtauKeluar(input);
                     } else {
                         alertSaldoTidakCukup();
+                        history[currentSnapshot] = new String[] {
+                                "Pembayaran ke " + namaPemilikVA,
+                                String.valueOf("-" + jumlahPembayaran), "gagal, Saldo tidak cukup" };
+                        currentSnapshot++;
                     }
             }
         } else {
@@ -1066,7 +1078,7 @@ public class Main {
                 sampleSaldo -= inputSedekah;
                 dataAccount[indexAkun][4] = String.valueOf(sampleSaldo);
 
-                history[currentSnapshot] = new String[] { "Bersedekah", "-" + inputSedekah };
+                history[currentSnapshot] = new String[] { "Bersedekah", "-" + inputSedekah, "berhasil" };
                 currentSnapshot++;
                 System.out.println("-----------------------------------------------");
                 System.out.println("|                SEDEKAH BERHASIL             |");
@@ -1078,6 +1090,9 @@ public class Main {
                 // kembaliAtauKeluar(input);
             } else {
                 alertSaldoTidakCukup();
+                history[currentSnapshot] = new String[] { "Bersedekah", "-" + inputSedekah,
+                        "gagal, Saldo tidak cukup" };
+                currentSnapshot++;
             }
         }
     }
@@ -1107,7 +1122,7 @@ public class Main {
         // Print all snapshots
         System.out.println("History:");
         for (int i = 0; i < currentSnapshot; i++) {
-            System.out.println(history[i][0] + " : " + history[i][1]);
+            System.out.println(history[i][0] + " : " + history[i][1] + " => " + history[i][2]);
         }
     }
 
@@ -1273,7 +1288,7 @@ public class Main {
         }
         return null; // Jika tidak ditemukan, kembalikan nilai null
     }
-    
+
     // Function cariRekening
     static int cariRekening(int indexAkun, String nomorRekeningTujuan, String namaBank) {
         int indexRekeningTujuan = -1; // Inisialisasi dengan nilai -1 sebagai indikator tidak ditemukan
@@ -1298,7 +1313,7 @@ public class Main {
         return indexRekeningTujuan; // Mengembalikan nilai indexRekeningTujuan yang ditemukan
     }
 
-        // Function cariVA
+    // Function cariVA
     static int cariVa(String inputNomorVA) {
         int indexVA = -1; // Inisialisasi dengan nilai -1 sebagai indikator tidak ditemukan
         for (int i = 0; i < dataVA.length; i++) {
