@@ -890,7 +890,7 @@ public class Main {
             return; // Hentikan eksekusi transfer karena kode bank tidak valid
         }
 
-        int indexKodeBank = Integer.parseInt(hasilCariBank[0]); // Ubah kembali indeks ke tipe integer
+        // int indexKodeBank = Integer.parseInt(hasilCariBank[0]); // Ubah kembali indeks ke tipe integer
         namaBank = hasilCariBank[1]; // Ambil nama bank dari hasil pencarian
 
         // Input nomor rekening tujuan
@@ -942,11 +942,11 @@ public class Main {
                 // Code saldo tidak cukup
                 if (sampleSaldo >= jumlahTransfer) {
                     // if (Transfer >= 50000) {
-                    sampleSaldo -= jumlahTransfer; // saldo = saldo + masukan
+                    sampleSaldo -= jumlahTransfer; // saldo = saldo - masukan
                     dataAccount[indexAkun][4] = String.valueOf(sampleSaldo);
 
                     history[currentSnapshot] = new String[] {
-                            "Pembayaran ke " + namaPemilikAccount,
+                            "Tranfer ke " + namaPemilikAccount,
                             String.valueOf("-" + jumlahTransfer) };
                     currentSnapshot++;
                     System.out.println("-----------------------------------------------");
@@ -973,9 +973,10 @@ public class Main {
         System.out.print("Masukkan nomor Virtual Account (VA): ");
         String inputNomorVA = input.next();
 
-        int indexVA = -1;
+        // int indexVA = -1;
 
-        cariVa(inputNomorVA, indexVA);
+        // cariVa(inputNomorVA);
+        int indexVA = cariVa(inputNomorVA);
 
         if (indexVA != -1) {
             String namaPemilikVA = dataVA[indexVA][1];
@@ -1074,7 +1075,7 @@ public class Main {
                 System.out.println("    Sebesar Rp " + inputSedekah);
                 System.out.println("    Sisa saldo anda Rp " + sampleSaldo);
                 System.out.println("-----------------------------------------------");
-                kembaliAtauKeluar(input);
+                // kembaliAtauKeluar(input);
             } else {
                 alertSaldoTidakCukup();
             }
@@ -1272,17 +1273,8 @@ public class Main {
         }
         return null; // Jika tidak ditemukan, kembalikan nilai null
     }
-
-    // Function cariVA
-    static void cariVa(String inputNomorVA, int indexVA) {
-        for (int i = 0; i < dataVA.length; i++) {
-            if (dataVA[i][0].equals(inputNomorVA)) {
-                indexVA = i;
-                break;
-            }
-        }
-    }
-
+    
+    // Function cariRekening
     static int cariRekening(int indexAkun, String nomorRekeningTujuan, String namaBank) {
         int indexRekeningTujuan = -1; // Inisialisasi dengan nilai -1 sebagai indikator tidak ditemukan
 
@@ -1304,6 +1296,18 @@ public class Main {
             }
         }
         return indexRekeningTujuan; // Mengembalikan nilai indexRekeningTujuan yang ditemukan
+    }
+
+        // Function cariVA
+    static int cariVa(String inputNomorVA) {
+        int indexVA = -1; // Inisialisasi dengan nilai -1 sebagai indikator tidak ditemukan
+        for (int i = 0; i < dataVA.length; i++) {
+            if (dataVA[i][0].equals(inputNomorVA)) {
+                indexVA = i;
+                break;
+            }
+        }
+        return indexVA; // Mengembalikan nilai indexVA yang sesuai
     }
 
     // Function KonversiKURS
