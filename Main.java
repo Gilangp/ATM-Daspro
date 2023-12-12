@@ -136,30 +136,30 @@ public class Main {
                 isLoginIn = true;
                 isAdmin = accountType.equals("admin");
                 return;
-            } 
+            }
             loginAttempts--;
-            
-            if(loginAttempts > 0){
+
+            if (loginAttempts > 0) {
                 System.out.println("-----------------------------------------------");
-            System.out.println("|              !! LOGIN GAGAL !!              |");
-            System.out.println("|                                             |");
-            System.out.println("|    NO REK / PIN YANG ANDA MASUKKAN SALAH    |");
-            System.out.println("|                                             |");
-            System.out.println("|     Sisa percobaan kurang " + loginAttempts + " kali lagi\t      |");
-            System.out.println("|        NB : Maksimal percobaan 3 kali       |");
-            System.out.println("-----------------------------------------------");
+                System.out.println("|              !! LOGIN GAGAL !!              |");
+                System.out.println("|                                             |");
+                System.out.println("|    NO REK / PIN YANG ANDA MASUKKAN SALAH    |");
+                System.out.println("|                                             |");
+                System.out.println("|     Sisa percobaan kurang " + loginAttempts + " kali lagi\t      |");
+                System.out.println("|        NB : Maksimal percobaan 3 kali       |");
+                System.out.println("-----------------------------------------------");
 
             }
 
         }
-            System.out.println("-----------------------------------------------");
-            System.out.println("|              !! LOGIN GAGAL !!              |");
-            System.out.println("|                                             |");
-            System.out.println("|    NO REK / PIN YANG ANDA MASUKKAN SALAH    |");
-            System.out.println("|                                             |");
-            System.out.println("|  Anda telah melampaui upaya login maksimum  |");
-            System.out.println("|               Hubungi Admin                 |");
-            System.out.println("-----------------------------------------------");
+        System.out.println("-----------------------------------------------");
+        System.out.println("|              !! LOGIN GAGAL !!              |");
+        System.out.println("|                                             |");
+        System.out.println("|    NO REK / PIN YANG ANDA MASUKKAN SALAH    |");
+        System.out.println("|                                             |");
+        System.out.println("|  Anda telah melampaui upaya login maksimum  |");
+        System.out.println("|               Hubungi Admin                 |");
+        System.out.println("-----------------------------------------------");
         System.exit(0);
     }
 
@@ -580,7 +580,7 @@ public class Main {
             System.out.println("Sedekah berhasil diubah.");
 
         } else {
-            alertInputTidakValid("Nomor sedekah");
+            alertInputTidakValid("Nomor sedekah tidak valid");
         }
 
     }
@@ -880,36 +880,42 @@ public class Main {
         System.out.print("Masukkan nomor kode bank tujuan anda: ");
         String kodeBankTujuan = input.next();
         String namaBank = "";
-        int indexKodeBank = -1;
 
         // Mencari nomor kode bank tujuan di dalam array
 
-        cariBank(kodeBankTujuan, indexKodeBank, namaBank);
+        String[] hasilCariBank = cariBank(kodeBankTujuan);
 
-        if (indexKodeBank == -1) {
-            alertInputTidakValid("Kode Bank");
+        if (hasilCariBank == null || hasilCariBank[0] == null) {
+            alertInputTidakValid("Kode Bank tidak valid");
             return; // Hentikan eksekusi transfer karena kode bank tidak valid
-
         }
+
+        int indexKodeBank = Integer.parseInt(hasilCariBank[0]); // Ubah kembali indeks ke tipe integer
+        namaBank = hasilCariBank[1]; // Ambil nama bank dari hasil pencarian
+
         // Input nomor rekening tujuan
         System.out.print("Masukkan nomor rekening tujuan: ");
         String nomorRekeningTujuan = input.next();
-        int indexRekeningTujuan = -1;
 
         // Mencari nomor rekening tujuan di dalam array
-        cariRekening(indexAkun, nomorRekeningTujuan, namaBank, indexRekeningTujuan);
 
-        if (indexRekeningTujuan == -1) {
-            alertInputTidakValid("Nomer Rekening");
+        int indexRekening = cariRekening(indexAkun, nomorRekeningTujuan, namaBank);
+
+        if (indexRekening == -1) {
+            alertInputTidakValid("Nomer Rekening tidak valid");
             return; // Hentikan eksekusi transfer karena nomor rekening tidak valid
+        } else if (indexRekening == -2) {
+            // Nomor rekening yang dimasukkan adalah rekening pengguna itu sendiri
+            alertInputTidakValid("Tidak dapat transfer ke rekening sendiri.");
+            return; // Hentikan eksekusi transfer karena nomor rekening pengguna sendiri
         }
 
-        String namaPemilikAccount = dataAccount[indexRekeningTujuan][0];
+        String namaPemilikAccount = dataAccount[indexRekening][0];
         System.out.print("Masukkan jumlah uang yang akan ditransfer: ");
         double jumlahTransfer = input.nextDouble();
 
         if (jumlahTransfer <= 0) {
-            alertInputTidakValid("Jumlah Transfer");
+            alertInputTidakValid("Jumlah Transfer tidak valid");
             input.close();
             return;
         }
@@ -1015,7 +1021,7 @@ public class Main {
                     }
             }
         } else {
-            alertInputTidakValid("Nomor VA");
+            alertInputTidakValid("Nomor VA tidak valid");
         }
     }
 
@@ -1035,7 +1041,7 @@ public class Main {
         System.out.println("Masukkan sedekah yang ingin diberikan ");
         int inputSedekah = input.nextInt();
         if (inputSedekah <= 0) {
-            alertInputTidakValid("Jumlah Sedekah");
+            alertInputTidakValid("Jumlah Sedekah tidak valid");
             return;
         }
         // konfirmasi
@@ -1255,14 +1261,16 @@ public class Main {
     }
 
     // Function cariBank
-    static void cariBank(String kodeBankTujuan, int indexKodeBank, String namaBank) {
+    static String[] cariBank(String kodeBankTujuan) {
+        String[] hasilPencarian = new String[2]; // Indeks 0 untuk indexKodeBank, Indeks 1 untuk namaBank
         for (int i = 0; i < dataBank.length; i++) {
             if (dataBank[i][0].equals(kodeBankTujuan)) {
-                indexKodeBank = i;
-                namaBank = dataBank[i][1];
-                break;
+                hasilPencarian[0] = String.valueOf(i); // Simpan indexKodeBank sebagai string
+                hasilPencarian[1] = dataBank[i][1]; // Simpan namaBank yang sesuai
+                return hasilPencarian; // Mengembalikan hasil pencarian
             }
         }
+        return null; // Jika tidak ditemukan, kembalikan nilai null
     }
 
     // Function cariVA
@@ -1275,17 +1283,27 @@ public class Main {
         }
     }
 
-    // Function cariRekening
-    static void cariRekening(int indexAkun, String nomorRekeningTujuan, String namaBank, int indexRekeningTujuan) {
+    static int cariRekening(int indexAkun, String nomorRekeningTujuan, String namaBank) {
+        int indexRekeningTujuan = -1; // Inisialisasi dengan nilai -1 sebagai indikator tidak ditemukan
+
+        // Ambil nomor rekening pengguna yang saat ini masuk
+        String nomorRekeningPengguna = dataAccount[indexAkun][2];
+
+        if (nomorRekeningPengguna.equals(nomorRekeningTujuan)) {
+            return -2; // Jika nomor rekening yang dimasukkan sama dengan rekening pengguna, kembalikan
+                       // nilai khusus
+        }
+
         for (int i = 0; i < dataAccount.length; i++) {
-            if (dataAccount[i][1].equals("user") // Hanya mencari akun user
-                    && !dataAccount[i][0].equals(dataAccount[indexAkun][0]) // Bukan rekening sendiri
-                    && dataAccount[i][2].equals(nomorRekeningTujuan)
-                    && dataAccount[i][5].equals(namaBank)) {
-                indexRekeningTujuan = i;
-                break;
+            if (dataAccount[i][1] != null && dataAccount[i][2].equals(nomorRekeningTujuan)) {
+                // Lakukan pengecekan nama bank di sini
+                if (dataAccount[i][5] != null && dataAccount[i][5].equals(namaBank)) {
+                    indexRekeningTujuan = i;
+                    break;
+                }
             }
         }
+        return indexRekeningTujuan; // Mengembalikan nilai indexRekeningTujuan yang ditemukan
     }
 
     // Function KonversiKURS
@@ -1294,10 +1312,10 @@ public class Main {
 
         System.out.println("Pilih mata uang tujuan (masukkan kode mata uang): ");
         String mataUangTujuan = input.next();
-    
+
         double kursBeli = 0;
         double kursJual = 0;
-    
+
         // Mencari nilai kurs untuk mata uang tujuan
         for (int i = 0; i < kodeMataUang.length; i++) {
             if (kodeMataUang[i].equals(mataUangTujuan)) {
@@ -1306,13 +1324,14 @@ public class Main {
                 break;
             }
         }
-    
+
         if (kursBeli == 0 || kursJual == 0) {
-            System.out.println("Kode mata uang tujuan tidak valid.");
+            // System.out.println("Kode mata uang tujuan tidak valid.");
+            alertTidakTersedia("mata uang");
         } else {
             System.out.println("Masukkan jumlah uang yang akan dikonversi: ");
             double jumlahUang = input.nextDouble();
-    
+
             double hasilKursBeli = jumlahUang / kursBeli; // Kalkulasi konversi dari IDR ke mata uang tujuan (kurs beli)
             double hasilKursJual = jumlahUang / kursJual; // Kalkulasi konversi dari IDR ke mata uang tujuan (kurs beli)
             System.out.println(jumlahUang + " " + mataUangAsal + " setara dengan: ");
@@ -1323,11 +1342,11 @@ public class Main {
 
     // ALERT
     // Function Alert Input tidak valid
-    static void alertInputTidakValid(String nama) {
+    static void alertInputTidakValid(String alert) {
         System.out.println("-----------------------------------------------");
         System.out.println("|             !! TRANSAKSI GAGAL !!           |");
-        System.out.println("|                                             |");
-        System.out.println("         Alert : " + nama + " tidak valid");
+        System.out.println("-----------------------------------------------");
+        System.out.println("Alert : " + alert);
         System.out.println("-----------------------------------------------");
     }
 
