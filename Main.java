@@ -163,16 +163,19 @@ public class Main {
 
     private static void handleMainMenu() {
         while (true) {
-            alertLoginBerhasil();
-            if (isAdmin) {
-                // System.out.println("admin");
-                tampilAdminMenu();
+            if (!isLoginIn) {
+                System.out.println("No user is currently logged in.");
+                handleLogin();
             } else {
-                // System.out.println("user");
-                tampilUserMenu(indexAkun);
+                if (isAdmin) {
+                    System.out.println("admin");
+                    tampilAdminMenu();
+                } else {
+                    System.out.println("user");
+                    tampilUserMenu(indexAkun);
+                }
+                System.out.println("0. Logout");
             }
-            System.out.println("0. Logout");
-
         }
     }
 
