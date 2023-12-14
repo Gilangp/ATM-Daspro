@@ -1346,8 +1346,8 @@ public class Main {
         }
 
         if (kursBeli == 0 || kursJual == 0) {
-            // System.out.println("Kode mata uang tujuan tidak valid.");
-            alertTidakTersedia("mata uang");
+            System.out.println("Kode mata uang tujuan tidak valid.");
+            // alertTidakTersedia("mata uang");
         } else {
             System.out.println("Masukkan jumlah uang yang akan dikonversi: ");
             double jumlahUang = input.nextDouble();
