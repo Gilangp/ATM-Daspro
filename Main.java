@@ -46,8 +46,6 @@ public class Main {
 
     static int nextIndexBank = 5;
 
-    static boolean[] menuAktif = { true, true, true, true, true, true, true, true, true, true };
-
     static String[][] history = new String[1000][3];
     static int currentSnapshot = 0;
 
